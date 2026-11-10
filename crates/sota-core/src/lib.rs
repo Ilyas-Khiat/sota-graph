@@ -2,12 +2,16 @@
 //! comparison engine. Pure functions only: no network, no database, no LLM,
 //! no file system. Callers hand in config text; this crate validates it.
 
+mod arxiv;
+mod document;
 mod error;
 mod ident;
 mod normalize;
 mod ontology;
 mod registry;
 
+pub use arxiv::{ArxivId, ArxivIdError};
+pub use document::{Cell, Channel, Document, Paragraph, Section, Table};
 pub use error::ConfigError;
 pub use normalize::Normalizer;
 pub use ontology::{NodeType, Ontology, Property, PropertyType, RelationshipType};

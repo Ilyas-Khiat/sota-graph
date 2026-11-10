@@ -1,0 +1,10 @@
+# Knowledge-graph completion: seed papers, pinned to an arXiv version.
+# One id per line; `#` starts a comment. `sota fetch --list papers/kgc.txt`
+# downloads what is not cached yet, 15 s apart. Grows to the gold set in step 3.
+
+1606.06357v1   # ComplEx (Trouillon et al., 2016)
+1707.01476v6   # ConvE (Dettmers et al., 2018)
+1901.09590v2   # TuckER (Balazevic et al., 2019)
+1902.10197v1   # RotatE (Sun et al., 2019)
+1911.03082v2   # CompGCN (Vashishth et al., 2020)
+2106.06935v4   # NBFNet (Zhu et al., 2021)

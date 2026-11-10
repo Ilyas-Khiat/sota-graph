@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/sota-core", "crates/sota-cli"]
+members = ["crates/sota-core", "crates/sota-cli", "crates/sota-ingest"]
 
 [workspace.package]
 version = "0.1.0"
