@@ -35,7 +35,17 @@ fn finds_result_tables_only() {
     // No author block (p1.1), no equation (S4.E1), no nested panel as its own table.
     assert_eq!(
         ids(&doc()),
-        ["S4.T1", "S4.T2", "S4.T3.t1", "S4.T3.t2", "S4.T5", "S4.T6"]
+        [
+            "S4.T1",
+            "S4.T2",
+            "S4.T3.t1",
+            "S4.T3.t2",
+            "S4.T5",
+            "S4.T6",
+            "S4.SS3.tab1.t1",
+            "S4.SS3.tab1.t2",
+            "S4.SS3.tab1.t3"
+        ]
     );
 }
 
@@ -53,8 +63,36 @@ fn caption_is_split_from_its_label() {
         t.caption,
         "Results on FB15k-237 and WN18RR. Baselines are taken from [3]."
     );
-    assert_eq!(table(&d, "S4.T6").caption, "Outer caption.");
+    // A sub-panel keeps the figure's label; its sub-caption is appended.
     assert_eq!(table(&d, "S4.T6").label, "Table 6");
+    assert_eq!(
+        table(&d, "S4.T6").caption,
+        "Outer caption. (a) Panel caption."
+    );
+}
+
+#[test]
+fn each_table_takes_its_own_caption_when_a_figure_holds_several() {
+    let d = doc();
+    let label_caption = |id: &str| {
+        let t = table(&d, id);
+        (t.label.clone(), t.caption.clone())
+    };
+    assert_eq!(
+        label_caption("S4.SS3.tab1.t1"),
+        ("Table 7".into(), "All queries.".into())
+    );
+    assert_eq!(
+        label_caption("S4.SS3.tab1.t2"),
+        ("Table 8".into(), "Tail prediction only.".into())
+    );
+    // The "Figure 2" caption in between is not a table caption.
+    assert_eq!(
+        label_caption("S4.SS3.tab1.t3"),
+        ("Table 9".into(), "Large graph.".into())
+    );
+    // One shared caption still goes to every table of its figure.
+    assert_eq!(table(&d, "S4.T3.t2").label, "Table 3");
 }
 
 #[test]

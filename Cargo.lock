@@ -817,6 +817,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "serde_json",
  "sota-core",
  "sota-ingest",
  "tempfile",

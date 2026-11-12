@@ -1,0 +1,37 @@
+# ULTRA: Towards Foundation Models for Knowledge Graph Reasoning (Galkin et al., 2024)
+# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+#
+# Every mapped cell is marked for review: the paper says it ranks against the
+# full entity set, for heads and tails (S5.SS1), but never says filtered or
+# raw, and the protocol is a required setting. Its code base most likely uses
+# the filtered protocol, but that is knowledge from outside the paper: a human
+# may confirm it and turn these rows into results.
+
+paper = "2310.04562v2"
+title = "Towards Foundation Models for Knowledge Graph Reasoning"
+
+[[table]]
+id = "A6.T10"
+orientation = "datasets_in_rows"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S5.SS1: MRR and Hits@10 against the full entity set, heads and tails; filtered or raw is not stated."
+notes = """Transposed: datasets in rows, (method, regime) x metric in columns. WN18RR and \
+FB15k237 are pre-training graphs, so they have no 0-shot numbers. The Supervised SOTA \
+columns compile other papers' numbers and are not mapped."""
+columns = [
+  { col = 1, metric = "mrr", method = "Ultra", method_id = "ultra", role = "proposed", settings = { regime = "zero-shot" } },
+  { col = 2, metric = "hits@10", method = "Ultra", method_id = "ultra", role = "proposed", settings = { regime = "zero-shot" } },
+  { col = 3, metric = "mrr", method = "Ultra", method_id = "ultra", role = "proposed", settings = { regime = "fine-tuned" } },
+  { col = 4, metric = "hits@10", method = "Ultra", method_id = "ultra", role = "proposed", settings = { regime = "fine-tuned" } },
+]
+rows = [
+  { row = 3, dataset = "wn18rr" },
+  { row = 4, dataset = "fb15k-237" },
+  { row = 39, dataset = "yago3-10" },
+]
+review_cells = [
+  { row = 3, reason = "Evaluation protocol (filtered or raw) is not stated in the paper." },
+  { row = 4, reason = "Evaluation protocol (filtered or raw) is not stated in the paper." },
+  { row = 39, reason = "Evaluation protocol (filtered or raw) is not stated in the paper." },
+]

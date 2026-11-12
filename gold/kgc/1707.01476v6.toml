@@ -1,0 +1,78 @@
+# ConvE: Convolutional 2D Knowledge Graph Embeddings (Dettmers et al., 2018)
+# Drafted by Claude; check against the linked tables, then mark it in gold/kgc/REVIEW.md.
+
+paper = "1707.01476v6"
+title = "Convolutional 2D Knowledge Graph Embeddings"
+
+[[table]]
+id = "Sx6.T3"
+header_rows = 3
+settings = { protocol = "filtered" }
+evidence = "Sx6.p1: results are reported in the filtered setting."
+notes = "The Inverse Model is a rule-based baseline built in this paper to expose test leakage."
+columns = [
+  { col = 1, dataset = "wn18", metric = "mr" },
+  { col = 2, dataset = "wn18", metric = "mrr" },
+  { col = 3, dataset = "wn18", metric = "hits@10" },
+  { col = 4, dataset = "wn18", metric = "hits@3" },
+  { col = 5, dataset = "wn18", metric = "hits@1" },
+  { col = 7, dataset = "fb15k", metric = "mr" },
+  { col = 8, dataset = "fb15k", metric = "mrr" },
+  { col = 9, dataset = "fb15k", metric = "hits@10" },
+  { col = 10, dataset = "fb15k", metric = "hits@3" },
+  { col = 11, dataset = "fb15k", metric = "hits@1" },
+]
+rows = [
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "Gaifman", method_id = "gaifman", role = "baseline" },
+  { row = 6, method = "ANALOGY", method_id = "analogy", role = "baseline" },
+  { row = 7, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 8, method = "ConvE", method_id = "conve", role = "proposed" },
+  { row = 9, method = "Inverse Model", method_id = "inverse-model", role = "baseline" },
+]
+
+[[table]]
+id = "Sx6.T4"
+header_rows = 3
+settings = { protocol = "filtered" }
+evidence = "Sx6.p1: results are reported in the filtered setting."
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mr" },
+  { col = 2, dataset = "wn18rr", metric = "mrr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@10" },
+  { col = 4, dataset = "wn18rr", metric = "hits@3" },
+  { col = 5, dataset = "wn18rr", metric = "hits@1" },
+  { col = 7, dataset = "fb15k-237", metric = "mr" },
+  { col = 8, dataset = "fb15k-237", metric = "mrr" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 10, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 11, dataset = "fb15k-237", metric = "hits@1" },
+]
+rows = [
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 6, method = "ConvE", method_id = "conve", role = "proposed" },
+  { row = 7, method = "Inverse Model", method_id = "inverse-model", role = "baseline" },
+]
+
+[[table]]
+id = "Sx6.T5"
+header_rows = 3
+settings = { protocol = "filtered" }
+evidence = "Sx6.p1: results are reported in the filtered setting."
+notes = "Only the YAGO3-10 columns are mapped; Countries (AUC-PR) is not in the registry."
+columns = [
+  { col = 1, dataset = "yago3-10", metric = "mr" },
+  { col = 2, dataset = "yago3-10", metric = "mrr" },
+  { col = 3, dataset = "yago3-10", metric = "hits@10" },
+  { col = 4, dataset = "yago3-10", metric = "hits@3" },
+  { col = 5, dataset = "yago3-10", metric = "hits@1" },
+]
+rows = [
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "ConvE", method_id = "conve", role = "proposed" },
+  { row = 6, method = "Inverse Model", method_id = "inverse-model", role = "baseline" },
+]

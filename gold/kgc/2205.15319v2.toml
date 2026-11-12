@@ -1,0 +1,40 @@
+# AdaProp: Learning Adaptive Propagation for GNN-based Knowledge Graph Reasoning (Zhang et al., 2023)
+# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+
+paper = "2205.15319v2"
+title = "AdaProp: Learning Adaptive Propagation for Graph Neural Network based Knowledge Graph Reasoning"
+
+[[table]]
+id = "S4.T2"
+header_rows = 2
+label_col = 1
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.p1: follows prior work in using the filtered ranking-based metrics."
+notes = """MRR is a fraction, H@1 and H@10 are in percent (caption). ConvE YAGO3-10 MRR is \
+printed 0.520 here but .44 in ConvE's own paper (1707.01476v6, Sx6.T5): a cross-paper \
+conflict, kept as printed. Family, UMLS and NELL-995 are not in the registry. MINERVA: \
+see the note in 1901.09590v2."""
+columns = [
+  { col = 8, dataset = "wn18rr", metric = "mrr" },
+  { col = 9, dataset = "wn18rr", metric = "hits@1", scale = "percent" },
+  { col = 10, dataset = "wn18rr", metric = "hits@10", scale = "percent" },
+  { col = 11, dataset = "fb15k-237", metric = "mrr" },
+  { col = 12, dataset = "fb15k-237", metric = "hits@1", scale = "percent" },
+  { col = 13, dataset = "fb15k-237", metric = "hits@10", scale = "percent" },
+  { col = 17, dataset = "yago3-10", metric = "mrr" },
+  { col = 18, dataset = "yago3-10", metric = "hits@1", scale = "percent" },
+  { col = 19, dataset = "yago3-10", metric = "hits@10", scale = "percent" },
+]
+rows = [
+  { row = 2, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 3, method = "QuatE", method_id = "quate", role = "baseline" },
+  { row = 4, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 5, method = "MINERVA", method_id = "minerva", role = "baseline" },
+  { row = 6, method = "DRUM", method_id = "drum", role = "baseline" },
+  { row = 7, method = "RNNLogic", method_id = "rnnlogic", role = "baseline" },
+  { row = 8, method = "RLogic", method_id = "rlogic", role = "baseline" },
+  { row = 9, method = "CompGCN", method_id = "compgcn", role = "baseline" },
+  { row = 10, method = "NBFNet", method_id = "nbfnet", role = "baseline" },
+  { row = 11, method = "RED-GNN", method_id = "red-gnn", role = "baseline" },
+  { row = 12, method = "AdaProp", method_id = "adaprop", role = "proposed" },
+]

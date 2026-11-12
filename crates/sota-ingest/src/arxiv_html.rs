@@ -22,30 +22,30 @@ pub fn parse(html: &str, arxiv_id: &str, version: u32) -> Document {
         .filter(|f| is_table_figure(f) && !has_ancestor(f, is_table_figure));
     for figure in outer_figures {
         let figure_id = figure.value().attr("id").unwrap_or_default().to_owned();
-        let (label, caption) = caption_of(figure);
-        let tabulars: Vec<ElementRef> = figure
-            .descendants()
-            .filter_map(ElementRef::wrap)
-            .filter(|e| {
-                has_class(e, "ltx_tabular") && !has_ancestor(e, |a| has_class(a, "ltx_tabular"))
-            })
+        let parts = figure_parts(figure);
+        let tabulars: Vec<usize> = (0..parts.len())
+            .filter(|&i| matches!(parts[i], Part::Tabular(_)))
             .collect();
         if tabulars.is_empty() {
             unparsed_tables.push(figure_id);
             continue;
         }
         let several = tabulars.len() > 1;
-        for (n, tabular) in tabulars.into_iter().enumerate() {
+        for (n, &at) in tabulars.iter().enumerate() {
+            let Part::Tabular(tabular) = parts[at] else {
+                continue;
+            };
             let id = if several {
                 format!("{figure_id}.t{}", n + 1)
             } else {
                 figure_id.clone()
             };
+            let (label, caption) = caption_for(figure, &parts, at);
             tables.push(Table {
                 id,
                 figure_id: figure_id.clone(),
-                label: label.clone(),
-                caption: caption.clone(),
+                label,
+                caption,
                 cells: lay_out(tabular),
                 conversion_errors: tabular
                     .descendants()
@@ -179,20 +179,87 @@ fn is_bold(el: ElementRef) -> bool {
         .any(|e| has_class(&e, "ltx_font_bold") || matches!(e.value().name(), "b" | "strong"))
 }
 
-/// ("Table 5", caption text without the label). The figure's own caption wins
-/// over captions of sub-panels.
-fn caption_of(figure: ElementRef) -> (String, String) {
-    let caption = child_elements(figure)
-        .find(|c| c.value().name() == "figcaption")
-        .or_else(|| {
-            figure
-                .descendants()
-                .filter_map(ElementRef::wrap)
-                .find(|c| c.value().name() == "figcaption")
-        });
-    let Some(caption) = caption else {
+/// Table captions and top-level tabulars of a table figure, in document order.
+enum Part<'a> {
+    Caption(ElementRef<'a>),
+    Tabular(ElementRef<'a>),
+}
+
+fn figure_parts(figure: ElementRef) -> Vec<Part> {
+    figure
+        .descendants()
+        .filter_map(ElementRef::wrap)
+        .filter_map(|e| {
+            if has_class(&e, "ltx_tabular") && !has_ancestor(&e, |a| has_class(a, "ltx_tabular")) {
+                Some(Part::Tabular(e))
+            } else if e.value().name() == "figcaption" && is_table_caption(&e) {
+                Some(Part::Caption(e))
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+/// A caption of a table figure, not of a "Figure N" nested inside one.
+fn is_table_caption(caption: &ElementRef) -> bool {
+    caption
+        .ancestors()
+        .filter_map(ElementRef::wrap)
+        .find(|a| a.value().name() == "figure")
+        .is_some_and(|f| is_table_figure(&f))
+}
+
+/// (label, caption) for the tabular at `parts[at]`.
+///
+/// A figure may hold several tables, each with its own caption (A*Net,
+/// 2206.04798v5: "Table 1" and "Table 2: Tail prediction ..." side by side),
+/// so each table takes its nearest caption: the one before it when the figure
+/// puts captions above tables, the one after it when below. A sub-caption such
+/// as "(a) ..." keeps the figure's main label and is appended to its caption.
+fn caption_for(figure: ElementRef, parts: &[Part], at: usize) -> (String, String) {
+    let captions_above = matches!(parts.first(), Some(Part::Caption(_)));
+    let caption_at = |i: &usize| match parts[*i] {
+        Part::Caption(c) => Some(c),
+        Part::Tabular(_) => None,
+    };
+    let before = (0..at).rev().find_map(|i| caption_at(&i));
+    let after = (at + 1..parts.len()).find_map(|i| caption_at(&i));
+    let own = if captions_above {
+        before.or(after)
+    } else {
+        after.or(before)
+    };
+    let Some(own) = own else {
         return (String::new(), String::new());
     };
+    let (label, text) = caption_parts(own);
+    if label.to_lowercase().starts_with("table") {
+        return (label, text);
+    }
+    // A sub-caption: the label and main text come from the figure's own caption.
+    let main = child_elements(figure)
+        .find(|c| c.value().name() == "figcaption")
+        .or_else(|| {
+            parts.iter().find_map(|p| match p {
+                Part::Caption(c) if caption_parts(*c).0.to_lowercase().starts_with("table") => {
+                    Some(*c)
+                }
+                _ => None,
+            })
+        });
+    match main {
+        Some(main) if main.id() != own.id() => {
+            let (main_label, main_text) = caption_parts(main);
+            let sub = collapse(&format!("{label} {text}"));
+            (main_label, collapse(&format!("{main_text} {sub}")))
+        }
+        _ => (label, text),
+    }
+}
+
+/// ("Table 5", caption text without its "Table 5:" tag).
+fn caption_parts(caption: ElementRef) -> (String, String) {
     let label = caption
         .descendants()
         .filter_map(ElementRef::wrap)

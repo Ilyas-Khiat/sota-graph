@@ -120,7 +120,7 @@ fn fetch_with_everything_cached_makes_no_request_and_reports_coverage() {
         "{text}"
     );
     assert!(
-        text.contains("table figures 6 | tables parsed 6 | figures without a table 1 | tables with holes 0 | tables with conversion errors 1"),
+        text.contains("table figures 7 | tables parsed 9 | figures without a table 1 | tables with holes 0 | tables with conversion errors 1"),
         "{text}"
     );
 }

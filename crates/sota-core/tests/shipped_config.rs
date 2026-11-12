@@ -69,6 +69,8 @@ fn metric_spellings() {
         ("H@3", Some("hits@3")),
         ("Hits@10", Some("hits@10")),
         ("H@10", Some("hits@10")),
+        ("Hits at 10", Some("hits@10")), // ComplEx, Table 2 (split over two header rows)
+        ("Hits at 1", Some("hits@1")),
         ("Hits @ 10", Some("hits@10")),
         ("Hits@100", None),
         ("Hits", None),
@@ -94,4 +96,42 @@ fn every_kgc_metric_requires_the_protocol_setting() {
             m.id
         );
     }
+}
+
+#[test]
+fn setting_value_spellings() {
+    let r = registry();
+    let table: &[(&str, &str, Option<&str>)] = &[
+        ("protocol", "Filter", Some("filtered")), // ComplEx, Table 2
+        ("protocol", "Raw", Some("raw")),
+        ("queries", "tail prediction", Some("tail")), // A*Net, Table 2
+        ("queries", "head and tail", Some("both")),
+        ("regime", "0-shot", Some("zero-shot")), // ULTRA, Table 10
+        ("regime", "zero shot", Some("zero-shot")),
+        ("regime", "fine-tuned", Some("fine-tuned")),
+        ("regime", "finetuned", Some("fine-tuned")),
+        ("regime", "pre-trained", None),
+    ];
+    for &(setting, mention, expected) in table {
+        let got = r
+            .resolve_setting_value(setting, mention)
+            .map(|v| v.id.as_str());
+        assert_eq!(got, expected, "{setting} mention {mention:?}");
+    }
+}
+
+/// Unstated query direction and regime mean the standard ones; the protocol
+/// has no standard and must always be stated.
+#[test]
+fn comparability_settings_and_their_defaults() {
+    let r = registry();
+    assert_eq!(r.setting("protocol").unwrap().default, None);
+    assert_eq!(
+        r.setting("queries").unwrap().default.as_deref(),
+        Some("both")
+    );
+    assert_eq!(
+        r.setting("regime").unwrap().default.as_deref(),
+        Some("supervised")
+    );
 }

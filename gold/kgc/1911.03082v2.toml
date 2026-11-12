@@ -1,0 +1,39 @@
+# CompGCN: Composition-based Multi-Relational Graph Convolutional Networks (Vashishth et al., 2020)
+# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+
+paper = "1911.03082v2"
+title = "Composition-based Multi-Relational Graph Convolutional Networks"
+
+[[table]]
+id = "S5.T3"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S5.SS1.p2: following Bordes et al. (2013), the filtered setting is used for evaluation."
+notes = "All baseline results are copied from previous papers (caption). Empty or '-' cells are missing values."
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mrr" },
+  { col = 2, dataset = "fb15k-237", metric = "mr" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 5, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 7, dataset = "wn18rr", metric = "mrr" },
+  { col = 8, dataset = "wn18rr", metric = "mr" },
+  { col = 9, dataset = "wn18rr", metric = "hits@10" },
+  { col = 10, dataset = "wn18rr", metric = "hits@3" },
+  { col = 11, dataset = "wn18rr", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 6, method = "KBGAN", method_id = "kbgan", role = "baseline" },
+  { row = 7, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 8, method = "ConvKB", method_id = "convkb", role = "baseline" },
+  { row = 9, method = "SACN", method_id = "sacn", role = "baseline" },
+  { row = 10, method = "HypER", method_id = "hyper", role = "baseline" },
+  { row = 11, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 12, method = "ConvR", method_id = "convr", role = "baseline" },
+  { row = 13, method = "VR-GCN", method_id = "vr-gcn", role = "baseline" },
+  { row = 14, method = "CompGCN (Proposed Method)", method_id = "compgcn", role = "proposed" },
+]

@@ -5,6 +5,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use sota_ingest::cache::Cache;
 
 mod config;
+mod gold;
 mod papers;
 
 /// Who beats whom, on which benchmark, by how much, with a source for every number
@@ -46,6 +47,31 @@ enum Command {
         /// Only this table, e.g. S4.T5
         #[arg(long)]
         table: Option<String>,
+    },
+    /// Gold set: hand-checked meaning of results tables
+    Gold {
+        /// Directory of gold specs (<topic>/<paper>.toml), searched recursively
+        #[arg(long, global = true, default_value = "gold")]
+        dir: PathBuf,
+        #[command(subcommand)]
+        command: GoldCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum GoldCommand {
+    /// Validate every spec and its snapshot; re-expand from the cache when the paper is there
+    Check,
+    /// Expand specs against cached papers and write their snapshots
+    Expand {
+        /// Only this paper, e.g. 1902.10197v1
+        #[arg(long)]
+        paper: Option<String>,
+    },
+    /// Print a paper's gold mapping with its values, for review against the source
+    Show {
+        /// Pinned arXiv id
+        paper: String,
     },
 }
 
@@ -105,6 +131,16 @@ fn run(cli: Cli) -> anyhow::Result<bool> {
         }
         Command::Fetch { list } => return papers::fetch(&list, &cache),
         Command::Tables { id, table } => papers::tables(&id, table.as_deref(), &cache)?,
+        Command::Gold { dir, command } => {
+            let registry = config::load(&cli.config)?.registry;
+            return match command {
+                GoldCommand::Check => gold::check(&dir, &cache, &registry),
+                GoldCommand::Expand { paper } => {
+                    gold::expand(&dir, paper.as_deref(), &cache, &registry)
+                }
+                GoldCommand::Show { paper } => gold::show(&paper, &dir, &cache, &registry),
+            };
+        }
     }
     Ok(true)
 }

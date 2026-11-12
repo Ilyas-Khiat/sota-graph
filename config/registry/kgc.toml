@@ -60,7 +60,7 @@ min = 1.0
 [[metric]]
 id = "hits@1"
 name = "Hits@1"
-aliases = ["H@1", "Hit@1"]
+aliases = ["H@1", "Hit@1", "Hits at 1"]
 direction = "higher_is_better"
 canonical_scale = "fraction"
 accepted_scales = ["fraction", "percent"]
@@ -70,7 +70,7 @@ max = 1.0
 [[metric]]
 id = "hits@3"
 name = "Hits@3"
-aliases = ["H@3", "Hit@3"]
+aliases = ["H@3", "Hit@3", "Hits at 3"]
 direction = "higher_is_better"
 canonical_scale = "fraction"
 accepted_scales = ["fraction", "percent"]
@@ -80,7 +80,7 @@ max = 1.0
 [[metric]]
 id = "hits@10"
 name = "Hits@10"
-aliases = ["H@10", "Hit@10"]
+aliases = ["H@10", "Hit@10", "Hits at 10"]
 direction = "higher_is_better"
 canonical_scale = "fraction"
 accepted_scales = ["fraction", "percent"]
@@ -95,6 +95,33 @@ name = "Evaluation protocol"
 applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
 required = true
 values = [
-  { id = "filtered", aliases = ["filt", "filt."] },
+  { id = "filtered", aliases = ["filter", "filt", "filt."] },
   { id = "raw" },
+]
+
+# Most papers rank both the head and the tail of each test triple. Path-finding
+# methods trained with RL (MINERVA, Multi-Hop, CURL) are scored on tails only,
+# which gives higher numbers: A*Net (2206.04798v5) reports them in a separate table.
+[[setting]]
+id = "queries"
+name = "Query direction"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+default = "both"
+values = [
+  { id = "both", aliases = ["head and tail", "head+tail", "bidirectional"] },
+  { id = "tail", aliases = ["tail only", "tail prediction", "tail-only"] },
+]
+
+# Trained on the target graph (supervised), applied without training on it
+# (zero-shot, e.g. a foundation model), or pre-trained elsewhere and then
+# trained on it (fine-tuned). ULTRA (2310.04562v2) reports all three side by side.
+[[setting]]
+id = "regime"
+name = "Training regime on the target graph"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+default = "supervised"
+values = [
+  { id = "supervised", aliases = ["trained from scratch"] },
+  { id = "zero-shot", aliases = ["0-shot", "zero shot", "zeroshot"] },
+  { id = "fine-tuned", aliases = ["finetuned", "fine tuned", "fine-tuning"] },
 ]

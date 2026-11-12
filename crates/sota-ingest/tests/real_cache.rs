@@ -110,3 +110,19 @@ fn compgcn_two_tables_in_one_figure() {
         assert_eq!(table(&doc, id).figure_id, "S6.T5");
     }
 }
+
+/// A*Net, figure S4.SS2.tab1: several tables, each with its own caption.
+/// "Table 2" is tail prediction only, which is why NBFNet scores higher there.
+#[test]
+#[ignore = "needs the local paper cache"]
+fn anet_tables_keep_their_own_captions() {
+    let doc = load("2206.04798v5");
+    let t1 = table(&doc, "S4.SS2.tab1.t1");
+    assert_eq!(t1.label, "Table 1");
+    let t2 = table(&doc, "S4.SS2.tab1.t2");
+    assert_eq!(t2.label, "Table 2");
+    assert!(t2.caption.starts_with("Tail prediction"), "{}", t2.caption);
+    let t4 = table(&doc, "S4.SS2.tab1.t4");
+    assert_eq!(t4.label, "Table 4");
+    assert!(t4.caption.contains("ogbl-wikikg2"), "{}", t4.caption);
+}

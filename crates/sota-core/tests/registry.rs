@@ -224,3 +224,30 @@ fn parse_errors_name_the_file() {
         other => panic!("expected a parse error, got {other:?}"),
     }
 }
+
+#[test]
+fn a_setting_default_must_be_one_of_its_values() {
+    let text = KGC.replace("required = true\n", "default = \"filt\"\n");
+    let p = problems(&[("kgc.toml", &text)]);
+    assert!(has(&p, &["protocol", "default", "filt"]), "{p:?}");
+}
+
+#[test]
+fn a_required_setting_cannot_have_a_default() {
+    let text = KGC.replace(
+        "required = true\n",
+        "required = true\ndefault = \"filtered\"\n",
+    );
+    let p = problems(&[("kgc.toml", &text)]);
+    assert!(has(&p, &["protocol", "required", "default"]), "{p:?}");
+}
+
+#[test]
+fn a_setting_default_is_exposed() {
+    let text = KGC.replace("required = true\n", "default = \"filtered\"\n");
+    let r = build(&[("kgc.toml", &text)]).unwrap();
+    assert_eq!(
+        r.setting("protocol").unwrap().default.as_deref(),
+        Some("filtered")
+    );
+}

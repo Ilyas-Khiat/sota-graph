@@ -64,6 +64,10 @@ pub struct Setting {
     /// A result on one of `applies_to` without this setting goes to review.
     #[serde(default)]
     pub required: bool,
+    /// The value a result has when the paper does not state one (the field's
+    /// standard practice). Never set together with `required`.
+    #[serde(default)]
+    pub default: Option<String>,
     pub values: Vec<SettingValue>,
 }
 
@@ -212,6 +216,16 @@ impl Registry {
         &self.settings
     }
 
+    /// By exact id (not by spelling).
+    pub fn dataset(&self, id: &str) -> Option<&Dataset> {
+        self.datasets.iter().find(|d| d.id == id)
+    }
+
+    /// By exact id (not by spelling).
+    pub fn metric(&self, id: &str) -> Option<&Metric> {
+        self.metrics.iter().find(|m| m.id == id)
+    }
+
     pub fn setting(&self, id: &str) -> Option<&Setting> {
         self.settings.iter().find(|s| s.id == id)
     }
@@ -304,6 +318,18 @@ fn check_setting(s: &Setting, metric_ids: &HashSet<&str>, problems: &mut Vec<Str
     }
     if s.values.is_empty() {
         problems.push(format!("setting {id}: lists no values"));
+    }
+    if let Some(default) = &s.default {
+        if s.required {
+            problems.push(format!(
+                "setting {id}: is required, so it cannot have a default"
+            ));
+        }
+        if !s.values.iter().any(|v| &v.id == default) {
+            problems.push(format!(
+                "setting {id}: default {default:?} is not one of its values"
+            ));
+        }
     }
     check_ids(
         &format!("setting {id} value"),
