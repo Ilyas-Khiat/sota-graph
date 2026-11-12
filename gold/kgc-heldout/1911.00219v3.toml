@@ -1,0 +1,84 @@
+# InteractE: Improving Convolution-based Knowledge Graph Embeddings by Increasing Feature Interactions (Vashishth et al., 2020)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "1911.00219v3"
+title = "InteractE: Improving Convolution-based Knowledge Graph Embeddings by Increasing Feature Interactions"
+# No comparable results: S3.T1 score functions, S8.T3 dataset statistics,
+# A2.T5 hyperparameters.
+negative_tables = ["S3.T1", "S8.T3", "A2.T5"]
+# Not scored: S9.T4 (FB15k-237 by query direction and relation category) puts
+# the settings in its rows and the methods in column groups; the gold format
+# carries settings per column only.
+
+[[table]]
+id = "S7.T2"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S8.SS2.p1: following Bordes et al., we use the filtered setting (head or tail corrupted)."
+notes = "InteractE results are averages over 5 runs (S8.SS2.p1)."
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mrr" },
+  { col = 2, dataset = "fb15k-237", metric = "mr" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 5, dataset = "wn18rr", metric = "mrr" },
+  { col = 6, dataset = "wn18rr", metric = "mr" },
+  { col = 7, dataset = "wn18rr", metric = "hits@10" },
+  { col = 8, dataset = "wn18rr", metric = "hits@1" },
+  { col = 9, dataset = "yago3-10", metric = "mrr" },
+  { col = 10, dataset = "yago3-10", metric = "mr" },
+  { col = 11, dataset = "yago3-10", metric = "hits@10" },
+  { col = 12, dataset = "yago3-10", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 3, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 4, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 5, method = "KBGAN", method_id = "kbgan", role = "baseline" },
+  { row = 6, method = "KBLRN", method_id = "kblrn", role = "baseline" },
+  { row = 7, method = "ConvTransE", method_id = "convtranse", role = "baseline" },
+  { row = 8, method = "SACN", method_id = "sacn", role = "baseline" },
+  { row = 9, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 10, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 11, method = "InteractE (Proposed Method)", method_id = "interacte", role = "proposed" },
+]
+review_cells = [
+  { row = 4, col = 2, reason = "not reported (-)" },
+  { row = 4, col = 5, reason = "not reported (-)" },
+  { row = 4, col = 6, reason = "not reported (-)" },
+  { row = 4, col = 7, reason = "not reported (-)" },
+  { row = 4, col = 8, reason = "not reported (-)" },
+  { row = 4, col = 9, reason = "not reported (-)" },
+  { row = 4, col = 10, reason = "not reported (-)" },
+  { row = 4, col = 11, reason = "not reported (-)" },
+  { row = 4, col = 12, reason = "not reported (-)" },
+  { row = 5, col = 2, reason = "not reported (-)" },
+  { row = 5, col = 4, reason = "not reported (-)" },
+  { row = 5, col = 6, reason = "not reported (-)" },
+  { row = 5, col = 8, reason = "not reported (-)" },
+  { row = 5, col = 9, reason = "not reported (-)" },
+  { row = 5, col = 10, reason = "not reported (-)" },
+  { row = 5, col = 11, reason = "not reported (-)" },
+  { row = 5, col = 12, reason = "not reported (-)" },
+  { row = 6, col = 5, reason = "not reported (-)" },
+  { row = 6, col = 6, reason = "not reported (-)" },
+  { row = 6, col = 7, reason = "not reported (-)" },
+  { row = 6, col = 8, reason = "not reported (-)" },
+  { row = 6, col = 9, reason = "not reported (-)" },
+  { row = 6, col = 10, reason = "not reported (-)" },
+  { row = 6, col = 11, reason = "not reported (-)" },
+  { row = 6, col = 12, reason = "not reported (-)" },
+  { row = 7, col = 2, reason = "not reported (-)" },
+  { row = 7, col = 6, reason = "not reported (-)" },
+  { row = 7, col = 9, reason = "not reported (-)" },
+  { row = 7, col = 10, reason = "not reported (-)" },
+  { row = 7, col = 11, reason = "not reported (-)" },
+  { row = 7, col = 12, reason = "not reported (-)" },
+  { row = 8, col = 2, reason = "not reported (-)" },
+  { row = 8, col = 6, reason = "not reported (-)" },
+  { row = 8, col = 9, reason = "not reported (-)" },
+  { row = 8, col = 10, reason = "not reported (-)" },
+  { row = 8, col = 11, reason = "not reported (-)" },
+  { row = 8, col = 12, reason = "not reported (-)" },
+]

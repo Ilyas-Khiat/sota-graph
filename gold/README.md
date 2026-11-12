@@ -3,6 +3,10 @@
 Hand-checked meaning of results tables, used to measure extraction (step 4)
 and the comparison engine (step 5). One spec per paper: `<topic>/<arxiv-id>.toml`.
 
+Two sets: [kgc](kgc), the development papers the extraction was built on, and
+[kgc-heldout](kgc-heldout), papers it never saw, scored with the extraction
+frozen ([protocol](kgc-heldout/PROTOCOL.md), [results](kgc-heldout/RESULTS.md)).
+
 A spec does not list numbers. It maps a table's rows and columns to meanings,
 and `sota gold expand` reads the numbers out of the paper, into
 `<arxiv-id>.results.jsonl` next to the spec (committed, so CI can check it

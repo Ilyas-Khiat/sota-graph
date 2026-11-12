@@ -1,0 +1,10 @@
+{
+  "key": "791b4677730c0173c29fcbed1159b31a445a41d9f3259ef70bc3bb505c2bf36d",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":2,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":3,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":4,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"percent\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"w/ re-rank\",\"role\":\"proposed\",\"row\":1},{\"dataset\":null,\"method\":\"w/o re-rank\",\"role\":\"variant\",\"row\":2}],\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4253,
+    "output_tokens": 1105,
+    "reasoning_tokens": 868
+  }
+}

@@ -1,0 +1,133 @@
+# Low-Dimensional Hyperbolic Knowledge Graph Embeddings (AttH, RotH, RefH; Chami et al., 2020)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "2005.00545v1"
+title = "Low-Dimensional Hyperbolic Knowledge Graph Embeddings"
+# No comparable results: S4.T1 dataset statistics, S5.T3 H@10 per WN18RR
+# relation, S5.T4 per YAGO3-10 relation, A1.T7 hyperparameters.
+negative_tables = ["S4.T1", "S5.T3", "S5.T4", "A1.T7"]
+
+# Low-dimensional results (d = 32). The registry has no embedding-dimension
+# setting, so these cannot be told apart from full-size results: every cell
+# must go to review, or a leaderboard would rank 32-dimensional models
+# against 500-dimensional ones.
+[[table]]
+id = "S5.T2"
+header_rows = 3
+label_col = 1
+settings = { protocol = "filtered" }
+evidence = "Caption: link prediction results for low-dimensional embeddings (d=32) in the filtered setting."
+notes = "Every row held back: d = 32 is a comparability setting the registry cannot express. RotH YAGO3-10 H@10 prints 559 (for .559)."
+columns = [
+  { col = 2, dataset = "wn18rr", metric = "mrr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@1" },
+  { col = 4, dataset = "wn18rr", metric = "hits@3" },
+  { col = 5, dataset = "wn18rr", metric = "hits@10" },
+  { col = 6, dataset = "fb15k-237", metric = "mrr" },
+  { col = 7, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 10, dataset = "yago3-10", metric = "mrr" },
+  { col = 11, dataset = "yago3-10", metric = "hits@1" },
+  { col = 12, dataset = "yago3-10", metric = "hits@3" },
+  { col = 13, dataset = "yago3-10", metric = "hits@10" },
+]
+rows = [
+  { row = 4, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 5, method = "MuRE", method_id = "mure", role = "baseline" },
+  { row = 6, method = "ComplEx-N3", method_id = "complex-n3", role = "baseline" },
+  { row = 7, method = "MuRP", method_id = "murp", role = "baseline" },
+  { row = 9, method = "RefE", method_id = "refe", role = "variant" },
+  { row = 10, method = "RotE", method_id = "rote", role = "variant" },
+  { row = 11, method = "AttE", method_id = "atte", role = "variant" },
+  { row = 12, method = "RefH", method_id = "refh", role = "variant" },
+  { row = 13, method = "RotH", method_id = "roth", role = "variant" },
+  { row = 14, method = "AttH", method_id = "atth", role = "proposed" },
+]
+review_cells = [
+  { row = 4, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 5, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 6, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 7, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 9, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 10, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 11, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 12, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 13, reason = "d = 32: embedding dimension is not a registry setting" },
+  { row = 14, reason = "d = 32: embedding dimension is not a registry setting" },
+]
+
+[[table]]
+id = "S5.T5"
+header_rows = 3
+label_col = 1
+settings = { protocol = "filtered" }
+evidence = "Caption and S5.SS1.SSS0.Px4.p1: standard evaluation protocol in the filtered setting (Bordes et al., 2013)."
+notes = """High-dimensional results (best of d in {200, 400, 500}), the usual setting. AttH is the \
+proposed model; RefH and RotH are its special cases and RefE, RotE, AttE their Euclidean \
+counterparts, all introduced here (variants). "Quaternion" is QuatE: its numbers are QuatE^3's \
+(with type constraints). MurE and MurP are spelled MuRE and MuRP in Table 2."""
+columns = [
+  { col = 2, dataset = "wn18rr", metric = "mrr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@1" },
+  { col = 4, dataset = "wn18rr", metric = "hits@3" },
+  { col = 5, dataset = "wn18rr", metric = "hits@10" },
+  { col = 6, dataset = "fb15k-237", metric = "mrr" },
+  { col = 7, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 10, dataset = "yago3-10", metric = "mrr" },
+  { col = 11, dataset = "yago3-10", metric = "hits@1" },
+  { col = 12, dataset = "yago3-10", metric = "hits@3" },
+  { col = 13, dataset = "yago3-10", metric = "hits@10" },
+]
+rows = [
+  { row = 4, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 5, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 6, method = "TuckER", method_id = "tucker", role = "baseline" },
+  { row = 7, method = "MurE", method_id = "mure", role = "baseline" },
+  { row = 8, method = "ComplEx-N3", method_id = "complex-n3", role = "baseline" },
+  { row = 9, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 10, method = "Quaternion", method_id = "quate", role = "baseline" },
+  { row = 11, method = "MurP", method_id = "murp", role = "baseline" },
+  { row = 13, method = "RefE", method_id = "refe", role = "variant" },
+  { row = 14, method = "RotE", method_id = "rote", role = "variant" },
+  { row = 15, method = "AttE", method_id = "atte", role = "variant" },
+  { row = 16, method = "RefH", method_id = "refh", role = "variant" },
+  { row = 17, method = "RotH", method_id = "roth", role = "variant" },
+  { row = 18, method = "AttH", method_id = "atth", role = "proposed" },
+]
+review_cells = [
+  { row = 6, col = 10, reason = "not reported (-)" },
+  { row = 6, col = 11, reason = "not reported (-)" },
+  { row = 6, col = 12, reason = "not reported (-)" },
+  { row = 6, col = 13, reason = "not reported (-)" },
+  { row = 10, col = 10, reason = "not reported (-)" },
+  { row = 10, col = 11, reason = "not reported (-)" },
+  { row = 10, col = 12, reason = "not reported (-)" },
+  { row = 10, col = 13, reason = "not reported (-)" },
+  { row = 11, col = 13, reason = "typo: prints 567 for a Hits@10 (a fraction; .567 intended)" },
+]
+
+[[table]]
+id = "A1.T6"
+header_rows = 3
+settings = { protocol = "filtered" }
+evidence = "S5.SS1.SSS0.Px4.p1: standard evaluation protocol in the filtered setting; A1.SS5.p1 compares with Table 5's AttE."
+notes = "High-dimensional comparison with Dihedral (Xu and Li, 2019). The AttE row repeats Table 5."
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mrr" },
+  { col = 2, dataset = "wn18rr", metric = "hits@10" },
+  { col = 3, dataset = "fb15k-237", metric = "mrr" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 5, dataset = "yago3-10", metric = "mrr" },
+  { col = 6, dataset = "yago3-10", metric = "hits@10" },
+]
+rows = [
+  { row = 3, method = "Dihedral", method_id = "dihedral", role = "baseline" },
+  { row = 4, method = "AttE", method_id = "atte", role = "variant" },
+]
+review_cells = [
+  { row = 3, col = 2, reason = "typo: prints 557 for a Hits@10 (.557 intended)" },
+]

@@ -1,0 +1,119 @@
+# Quaternion Knowledge Graph Embeddings (QuatE, Zhang et al., 2019)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "1904.10281v3"
+title = "Quaternion Knowledge Graph Embeddings"
+# No comparable results: S4.T1 score functions, S4.T2 dataset statistics,
+# S5.T5 MRR per WN18RR relation (no registry setting for single relations),
+# S5.T6 parameter counts, S5.T7 ablation whose rows are unnamed score-function
+# formulas, S7.T8 epoch counts.
+negative_tables = ["S4.T1", "S4.T2", "S5.T5", "S5.T6", "S5.T7", "S7.T8"]
+# Not scored: S7.T9 (OctonionE) stacks a WN18 block and a WN18RR block with
+# their own inner headers; one gold table maps one dataset per column.
+
+[[table]]
+id = "S5.T3"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S5.SS1.p2: following Bordes et al. (2013), filtered results are reported."
+notes = """QuatE is reported in three versions (S5.SS1.p4): QuatE^1 without type constraints \
+QuatE^2 with N3 regularization and reciprocal learning, QuatE^3 with type constraints. All \
+three are the proposed method, `quate`, as for RotatE's versions: the engine flags their \
+different values. a-RotatE is RotatE with \
+self-adversarial sampling (RotatE's own setup); the RotatE row is without it. Both are `rotate`, \
+as decided for TuckER's RotatE row. R-GCN+ is the R-GCN/DistMult ensemble of the R-GCN paper."""
+columns = [
+  { col = 1, dataset = "wn18", metric = "mr" },
+  { col = 2, dataset = "wn18", metric = "mrr" },
+  { col = 3, dataset = "wn18", metric = "hits@10" },
+  { col = 4, dataset = "wn18", metric = "hits@3" },
+  { col = 5, dataset = "wn18", metric = "hits@1" },
+  { col = 6, dataset = "fb15k", metric = "mr" },
+  { col = 7, dataset = "fb15k", metric = "mrr" },
+  { col = 8, dataset = "fb15k", metric = "hits@10" },
+  { col = 9, dataset = "fb15k", metric = "hits@3" },
+  { col = 10, dataset = "fb15k", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "TransE\\dagger", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult\\diamond", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "HolE", method_id = "hole", role = "baseline" },
+  { row = 5, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 6, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 7, method = "R-GCN+", method_id = "r-gcn-plus", role = "baseline" },
+  { row = 8, method = "SimplE", method_id = "simple", role = "baseline" },
+  { row = 9, method = "NKGE", method_id = "nkge", role = "baseline" },
+  { row = 10, method = "TorusE", method_id = "toruse", role = "baseline" },
+  { row = 11, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 12, method = "a-RotatE\\ast", method_id = "rotate", role = "baseline" },
+  { row = 13, method = "\\textbf{QuatE}^{1}", method_id = "quate", role = "proposed" },
+  { row = 14, method = "\\textbf{QuatE}^{2}", method_id = "quate", role = "proposed" },
+  { row = 15, method = "\\textbf{QuatE}^{3}", method_id = "quate", role = "proposed" },
+]
+review_cells = [
+  { row = 2, col = 1, reason = "not reported (-)" },
+  { row = 2, col = 6, reason = "not reported (-)" },
+  { row = 3, col = 4, reason = "not reported (-)" },
+  { row = 3, col = 5, reason = "not reported (-)" },
+  { row = 3, col = 9, reason = "not reported (-)" },
+  { row = 3, col = 10, reason = "not reported (-)" },
+  { row = 4, col = 1, reason = "not reported (-)" },
+  { row = 4, col = 6, reason = "not reported (-)" },
+  { row = 5, col = 1, reason = "not reported (-)" },
+  { row = 5, col = 6, reason = "not reported (-)" },
+  { row = 7, col = 1, reason = "not reported (-)" },
+  { row = 7, col = 6, reason = "not reported (-)" },
+  { row = 8, col = 1, reason = "not reported (-)" },
+  { row = 8, col = 6, reason = "not reported (-)" },
+  { row = 10, col = 1, reason = "not reported (-)" },
+  { row = 10, col = 6, reason = "not reported (-)" },
+  { row = 14, col = 1, reason = "not reported (-)" },
+  { row = 14, col = 6, reason = "not reported (-)" },
+]
+
+[[table]]
+id = "S5.T4"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S5.SS1.p2: following Bordes et al. (2013), filtered results are reported."
+notes = "Same three QuatE versions as Table 3. Here RotatE\\ast (without self-adversarial sampling) and a-RotatE\\ast are both copied from Sun et al. (2019)."
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mr" },
+  { col = 2, dataset = "wn18rr", metric = "mrr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@10" },
+  { col = 4, dataset = "wn18rr", metric = "hits@3" },
+  { col = 5, dataset = "wn18rr", metric = "hits@1" },
+  { col = 6, dataset = "fb15k-237", metric = "mr" },
+  { col = 7, dataset = "fb15k-237", metric = "mrr" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 10, dataset = "fb15k-237", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "TransE \\dagger", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult\\diamond", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx\\diamond", method_id = "complex", role = "baseline" },
+  { row = 5, method = "ConvE\\diamond", method_id = "conve", role = "baseline" },
+  { row = 6, method = "R-GCN+", method_id = "r-gcn-plus", role = "baseline" },
+  { row = 7, method = "NKGE", method_id = "nkge", role = "baseline" },
+  { row = 8, method = "RotatE\\ast", method_id = "rotate", role = "baseline" },
+  { row = 9, method = "a-RotatE\\ast", method_id = "rotate", role = "baseline" },
+  { row = 10, method = "\\textbf{QuatE}^{1}", method_id = "quate", role = "proposed" },
+  { row = 11, method = "\\textbf{QuatE}^{2}", method_id = "quate", role = "proposed" },
+  { row = 12, method = "\\textbf{QuatE}^{3}", method_id = "quate", role = "proposed" },
+]
+review_cells = [
+  { row = 2, col = 4, reason = "not reported (-)" },
+  { row = 2, col = 5, reason = "not reported (-)" },
+  { row = 2, col = 9, reason = "not reported (-)" },
+  { row = 2, col = 10, reason = "not reported (-)" },
+  { row = 6, col = 1, reason = "not reported (-)" },
+  { row = 6, col = 2, reason = "not reported (-)" },
+  { row = 6, col = 3, reason = "not reported (-)" },
+  { row = 6, col = 4, reason = "not reported (-)" },
+  { row = 6, col = 5, reason = "not reported (-)" },
+  { row = 6, col = 6, reason = "not reported (-)" },
+  { row = 11, col = 1, reason = "not reported (-)" },
+  { row = 11, col = 6, reason = "not reported (-)" },
+]

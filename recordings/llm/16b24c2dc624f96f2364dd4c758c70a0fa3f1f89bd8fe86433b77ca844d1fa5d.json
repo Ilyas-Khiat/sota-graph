@@ -1,0 +1,10 @@
+{
+  "key": "16b24c2dc624f96f2364dd4c758c70a0fa3f1f89bd8fe86433b77ca844d1fa5d",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"KICGPT\",\"role\":\"proposed\",\"row\":1},{\"dataset\":null,\"method\":\"shuffle candidates\",\"role\":\"variant\",\"row\":2},{\"dataset\":null,\"method\":\"w/o demonstration ordering\",\"role\":\"variant\",\"row\":3},{\"dataset\":null,\"method\":\"random demonstrations\",\"role\":\"variant\",\"row\":4},{\"dataset\":null,\"method\":\"w/o ICL\",\"role\":\"variant\",\"row\":5},{\"dataset\":null,\"method\":\"w/o prompt engineering\",\"role\":\"variant\",\"row\":6}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4213,
+    "output_tokens": 941,
+    "reasoning_tokens": 512
+  }
+}

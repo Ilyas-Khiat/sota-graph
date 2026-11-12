@@ -101,6 +101,55 @@ fn evidence_paragraphs_are_those_naming_the_table_or_a_non_default_setting() {
     assert!(p.contains("[S1.p1]"), "{p}");
 }
 
+/// A paragraph that names a setting value only inside typographic quotes is
+/// still offered to the model as evidence.
+#[test]
+fn evidence_in_typographic_quotes_is_offered() {
+    let mut d = doc();
+    d.sections[0].paragraphs.push(sota_core::Paragraph {
+        id: "S9.p9".into(),
+        text: "We rank under the \u{201C}Filtered\u{201D} setting as in prior work.".into(),
+    });
+    let ids: Vec<String> = evidence_paragraphs(&d, d.table("S4.T1").unwrap(), &registry())
+        .iter()
+        .map(|p| p.id.clone())
+        .collect();
+    assert!(ids.contains(&"S9.p9".to_owned()), "{ids:?}");
+}
+
+/// Optional values that are also everyday words ("head entity", "raw text")
+/// can fill the cap; evidence for a required setting and paragraphs citing
+/// the table come first, and the prompt keeps document order.
+#[test]
+fn evidence_for_a_required_setting_is_never_crowded_out() {
+    let mut d = doc();
+    for i in 0..20 {
+        d.sections[0].paragraphs.push(sota_core::Paragraph {
+            id: format!("S1.x{i}"),
+            text: "The head entity and the tail entity are embedded first.".into(),
+        });
+    }
+    let last = d.sections.len() - 1;
+    d.sections[last].paragraphs.push(sota_core::Paragraph {
+        id: "S9.p9".into(),
+        text: "Metrics are computed in the filtered setting.".into(),
+    });
+    let r = registry();
+    let offered = evidence_paragraphs(&d, d.table("S4.T1").unwrap(), &r);
+    let ids: Vec<&str> = offered.iter().map(|p| p.id.as_str()).collect();
+    assert!(ids.len() <= 15, "{ids:?}");
+    assert!(ids.contains(&"S9.p9"), "{ids:?}");
+    assert!(ids.contains(&"S4.SS1.p1"), "{ids:?}"); // cites Table 1
+    let order: Vec<&str> = d
+        .sections
+        .iter()
+        .flat_map(|s| &s.paragraphs)
+        .map(|p| p.id.as_str())
+        .filter(|id| ids.contains(id))
+        .collect();
+    assert_eq!(ids, order, "offered out of document order");
+}
+
 #[test]
 fn the_request_carries_the_schema_and_no_numbers_are_asked_for() {
     let d = doc();

@@ -1,0 +1,10 @@
+{
+  "key": "f07b65a5e7ef79a79590a81bf2ff7db3e0bfca90a48a3d49d7cd9e6983b4e0df",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":3,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"percent\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"member meronym\",\"role\":null,\"row\":3},{\"dataset\":null,\"method\":\"hypernym\",\"role\":null,\"row\":4},{\"dataset\":null,\"method\":\"has part\",\"role\":null,\"row\":5},{\"dataset\":null,\"method\":\"instance hypernym\",\"role\":null,\"row\":6},{\"dataset\":null,\"method\":\"member of domain region\",\"role\":null,\"row\":7},{\"dataset\":null,\"method\":\"member of domain usage\",\"role\":null,\"row\":8},{\"dataset\":null,\"method\":\"synset domain topic of\",\"role\":null,\"row\":9},{\"dataset\":null,\"method\":\"also see\",\"role\":null,\"row\":10},{\"dataset\":null,\"method\":\"derivationally related form\",\"role\":null,\"row\":11},{\"dataset\":null,\"method\":\"similar to\",\"role\":null,\"row\":12},{\"dataset\":null,\"method\":\"verb group\",\"role\":null,\"row\":13}],\"settings\":[{\"evidence\":\"S5.SS1.SSS0.Px4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"},{\"evidence\":\"S5.SS1.SSS0.Px4.p1\",\"setting\":\"queries\",\"value\":\"both\"}]}",
+  "usage": {
+    "input_tokens": 3730,
+    "output_tokens": 7531,
+    "reasoning_tokens": 7057
+  }
+}

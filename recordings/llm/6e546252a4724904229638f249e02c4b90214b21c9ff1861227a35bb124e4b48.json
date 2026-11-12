@@ -1,0 +1,10 @@
+{
+  "key": "6e546252a4724904229638f249e02c4b90214b21c9ff1861227a35bb124e4b48",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS3.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":2,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS3.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"header\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"baseline\",\"row\":1},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"TuckER\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"ConvKB\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"CapsE\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"KBAT\",\"role\":\"baseline\",\"row\":6},{\"dataset\":null,\"method\":\"TransGate\",\"role\":\"baseline\",\"row\":7}],\"settings\":[{\"evidence\":\"S5.SS3.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 2566,
+    "output_tokens": 690,
+    "reasoning_tokens": 391
+  }
+}

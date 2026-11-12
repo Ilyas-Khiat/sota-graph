@@ -1,0 +1,10 @@
+{
+  "key": "0d12e256255c645975e498e02cc71215df8ae24fcbcf5c7a09f69f52daf2e61a",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k\",\"method\":\"HAKE\",\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k\",\"method\":\"RHE\",\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k\",\"method\":\"WHE\",\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k\",\"method\":\"RHE+STC\",\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"fb15k\",\"method\":\"WHE+STC\",\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"datasets_in_rows\",\"review\":[],\"rows\":[],\"settings\":[{\"evidence\":\"S4.SSx1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"},{\"evidence\":\"S4.SSx1.p3\",\"setting\":\"queries\",\"value\":\"both\"}]}",
+  "usage": {
+    "input_tokens": 3602,
+    "output_tokens": 1092,
+    "reasoning_tokens": 825
+  }
+}

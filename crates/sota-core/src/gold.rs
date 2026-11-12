@@ -876,15 +876,11 @@ fn with_joins(texts: &[String]) -> Vec<String> {
     out
 }
 
-/// Every text whole, then word by word, with arrows, brackets and markers
-/// stripped: "MRR ↑", "FB15k-237 (filtered)" and "H@10(%)" all yield their name.
+/// Every text whole, then word by word, with arrows, brackets, quotes and
+/// markers stripped (`clean_word`): "MRR ↑", "FB15k-237 (filtered)" and
+/// "H@10(%)" all yield their name.
 fn words(texts: &[String]) -> Vec<String> {
-    let clean = |s: &str| {
-        s.trim_matches(|c: char| {
-            "()[]{}%*\u{2191}\u{2193}\u{2020}\u{2021},.;:".contains(c) || c.is_whitespace()
-        })
-        .to_owned()
-    };
+    let clean = |s: &str| crate::normalize::clean_word(s).to_owned();
     let mut out = Vec::new();
     for text in texts {
         out.push(clean(text));

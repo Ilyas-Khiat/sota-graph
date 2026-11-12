@@ -39,3 +39,13 @@ impl Normalizer {
         key
     }
 }
+
+/// One word of running text without the marks around it: quotes of any
+/// script, brackets, emphasis, arrows, daggers, trailing punctuation. Only the
+/// edges are touched: "“Filtered”," gives "Filtered", "(1-to-n)." gives
+/// "1-to-n", while "head+tail" and "H@10" stay whole. A mark is any character
+/// that is not a letter or a digit, in any script, so there is no list of
+/// quote characters to keep up to date.
+pub fn clean_word(word: &str) -> &str {
+    word.trim_matches(|c: char| !c.is_alphanumeric())
+}

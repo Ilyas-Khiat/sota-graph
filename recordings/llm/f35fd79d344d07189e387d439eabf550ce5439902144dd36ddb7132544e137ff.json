@@ -1,0 +1,10 @@
+{
+  "key": "f35fd79d344d07189e387d439eabf550ce5439902144dd36ddb7132544e137ff",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"mr\",\"role\":null,\"scale\":\"raw\",\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":2,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":3,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":4,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":5,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[{\"col\":null,\"reason\":\"inner header switches to WN18RR; only the top-header block is mapped\",\"row\":5}],\"rows\":[{\"dataset\":null,\"method\":\"OctonionE\",\"role\":\"baseline\",\"row\":2}],\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3653,
+    "output_tokens": 1732,
+    "reasoning_tokens": 1347
+  }
+}

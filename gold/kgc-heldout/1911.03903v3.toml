@@ -1,0 +1,169 @@
+# A Re-evaluation of Knowledge Graph Completion Methods (Sun et al., 2020)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+#
+# The paper is about evaluation itself: when several candidates tie, "Top"
+# puts the correct entity first, "Bottom" last, "Random" anywhere. ConvE,
+# RotatE and TuckER use a Random-like strategy; ConvKB, CapsE and KBAT use
+# Top, and KBAT also leaked test triples (S5.SS4.p1, S5.SS4.p2). The registry
+# has no tie-breaking setting, so only numbers obtained the standard way are
+# results: the Random columns, and the reported numbers of ConvE, RotatE and
+# TuckER. Everything else must go to review.
+
+paper = "1911.03903v3"
+title = "A Re-evaluation of Knowledge Graph Completion Methods"
+negative_tables = []
+# Not scored: S2.T1 (MRR as reported, with the change against ConvE) names
+# its metric only in the caption; the gold format reads metrics from headers.
+
+[[table]]
+id = "S4.T2"
+header_rows = 2
+dataset_in = "caption"
+settings = { protocol = "filtered" }
+evidence = "S5.SS3.p1: MRR, MR and H@10 on the filtered setting; caption: FB15k-237."
+notes = """Columns 1-3: as reported by each paper; 4-6: re-run with the Random protocol (mean ± std); \
+7-9 Top and 10-12 Bottom: tie-breaking bounds, with changes against Random in the rows below \
+ConvKB and CapsE. Results: the Random columns, and the reported numbers of ConvE, RotatE, TuckER."""
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mrr" },
+  { col = 2, dataset = "fb15k-237", metric = "mr" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 4, dataset = "fb15k-237", metric = "mrr" },
+  { col = 5, dataset = "fb15k-237", metric = "mr" },
+  { col = 6, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 7, dataset = "fb15k-237", metric = "mrr" },
+  { col = 8, dataset = "fb15k-237", metric = "mr" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 10, dataset = "fb15k-237", metric = "mrr" },
+  { col = 11, dataset = "fb15k-237", metric = "mr" },
+  { col = 12, dataset = "fb15k-237", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 3, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 4, method = "TuckER", method_id = "tucker", role = "baseline" },
+  { row = 5, method = "ConvKB", method_id = "convkb", role = "baseline" },
+  { row = 7, method = "CapsE", method_id = "capse", role = "baseline" },
+  { row = 9, method = "KBAT", method_id = "kbat", role = "baseline" },
+]
+review_cells = [
+  { row = 4, col = 2, reason = "not reported (-)" },
+  { row = 5, col = 1, reason = "reported under the Top protocol" },
+  { row = 5, col = 2, reason = "reported under the Top protocol" },
+  { row = 5, col = 3, reason = "reported under the Top protocol" },
+  { row = 7, col = 1, reason = "reported under the Top protocol" },
+  { row = 7, col = 2, reason = "reported under the Top protocol" },
+  { row = 7, col = 3, reason = "reported under the Top protocol" },
+  { row = 9, col = 1, reason = "reported under the Top protocol, with test leakage" },
+  { row = 9, col = 2, reason = "reported under the Top protocol, with test leakage" },
+  { row = 9, col = 3, reason = "reported under the Top protocol, with test leakage" },
+  { row = 2, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 2, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 2, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 7, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 7, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 7, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 7, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 7, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 7, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+]
+
+[[table]]
+id = "A1.T3"
+header_rows = 2
+dataset_in = "caption"
+settings = { protocol = "filtered" }
+evidence = "S5.SS3.p1: MRR, MR and H@10 on the filtered setting; caption: WN18RR."
+notes = """Columns 1-3: as reported by each paper; 4-6: re-run with the Random protocol (mean ± std); \
+7-9 Top and 10-12 Bottom: tie-breaking bounds, with changes against Random in the rows below \
+ConvKB and CapsE. Results: the Random columns, and the reported numbers of ConvE, RotatE, TuckER. \nCapsE is held back entirely: it starts from pre-trained GloVe embeddings on WN18RR, which the \ncaption calls unfair."""
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mrr" },
+  { col = 2, dataset = "wn18rr", metric = "mr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@10" },
+  { col = 4, dataset = "wn18rr", metric = "mrr" },
+  { col = 5, dataset = "wn18rr", metric = "mr" },
+  { col = 6, dataset = "wn18rr", metric = "hits@10" },
+  { col = 7, dataset = "wn18rr", metric = "mrr" },
+  { col = 8, dataset = "wn18rr", metric = "mr" },
+  { col = 9, dataset = "wn18rr", metric = "hits@10" },
+  { col = 10, dataset = "wn18rr", metric = "mrr" },
+  { col = 11, dataset = "wn18rr", metric = "mr" },
+  { col = 12, dataset = "wn18rr", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 3, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 4, method = "TuckER", method_id = "tucker", role = "baseline" },
+  { row = 5, method = "ConvKB", method_id = "convkb", role = "baseline" },
+  { row = 7, method = "CapsE‡", method_id = "capse", role = "baseline" },
+  { row = 9, method = "KBAT", method_id = "kbat", role = "baseline" },
+]
+review_cells = [
+  { row = 7, reason = "pre-trained GloVe initialization: unfair comparison (caption)" },
+  { row = 4, col = 2, reason = "not reported (-)" },
+  { row = 5, col = 1, reason = "reported under the Top protocol" },
+  { row = 5, col = 2, reason = "reported under the Top protocol" },
+  { row = 5, col = 3, reason = "reported under the Top protocol" },
+  { row = 9, col = 1, reason = "reported under the Top protocol, with test leakage" },
+  { row = 9, col = 2, reason = "reported under the Top protocol, with test leakage" },
+  { row = 9, col = 3, reason = "reported under the Top protocol, with test leakage" },
+  { row = 2, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 2, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 2, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 2, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 3, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 3, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 4, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 4, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 5, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 5, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 7, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 8, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 9, reason = "Top tie-breaking: not a registry setting" },
+  { row = 9, col = 10, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 11, reason = "Bottom tie-breaking: not a registry setting" },
+  { row = 9, col = 12, reason = "Bottom tie-breaking: not a registry setting" },
+]

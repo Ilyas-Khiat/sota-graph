@@ -1,0 +1,10 @@
+{
+  "key": "99677d97d3cfa0f6660a1abd9eae2859dfb0673b39eee43cc8fe34a488a73496",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"KICGPT\",\"role\":\"proposed\",\"row\":1},{\"dataset\":null,\"method\":\"shuffle candidates\",\"role\":\"variant\",\"row\":2},{\"dataset\":null,\"method\":\"w/o demonstration ordering\",\"role\":\"variant\",\"row\":3},{\"dataset\":null,\"method\":\"random demonstrations\",\"role\":\"variant\",\"row\":4},{\"dataset\":null,\"method\":\"w/o ICL\",\"role\":\"variant\",\"row\":5},{\"dataset\":null,\"method\":\"w/o prompt engineering\",\"role\":\"variant\",\"row\":6}],\"settings\":[]}",
+  "usage": {
+    "input_tokens": 4394,
+    "output_tokens": 1249,
+    "reasoning_tokens": 947
+  }
+}

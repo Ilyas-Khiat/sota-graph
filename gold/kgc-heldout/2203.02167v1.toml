@@ -1,0 +1,53 @@
+# SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models (Wang et al., 2022)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "2203.02167v1"
+title = "SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models"
+# No comparable results: S4.T1 dataset statistics; S4.T2, S5.T6, S5.T8 and
+# A2.T11 only on Wikidata5M (outside the registry); S5.T5, S5.T7 and A2.T14
+# examples; S5.T9 human evaluation; A1.T10 hyperparameters; S5.T4 (loss and
+# number of negatives), A2.T12 (batch size) and A2.T13 (margin): analyses
+# whose rows are hyperparameter values, not methods.
+negative_tables = [
+  "S4.T1", "S4.T2", "S5.T6", "S5.T8", "A2.T11", "S5.T5", "S5.T7", "A2.T14",
+  "S5.T9", "A1.T10", "S5.T4", "A2.T12", "A2.T13",
+]
+
+[[table]]
+id = "S4.T3"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.p3: MRR and H@k are reported under the filtered setting, averaged over head and tail prediction."
+notes = """Percent scale. SimKGC is reported in four versions by the negatives used (in-batch, \
+pre-batch, self-negatives): all are the proposed method, `simkgc`, as for QuatE's versions. \
+Rows 2 and 7 are group labels. The † baselines are re-run numbers from Wang et al. (2021a): \
+TransE here is 24.3 MRR on WN18RR, not the .226 usually copied."""
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mrr", scale = "percent" },
+  { col = 2, dataset = "wn18rr", metric = "hits@1", scale = "percent" },
+  { col = 3, dataset = "wn18rr", metric = "hits@3", scale = "percent" },
+  { col = 4, dataset = "wn18rr", metric = "hits@10", scale = "percent" },
+  { col = 5, dataset = "fb15k-237", metric = "mrr", scale = "percent" },
+  { col = 6, dataset = "fb15k-237", metric = "hits@1", scale = "percent" },
+  { col = 7, dataset = "fb15k-237", metric = "hits@3", scale = "percent" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@10", scale = "percent" },
+]
+rows = [
+  { row = 3, method = "TransE †", method_id = "transe", role = "baseline" },
+  { row = 4, method = "DistMult †", method_id = "distmult", role = "baseline" },
+  { row = 5, method = "RotatE †", method_id = "rotate", role = "baseline" },
+  { row = 6, method = "TuckER †", method_id = "tucker", role = "baseline" },
+  { row = 8, method = "KG-BERT", method_id = "kg-bert", role = "baseline" },
+  { row = 9, method = "MTL-KGC", method_id = "mtl-kgc", role = "baseline" },
+  { row = 10, method = "StAR", method_id = "star", role = "baseline" },
+  { row = 11, method = "SimKGC{}_{\\text{IB}}", method_id = "simkgc", role = "proposed" },
+  { row = 12, method = "SimKGC{}_{\\text{IB+PB}}", method_id = "simkgc", role = "proposed" },
+  { row = 13, method = "SimKGC{}_{\\text{IB+SN}}", method_id = "simkgc", role = "proposed" },
+  { row = 14, method = "SimKGC{}_{\\text{IB+PB+SN}}", method_id = "simkgc", role = "proposed" },
+]
+review_cells = [
+  { row = 8, col = 5, reason = "not reported (-)" },
+  { row = 8, col = 6, reason = "not reported (-)" },
+  { row = 8, col = 7, reason = "not reported (-)" },
+]

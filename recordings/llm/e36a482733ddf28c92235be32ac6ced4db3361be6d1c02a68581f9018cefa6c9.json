@@ -1,0 +1,10 @@
+{
+  "key": "e36a482733ddf28c92235be32ac6ced4db3361be6d1c02a68581f9018cefa6c9",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":2,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":3,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":4,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"percent\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"InfoNCE\",\"role\":\"proposed\",\"row\":1},{\"dataset\":null,\"method\":\"InfoNCE\",\"role\":\"proposed\",\"row\":2},{\"dataset\":null,\"method\":\"margin\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"margin\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"margin-\\\\tau\",\"role\":\"baseline\",\"row\":5}],\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4413,
+    "output_tokens": 2871,
+    "reasoning_tokens": 2560
+  }
+}
