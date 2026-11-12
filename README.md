@@ -11,10 +11,11 @@ of the state of the art: leaderboards, method lineage, and what changed this
 week. Every number in it points back to the exact table cell it was read from,
 and nothing is compared unless it was measured the same way.
 
-> **Status: work in progress.** The foundations are done and tested: config-driven
-> ontology and registry, arXiv ingestion and table parsing, and a gold set with
-> self-checking specs. LLM extraction, the Neo4j graph, leaderboards and GraphRAG
-> querying come next (see the [roadmap](#roadmap)).
+> **Status: work in progress.** Built and tested: config-driven ontology and
+> registry, arXiv ingestion and table parsing, a self-checking gold set, LLM
+> table extraction verified cell by cell, a Neo4j graph and leaderboards
+> computed by code. GraphRAG querying and the PDF channel come next (see the
+> [roadmap](#roadmap)).
 
 ## Why
 
@@ -91,8 +92,8 @@ $ sota tables 1902.10197v1 --table S4.T5
 
 ### A gold set that checks itself against the papers
 
-[`gold/kgc`](gold/kgc): 10 papers, 16 tables, **937 results**, 23 cells deliberately
-held back for review. A gold spec does not list numbers; it maps a table's rows
+[`gold/kgc`](gold/kgc): 10 papers, 17 tables, **985 results**, 47 cells deliberately
+held back for review, and 13 tables marked as holding no comparable results. A gold spec does not list numbers; it maps a table's rows
 and columns to meanings, and the numbers are read out of the paper. While
 reading, the paper itself is checked against the spec: every row label must
 read the declared method, every column header must name the declared dataset
@@ -122,6 +123,61 @@ Committed snapshots let CI verify the gold set without the papers; locally,
 `sota gold check` re-reads every number from the cached pages. See
 [gold/README.md](gold/README.md) for the format.
 
+### LLM extraction that never writes a number
+
+The model reads one table at a time and returns a *mapping* (which rows are
+which methods, which columns are which dataset and metric, which settings apply
+and which sentence of the paper says so), never a value. Code then reads every
+number out of the cell the mapping points to, checks that row labels and column
+headers agree with the mapping and that the cited evidence names each setting,
+and sends anything that does not hold to a review queue: a whole table, or just
+one row, column or cell. Answers are recorded, so every run replays offline and
+for free.
+
+```console
+$ sota eval extract                      # every extracted cell scored against the gold set
+total   tp 985 fp 0 fn 0 | precision 1.000 recall 1.000 | held back 39/47 caught, 0 leaked | ...
+method identity: 985/985 gold cells resolve to the gold method id
+```
+
+### Leaderboards computed by code, from the graph
+
+Verified results are merged into Neo4j (`sota graph load`; idempotent, and
+every slice is read back and compared with the files). Method identity comes
+from [`config/methods`](config/methods), never from the model; a label that
+matches no known method is listed but not ranked. Results are grouped by their
+full comparability key, ranked by the metric's direction, and a method reported
+with different values by different papers is flagged, with every source:
+
+```console
+$ sota leaderboard WN18RR Hits@1 --top 6
+## WN18RR · Hits@1 (higher is better)
+split test | protocol=filtered, queries=both, regime=supervised, relation_category=all
+
+| # | method | value | source | other reports | conflict |
+| 1 | AdaProp | 0.499 | 2205.15319v2 S4.T2 |  |  |
+| 2 | NBFNet | 0.497 | 2106.06935v4 S4.T3 | 0.497 (2205.15319v2), 0.497 (2206.04798v5) |  |
+| 3 | A*Net | 0.495 | 2206.04798v5 S4.SS2.tab1.t1 |  |  |
+| 4 | RED-GNN | 0.485 | 2108.06040v2 S5.T2 | 0.485 (2205.15319v2), 0.485 (2206.04798v5) |  |
+| 5 | ConE | 0.453 | 2206.04798v5 S4.SS2.tab1.t1 |  |  |
+| 6 | HAKE | 0.452 | 2106.06935v4 S4.T3 | 0.451 (2206.04798v5) | yes |
+
+## WN18RR · Hits@1 (higher is better)
+split test | protocol=filtered, queries=tail, regime=supervised, relation_category=all
+| 1 | A*Net | 0.504 | 2206.04798v5 S4.SS2.tab1.t2 |  |  |
+...
+```
+
+Tail-only results get a board of their own instead of being mixed in. Sources
+are links to the table on arxiv.org (shortened here).
+
+**Known limitation.** Tables outside the gold set are not measured, and some
+are wrong in a way the checks cannot see: in ablation tables whose rows are
+named after other methods (NBFNet's message functions "TransE", "DistMult",
+"RotatE"), the model maps the rows to those methods, which puts NBFNet
+variants on the leaderboard under baseline names. Extending the gold set to
+ablation tables and teaching the extraction to tell them apart is next.
+
 ## Architecture
 
 ```mermaid
@@ -133,12 +189,12 @@ flowchart LR
     H --> F[fetch + cache<br/>pinned versions]:::done --> D[document model<br/>sections, tables, cells<br/>with locators]:::done
     P -.-> D
     R[(ontology + registry<br/>config/)]:::done
-    D --> X[LLM extraction<br/>records citing a cell]:::todo
-    X --> V{code verifies<br/>number in cell,<br/>names in registry}:::todo
+    D --> X[LLM extraction<br/>records citing a cell]:::done
+    X --> V{code verifies<br/>number in cell,<br/>names in registry}:::done
     R --> V
-    V -- ok --> G[(Neo4j<br/>knowledge graph)]:::todo
-    V -- uncertain --> Q[review queue]:::todo
-    G --> L[leaderboards<br/>computed by code]:::todo
+    V -- ok --> G[(Neo4j<br/>knowledge graph)]:::done
+    V -- uncertain --> Q[review queue]:::done
+    G --> L[leaderboards<br/>computed by code]:::done
     G --> A[GraphRAG: hybrid BM25 + vector,<br/>then Cypher / graph expansion]:::todo
     S[(gold set)]:::done -. measures .-> X
     classDef done fill:#d4edda,stroke:#2e7d32
@@ -148,8 +204,10 @@ flowchart LR
 Green is built and tested; dashed is planned.
 
 - **Rust workspace:** `sota-core` (pure domain logic: ontology, registry, document
-  model, values, gold), `sota-ingest` (fetching, caching, parsing), `sota-cli`
-  (the `sota` command).
+  model, values, gold, method identity, comparison), `sota-ingest` (fetching,
+  caching, parsing), `sota-extract` (model clients, table mapping, verification),
+  `sota-store` (Neo4j over its HTTP query API, schema from the ontology),
+  `sota-cli` (the `sota` command).
 - **Two input channels, one document model.** HTML tables are parsed by code;
   PDF tables will be read by a model and every number checked against the
   page's text layer. Papers available in both let the HTML channel measure the
@@ -169,19 +227,29 @@ cargo test --all                                   # offline: no network, no pap
 cargo run -p sota-cli -- check-config              # validate ontology + registry
 cargo run -p sota-cli -- fetch --list papers/kgc.txt   # ~2.5 min the first time, then cached
 cargo run -p sota-cli -- tables 2106.06935v4 --table S4.T3
-cargo run -p sota-cli -- gold check                # re-read all 937 gold results from the papers
-cargo test --all -- --include-ignored              # also the tests that need the paper cache
+cargo run -p sota-cli -- gold check                # re-read all 985 gold results from the papers
+cargo run -p sota-cli -- extract --list papers/kgc.txt   # replays the recorded model answers
+cargo run -p sota-cli -- eval extract              # score the extraction on the gold set
+
+docker compose up -d                               # local Neo4j on 127.0.0.1:7474
+cargo run -p sota-cli -- graph init                # constraints from config/ontology.toml
+cargo run -p sota-cli -- graph load                # merge results, read them back, compare
+cargo run -p sota-cli -- leaderboard FB15k-237 MRR --setting protocol=filtered
+cargo test --all -- --include-ignored              # also the tests that need the cache and Neo4j
 ```
 
 ## Repository layout
 
 ```
-config/          ontology.toml, normalization.toml, registry/<topic>.toml
+config/          ontology.toml, normalization.toml, registry/<topic>.toml, methods/<topic>.toml
 papers/          pinned arXiv ids per topic
 gold/            gold specs (<topic>/<paper>.toml) and their result snapshots
+recordings/llm/  recorded model answers, so extraction replays offline
 crates/
-  sota-core/     ontology, registry, document model, values, gold (no I/O)
+  sota-core/     ontology, registry, document model, values, gold, methods, comparison (no I/O)
   sota-ingest/   arXiv HTML fetcher, cache, LaTeXML parser
+  sota-extract/  model clients (Azure OpenAI, replay), table mapping, verification
+  sota-store/    Neo4j writer and reader
   sota-cli/      the `sota` command
 ```
 
@@ -191,9 +259,9 @@ crates/
 - [x] Ontology and registry as config, exact alias resolution
 - [x] arXiv HTML channel: polite fetching, caching, table parsing
 - [x] Gold set for KG completion with self-checking specs
-- [ ] LLM extraction with cell citations, verification and a review queue
-- [ ] Neo4j writer, comparison engine, `sota leaderboard`
-- [ ] `sota eval`: extraction quality on the gold set, tracked over time
+- [x] LLM extraction with cell citations, verification and a review queue
+- [x] Neo4j writer, comparison engine, `sota leaderboard`
+- [ ] `sota eval`: extraction quality on the gold set, tracked over time (scoring done; history next)
 - [ ] PDF channel, measured against the HTML channel
 - [ ] Hybrid retrieval + GraphRAG `sota ask`, with a retrieval ablation
 - [ ] Second topic: multi-hop QA and GraphRAG benchmarks

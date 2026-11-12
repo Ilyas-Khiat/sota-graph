@@ -21,6 +21,7 @@ serde_json = "1.0.154"
 sota-core = { path = "../sota-core" }
 sota-extract = { version = "0.1.0", path = "../sota-extract" }
 sota-ingest = { version = "0.1.0", path = "../sota-ingest" }
+sota-store = { version = "0.1.0", path = "../sota-store" }
 
 [dev-dependencies]
 sota-core = { path = "../sota-core" }

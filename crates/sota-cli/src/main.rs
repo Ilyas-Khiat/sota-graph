@@ -7,6 +7,8 @@ use sota_ingest::cache::Cache;
 mod config;
 mod extract;
 mod gold;
+mod graph;
+mod leaderboard;
 mod papers;
 
 /// Who beats whom, on which benchmark, by how much, with a source for every number
@@ -78,6 +80,34 @@ enum Command {
         #[arg(long, default_value = "out/extract")]
         out: PathBuf,
     },
+    /// Rank comparable results (same dataset, split, metric and settings), by code
+    Leaderboard {
+        /// Dataset, e.g. FB15k-237 (any registry spelling)
+        dataset: String,
+        /// Metric, e.g. MRR or Hits@10
+        metric: String,
+        /// Keep only this setting value, e.g. --setting protocol=filtered (repeatable)
+        #[arg(long = "setting")]
+        settings: Vec<String>,
+        /// Where results come from
+        #[arg(long, value_enum, default_value = "graph")]
+        source: leaderboard::Source,
+        /// Extraction outputs for --source files (default out/extract),
+        /// gold snapshots for --source gold (default gold)
+        #[arg(long)]
+        from: Option<PathBuf>,
+        /// Show only the first N entries of each leaderboard
+        #[arg(long)]
+        top: Option<usize>,
+        /// Also rank methods whose identity is unconfirmed (marked ?)
+        #[arg(long)]
+        all_methods: bool,
+    },
+    /// The knowledge graph in Neo4j (`docker compose up -d`; settings NEO4J_* in env or .env)
+    Graph {
+        #[command(subcommand)]
+        command: GraphCommand,
+    },
     /// Measure quality
     Eval {
         #[command(subcommand)]
@@ -91,6 +121,20 @@ enum Command {
         #[command(subcommand)]
         command: GoldCommand,
     },
+}
+
+#[derive(Debug, Subcommand)]
+enum GraphCommand {
+    /// Create the uniqueness constraints the ontology defines (idempotent)
+    Init,
+    /// Merge verified results into the graph (idempotent), then read them back and compare
+    Load {
+        /// Extraction outputs
+        #[arg(long, default_value = "out/extract")]
+        from: PathBuf,
+    },
+    /// Count nodes and relationships
+    Stats,
 }
 
 #[derive(Debug, Subcommand)]
@@ -160,6 +204,7 @@ fn run(cli: Cli) -> anyhow::Result<bool> {
                 r.metrics().len(),
                 r.settings().len()
             );
+            println!("methods: {} known", config.methods.methods().len());
             println!("OK");
         }
         Command::Resolve { kind, mention } => {
@@ -202,11 +247,49 @@ fn run(cli: Cli) -> anyhow::Result<bool> {
             };
             return extract::extract(args, &cache, &registry);
         }
+        Command::Leaderboard {
+            dataset,
+            metric,
+            settings,
+            source,
+            from,
+            top,
+            all_methods,
+        } => {
+            let config = config::load(&cli.config)?;
+            let from = from.unwrap_or_else(|| {
+                PathBuf::from(if source == leaderboard::Source::Gold {
+                    "gold"
+                } else {
+                    "out/extract"
+                })
+            });
+            return leaderboard::leaderboard(
+                &leaderboard::LeaderboardArgs {
+                    dataset,
+                    metric,
+                    settings,
+                    source,
+                    from,
+                    top,
+                    all_methods,
+                },
+                &config,
+            );
+        }
+        Command::Graph { command } => {
+            let config = config::load(&cli.config)?;
+            return match command {
+                GraphCommand::Init => graph::init(&config),
+                GraphCommand::Load { from } => graph::load(&from, &config),
+                GraphCommand::Stats => graph::stats(),
+            };
+        }
         Command::Eval {
             command: EvalCommand::Extract { dir, out },
         } => {
-            let registry = config::load(&cli.config)?.registry;
-            return extract::eval_extract(&dir, &out, &registry);
+            let config = config::load(&cli.config)?;
+            return extract::eval_extract(&dir, &out, &config.methods);
         }
         Command::Gold { dir, command } => {
             let registry = config::load(&cli.config)?.registry;

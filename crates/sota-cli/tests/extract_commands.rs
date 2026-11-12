@@ -109,6 +109,10 @@ impl Env {
     }
 
     fn sota(&self, args: &[&str]) -> Output {
+        self.sota_with(args, &[])
+    }
+
+    fn sota_with(&self, args: &[&str], vars: &[(&str, &str)]) -> Output {
         let mut all: Vec<String> = vec![
             "--config".into(),
             CONFIG.into(),
@@ -123,6 +127,8 @@ impl Env {
             .env_remove("AZURE_OPENAI_DEPLOYMENT")
             .env_remove("AZURE_OPENAI_API_KEY")
             .env_remove("OPENAI_API_KEY")
+            .env_remove("NEO4J_HTTP_URL")
+            .envs(vars.iter().copied())
             .output()
             .expect("failed to run sota")
     }
@@ -277,4 +283,139 @@ fn dry_run_estimates_the_input_without_calling_or_writing_anything() {
         "{text}"
     );
     assert!(!env.path("out").exists(), "a dry run writes nothing");
+}
+
+#[test]
+fn leaderboard_ranks_verified_results_with_their_sources() {
+    let env = Env::new(true);
+    assert!(env.extract(&[]).status.success());
+    let out_dir = s(&env.path("out"));
+    let o = env.sota(&[
+        "leaderboard",
+        "FB15K-237",
+        "MRR",
+        "--source",
+        "files",
+        "--from",
+        &out_dir,
+    ]);
+    assert!(o.status.success(), "{}{}", out(&o), err(&o));
+    let text = out(&o);
+    assert!(
+        text.contains("FB15k-237") && text.contains("MRR") && text.contains("higher is better"),
+        "{text}"
+    );
+    assert!(text.contains("protocol=filtered"), "{text}");
+    // "Ours (large)" matches no known method: not ranked, but listed with its source.
+    assert!(text.contains("| 1 | TransE |"), "{text}");
+    assert!(!text.contains("| Ours (large)"), "{text}");
+    let not_ranked = text.find("Not ranked").expect(&text);
+    assert!(text[not_ranked..].contains("Ours (large)"), "{text}");
+
+    // --all-methods ranks it too, marked as unconfirmed: 0.338 above TransE's 0.294.
+    let o = env.sota(&[
+        "leaderboard",
+        "fb15k-237",
+        "mrr",
+        "--source",
+        "files",
+        "--from",
+        &out_dir,
+        "--all-methods",
+    ]);
+    let all = out(&o);
+    assert!(all.contains("| 1 | Ours (large) ? |"), "{all}");
+    assert!(all.contains("| 2 | TransE |"), "{all}");
+    assert!(
+        text.contains("https://arxiv.org/html/2401.01234v3#S4.T1"),
+        "{text}"
+    );
+}
+
+#[test]
+fn leaderboard_filters_by_setting_and_rejects_unknown_names() {
+    let env = Env::new(true);
+    assert!(env.extract(&[]).status.success());
+    let out_dir = s(&env.path("out"));
+    let o = env.sota(&[
+        "leaderboard",
+        "fb15k-237",
+        "mrr",
+        "--source",
+        "files",
+        "--from",
+        &out_dir,
+        "--setting",
+        "protocol=raw",
+    ]);
+    assert!(o.status.success(), "{}{}", out(&o), err(&o));
+    assert!(out(&o).contains("no comparable results"), "{}", out(&o));
+
+    let o = env.sota(&[
+        "leaderboard",
+        "fb15k-238",
+        "mrr",
+        "--source",
+        "files",
+        "--from",
+        &out_dir,
+    ]);
+    assert!(!o.status.success());
+    assert!(err(&o).contains("fb15k-238"), "{}", err(&o));
+    let o = env.sota(&[
+        "leaderboard",
+        "fb15k-237",
+        "mrr",
+        "--source",
+        "files",
+        "--from",
+        &out_dir,
+        "--setting",
+        "protocol=filtred",
+    ]);
+    assert!(!o.status.success());
+    assert!(err(&o).contains("filtred"), "{}", err(&o));
+}
+
+#[test]
+fn the_gold_leaderboard_matches_a_perfect_extraction() {
+    let env = Env::new(true);
+    let gold = s(&env.path("gold"));
+    assert!(
+        env.sota(&["gold", "expand", "--dir", &gold])
+            .status
+            .success()
+    );
+    assert!(env.extract(&[]).status.success());
+    let board = |source: &str, from: &str| {
+        let o = env.sota(&[
+            "leaderboard",
+            "fb15k-237",
+            "mrr",
+            "--source",
+            source,
+            "--from",
+            from,
+        ]);
+        assert!(o.status.success(), "{}{}", out(&o), err(&o));
+        out(&o)
+    };
+    let from_gold = board("gold", &gold);
+    assert!(from_gold.contains("| 1 | TransE |"), "{from_gold}");
+    assert_eq!(from_gold, board("files", &s(&env.path("out"))));
+}
+
+#[test]
+fn the_graph_source_says_how_to_start_neo4j_when_it_is_down() {
+    let env = Env::new(false);
+    let o = env.sota_with(
+        &["leaderboard", "fb15k-237", "mrr"],
+        &[("NEO4J_HTTP_URL", "http://127.0.0.1:9")],
+    );
+    assert!(!o.status.success());
+    let e = err(&o);
+    assert!(
+        e.contains("cannot reach Neo4j") && e.contains("docker compose up -d"),
+        "{e}"
+    );
 }

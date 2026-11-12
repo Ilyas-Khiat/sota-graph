@@ -1,0 +1,25 @@
+# Local knowledge graph for sota-graph.
+#   docker compose up -d        # start (data persists in the neo4j-data volume)
+#   docker compose down         # stop
+# Ports are bound to localhost only. The password is for this local container;
+# set NEO4J_PASSWORD in .env to change it (the CLI reads the same variable).
+services:
+  neo4j:
+    image: neo4j:5.26.16-community
+    container_name: sota-graph-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-sota-graph-local}
+      NEO4J_server_memory_heap_max__size: 1G
+    ports:
+      - "127.0.0.1:7474:7474" # HTTP: browser and query API
+      - "127.0.0.1:7687:7687" # Bolt
+    volumes:
+      - neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 >/dev/null || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  neo4j-data:

@@ -1,0 +1,205 @@
+# Methods for knowledge-graph completion. Method identity is decided here,
+# by code, never by the model: a label is cleaned (citation brackets such as
+# [6] or a LaTeX symbol in brackets and the suffix markers below are removed), then matched
+# exactly after the shared normalization (case, whitespace, dashes). So
+# "R-GCN" and "RGCN" meet without an alias; real alternative names need one.
+# A label matching nothing becomes a new, unconfirmed method.
+
+topic = "kg-completion"
+
+# Removed from the end of a label (repeatedly), never from inside a name ("A*Net").
+suffix_markers = ["*", "†", "‡", "(ours)", "(Ours)", "(Proposed Method)", "(proposed)"]
+
+[[method]]
+id = "adaprop"
+name = "AdaProp"
+
+[[method]]
+id = "analogy"
+name = "ANALOGY"
+
+[[method]]
+id = "astarnet"
+name = "A*Net"
+
+[[method]]
+id = "compgcn"
+name = "CompGCN"
+
+[[method]]
+id = "complex"
+name = "ComplEx"
+
+[[method]]
+id = "complex-rp"
+name = "ComplEx+RP"
+notes = "ComplEx with relation prediction as an auxiliary task."
+
+[[method]]
+id = "cone"
+name = "ConE"
+
+[[method]]
+id = "conve"
+name = "ConvE"
+
+[[method]]
+id = "convkb"
+name = "ConvKB"
+
+[[method]]
+id = "convr"
+name = "ConvR"
+
+[[method]]
+id = "cp"
+name = "CP"
+
+[[method]]
+id = "curl"
+name = "CURL"
+notes = "RL path-finding: scored on tail prediction only."
+
+[[method]]
+id = "distmult"
+name = "DistMult"
+
+[[method]]
+id = "dpmpn"
+name = "DPMPN"
+
+[[method]]
+id = "drum"
+name = "DRUM"
+
+[[method]]
+id = "gaifman"
+name = "Gaifman"
+
+[[method]]
+id = "hake"
+name = "HAKE"
+
+[[method]]
+id = "hole"
+name = "HolE"
+
+[[method]]
+id = "hyper"
+name = "HypER"
+
+[[method]]
+id = "inverse-model"
+name = "Inverse Model"
+notes = "Rule-based baseline built in the ConvE paper to expose test leakage."
+
+[[method]]
+id = "kbgan"
+name = "KBGAN"
+
+[[method]]
+id = "kg2e"
+name = "KG2E"
+aliases = ["KG2E_KL (bern)", "KG2E_KL"]
+
+[[method]]
+id = "lowfer"
+name = "LowFER"
+
+[[method]]
+id = "m-walk"
+name = "M-Walk"
+
+[[method]]
+id = "minerva"
+name = "MINERVA"
+notes = "RL path-finding: scored on tail prediction only (A*Net, 2206.04798v5), even where a table does not say so."
+
+[[method]]
+id = "multi-hop"
+name = "Multi-Hop"
+notes = "RL path-finding: scored on tail prediction only."
+
+[[method]]
+id = "nbfnet"
+name = "NBFNet"
+
+[[method]]
+id = "neural-lp"
+name = "Neural LP"
+
+[[method]]
+id = "path-ranking"
+name = "Path Ranking"
+aliases = ["PRA"]
+
+[[method]]
+id = "plogicnet"
+name = "pLogicNet"
+
+[[method]]
+id = "protate"
+name = "pRotatE"
+notes = "Variant introduced in the RotatE paper."
+
+[[method]]
+id = "quate"
+name = "QuatE"
+
+[[method]]
+id = "r-gcn"
+name = "R-GCN"
+
+[[method]]
+id = "red-gnn"
+name = "RED-GNN"
+
+[[method]]
+id = "rlogic"
+name = "RLogic"
+
+[[method]]
+id = "rnnlogic"
+name = "RNNLogic"
+
+[[method]]
+id = "rotate"
+name = "RotatE"
+
+[[method]]
+id = "roth"
+name = "RotH"
+
+[[method]]
+id = "sacn"
+name = "SACN"
+
+[[method]]
+id = "simple"
+name = "SimplE"
+
+[[method]]
+id = "toruse"
+name = "TorusE"
+
+[[method]]
+id = "transe"
+name = "TransE"
+
+[[method]]
+id = "transh"
+name = "TransH"
+aliases = ["TransH (bern)"]
+
+[[method]]
+id = "tucker"
+name = "TuckER"
+
+[[method]]
+id = "ultra"
+name = "ULTRA"
+aliases = ["Ultra"]
+
+[[method]]
+id = "vr-gcn"
+name = "VR-GCN"

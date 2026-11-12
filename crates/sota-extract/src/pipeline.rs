@@ -23,6 +23,9 @@ pub struct TableRun {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PaperExtraction {
     pub paper: String,
+    /// The paper's title, as on its page.
+    #[serde(default)]
+    pub title: String,
     pub model: String,
     pub tables: Vec<TableRun>,
     pub results: Vec<GoldResult>,
@@ -56,6 +59,7 @@ pub fn extract_paper(
 ) -> PaperExtraction {
     let mut x = PaperExtraction {
         paper: doc.versioned_id(),
+        title: doc.title.clone(),
         model: client.model(),
         tables: Vec::new(),
         results: Vec::new(),
