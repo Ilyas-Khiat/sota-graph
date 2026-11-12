@@ -14,13 +14,13 @@ use sota_core::{
 use sota_ingest::arxiv_html;
 use sota_ingest::cache::Cache;
 
-struct Spec {
-    path: PathBuf,
-    gold: Result<GoldFile, String>,
+pub(crate) struct Spec {
+    pub(crate) path: PathBuf,
+    pub(crate) gold: Result<GoldFile, String>,
 }
 
 impl Spec {
-    fn snapshot_path(&self) -> PathBuf {
+    pub(crate) fn snapshot_path(&self) -> PathBuf {
         self.path.with_extension("results.jsonl")
     }
 
@@ -292,7 +292,7 @@ fn shown(r: &GoldResult) -> String {
     }
 }
 
-fn discover(dir: &Path) -> Result<Vec<Spec>> {
+pub(crate) fn discover(dir: &Path) -> Result<Vec<Spec>> {
     let mut paths = Vec::new();
     collect_toml(dir, &mut paths).with_context(|| format!("reading {}", dir.display()))?;
     paths.sort();
@@ -322,7 +322,7 @@ fn collect_toml(dir: &Path, out: &mut Vec<PathBuf>) -> std::io::Result<()> {
     Ok(())
 }
 
-fn read_snapshot(path: &Path) -> Result<Vec<GoldResult>> {
+pub(crate) fn read_snapshot(path: &Path) -> Result<Vec<GoldResult>> {
     let text =
         fs::read_to_string(path).with_context(|| format!("no snapshot {}", path.display()))?;
     text.lines()
@@ -334,7 +334,7 @@ fn read_snapshot(path: &Path) -> Result<Vec<GoldResult>> {
         .collect()
 }
 
-fn load(id: &ArxivId, cache: &Cache) -> Result<Document> {
+pub(crate) fn load(id: &ArxivId, cache: &Cache) -> Result<Document> {
     let html = cache.read_html(id)?;
     Ok(arxiv_html::parse(
         &html,

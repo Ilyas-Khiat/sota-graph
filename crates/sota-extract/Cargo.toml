@@ -1,0 +1,23 @@
+[package]
+name = "sota-extract"
+description = "LLM table mapping for sota-graph: prompt, schema, model clients with record/replay, pipeline."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+sota-core = { version = "0.1.0", path = "../sota-core" }
+thiserror = "2.0.21"
+ureq = "3.5.1"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+sota-ingest = { path = "../sota-ingest" }
+tempfile = "3.27.0"

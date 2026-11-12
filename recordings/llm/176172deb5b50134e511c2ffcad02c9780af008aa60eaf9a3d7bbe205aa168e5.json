@@ -1,0 +1,10 @@
+{
+  "key": "176172deb5b50134e511c2ffcad02c9780af008aa60eaf9a3d7bbe205aa168e5",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":6,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[{\"col\":null,\"reason\":\"row is a ratios line, not a method result row\",\"row\":1}],\"rows\":[{\"dataset\":null,\"method\":\"CompGCN\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"DPMPN\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"RED-GNN\",\"role\":\"proposed\",\"row\":4}],\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 2586,
+    "output_tokens": 1881,
+    "reasoning_tokens": 1535
+  }
+}

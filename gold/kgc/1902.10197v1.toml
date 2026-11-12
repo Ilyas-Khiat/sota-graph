@@ -3,6 +3,9 @@
 
 paper = "1902.10197v1"
 title = "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["S4.T3", "A7.T12"]
 
 [[table]]
 id = "S4.T4"
@@ -77,4 +80,40 @@ rows = [
   { row = 3, method = "ComplEx", method_id = "complex", role = "baseline" },
   { row = 4, method = "ConvE", method_id = "conve", role = "baseline" },
   { row = 5, method = "RotatE", method_id = "rotate", role = "proposed" },
+]
+
+# Table 9: a breakdown by relation category, head and tail prediction apart.
+# Every column has its own comparability key; none is a whole-test-set result.
+[[table]]
+id = "S4.T9"
+header_rows = 2
+dataset_in = "caption"
+settings = { protocol = "filtered" }
+evidence = "Caption: 'by relation category'; headers: 'Prediction Head/Tail (Hits@10)' and the category per column; S4.SS1.SSS0.Px2.p1: filtered setting."
+notes = """Rows 2-4 are copied from He et al. (2015); the rest are RotatE's own runs \
+(self-adversarial sampling), so TransE appears twice. Rows 9-11 sit under an inner \
+header that switches to MRR: one column cannot hold two metrics, so they are held \
+back, and the inner-header check must keep them out of Hits@10."""
+columns = [
+  { col = 1, dataset = "fb15k", metric = "hits@10", settings = { queries = "head", relation_category = "1-to-1" } },
+  { col = 2, dataset = "fb15k", metric = "hits@10", settings = { queries = "head", relation_category = "1-to-n" } },
+  { col = 3, dataset = "fb15k", metric = "hits@10", settings = { queries = "head", relation_category = "n-to-1" } },
+  { col = 4, dataset = "fb15k", metric = "hits@10", settings = { queries = "head", relation_category = "n-to-n" } },
+  { col = 5, dataset = "fb15k", metric = "hits@10", settings = { queries = "tail", relation_category = "1-to-1" } },
+  { col = 6, dataset = "fb15k", metric = "hits@10", settings = { queries = "tail", relation_category = "1-to-n" } },
+  { col = 7, dataset = "fb15k", metric = "hits@10", settings = { queries = "tail", relation_category = "n-to-1" } },
+  { col = 8, dataset = "fb15k", metric = "hits@10", settings = { queries = "tail", relation_category = "n-to-n" } },
+]
+rows = [
+  { row = 2, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 3, method = "TransH (bern)", method_id = "transh", role = "baseline" },
+  { row = 4, method = "KG2E_KL (bern)", method_id = "kg2e", role = "baseline" },
+  { row = 5, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 6, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 7, method = "RotatE", method_id = "rotate", role = "proposed" },
+]
+review_cells = [
+  { row = 9, reason = "MRR block under an inner header; a column holds one metric, so not representable yet." },
+  { row = 10, reason = "MRR block under an inner header; a column holds one metric, so not representable yet." },
+  { row = 11, reason = "MRR block under an inner header; a column holds one metric, so not representable yet." },
 ]

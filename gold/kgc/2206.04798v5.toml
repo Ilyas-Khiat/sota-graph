@@ -3,6 +3,9 @@
 
 paper = "2206.04798v5"
 title = "A*Net: A Scalable Path-based Reasoning Approach for Knowledge Graphs"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["A4.T7", "A5.T9"]
 
 # Table 1: the usual protocol, head and tail queries.
 [[table]]

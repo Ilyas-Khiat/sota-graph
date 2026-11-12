@@ -1,7 +1,7 @@
 # KG completion gold set: review checklist
 
-Drafted on 2026-11-12. 10 papers, 16 tables, **937 results**,
-23 cells marked for review. Labels, headers, values and scales are already
+Drafted on 2026-11-12. 10 papers, 17 tables, **985 results**,
+47 cells marked for review, 13 tables listed as holding no results. Labels, headers, values and scales are already
 machine-checked against each paper (see [../README.md](../README.md)); what is
 left is judgment.
 
@@ -13,7 +13,7 @@ box once roles, settings, evidence and review cells look right.
 | [ ] | 1606.06357v1 ComplEx | S4.T2 | 50 | 0 | raw-MRR columns mapped with `protocol = raw` |
 | [ ] | 1707.01476v6 ConvE | Sx6.T3, T4, T5 | 124 | 0 | Inverse Model as a baseline (decision 4) |
 | [ ] | 1901.09590v2 TuckER | S6.T3, T4 | 131 | 1 | RotatE row (decision 2), MINERVA (3), HypER typo (7) |
-| [ ] | 1902.10197v1 RotatE | S4.T4, T5, A6.T11 | 136 | 0 | pRotatE as a variant |
+| [ ] | 1902.10197v1 RotatE | S4.T4, T5, T9, A6.T11 | 184 | 24 | pRotatE as a variant; Table 9: head/tail and relation category per column, MRR block held back |
 | [ ] | 1911.03082v2 CompGCN | S5.T3 | 103 | 0 | - |
 | [ ] | 2106.06935v4 NBFNet | S4.T3 | 96 | 10 | GraIL row to review (8), RotatE conflict (6) |
 | [ ] | 2108.06040v2 RED-GNN | S5.T2 | 66 | 0 | percent Hits columns, MINERVA (3) |

@@ -1,0 +1,10 @@
+{
+  "key": "dbf4621620558c2ead1a53801f5f4e095e923113ef88d8a69cdefd31336123f2",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":6,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":7,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":8,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"GraIL\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"NeuralLP\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"DRUM\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"RED-GNN\",\"role\":\"baseline\",\"row\":6},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":7}],\"settings\":[{\"evidence\":\"A4.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"},{\"evidence\":\"A4.p1\",\"setting\":\"queries\",\"value\":\"both\"}]}",
+  "usage": {
+    "input_tokens": 4260,
+    "output_tokens": 1381,
+    "reasoning_tokens": 932
+  }
+}

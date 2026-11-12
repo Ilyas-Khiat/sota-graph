@@ -1,0 +1,10 @@
+{
+  "key": "1330c1139b443908d9cd794bbc13892aa558c35b642bfb1b0ddafcd62ae2c67f",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":2,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":3,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[{\"col\":null,\"reason\":\"summary row, not a method result row\",\"row\":4}],\"rows\":[{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":3}],\"settings\":[]}",
+  "usage": {
+    "input_tokens": 3912,
+    "output_tokens": 1027,
+    "reasoning_tokens": 816
+  }
+}

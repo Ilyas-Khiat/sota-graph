@@ -1,0 +1,10 @@
+{
+  "key": "8ae558e95f56ca12ebbe5882f3e1eb1e8c9cd6fb878f09405f163290a13fbb84",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"caption\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":2,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"caption\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[{\"col\":null,\"reason\":\"OOM rather than a reported result\",\"row\":7}],\"rows\":[{\"dataset\":null,\"method\":\"TransE\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"PairRE\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"ComplEx+RP\",\"role\":\"baseline\",\"row\":6},{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"baseline\",\"row\":7},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":8}],\"settings\":[{\"evidence\":\"caption\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4264,
+    "output_tokens": 1327,
+    "reasoning_tokens": 1024
+  }
+}

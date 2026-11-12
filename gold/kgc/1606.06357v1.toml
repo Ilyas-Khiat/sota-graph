@@ -3,6 +3,9 @@
 
 paper = "1606.06357v1"
 title = "Complex Embeddings for Simple Link Prediction"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["S4.T3"]
 
 [[table]]
 id = "S4.T2"

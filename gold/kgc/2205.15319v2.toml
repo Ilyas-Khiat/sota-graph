@@ -3,6 +3,9 @@
 
 paper = "2205.15319v2"
 title = "AdaProp: Learning Adaptive Propagation for Graph Neural Network based Knowledge Graph Reasoning"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["S4.T1"]
 
 [[table]]
 id = "S4.T2"

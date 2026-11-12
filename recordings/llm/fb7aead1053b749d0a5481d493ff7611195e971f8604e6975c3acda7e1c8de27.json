@@ -1,0 +1,10 @@
+{
+  "key": "fb7aead1053b749d0a5481d493ff7611195e971f8604e6975c3acda7e1c8de27",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":2,\"dataset\":null,\"method\":\"ConvE\",\"metric\":\"mr\",\"role\":\"proposed\",\"scale\":\"raw\",\"settings\":[]},{\"col\":3,\"dataset\":null,\"method\":\"ConvE\",\"metric\":\"mrr\",\"role\":\"proposed\",\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":null,\"method\":\"ConvE\",\"metric\":\"hits@10\",\"role\":\"proposed\",\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":null,\"method\":\"ConvE\",\"metric\":\"hits@3\",\"role\":\"proposed\",\"scale\":\"fraction\",\"settings\":[]},{\"col\":6,\"dataset\":null,\"method\":\"ConvE\",\"metric\":\"hits@1\",\"role\":\"proposed\",\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"datasets_in_rows\",\"review\":[],\"rows\":[{\"dataset\":\"fb15k-237\",\"method\":null,\"role\":null,\"row\":2},{\"dataset\":\"wn18rr\",\"method\":null,\"role\":null,\"row\":3}],\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"},{\"evidence\":\"Sx6.p1\",\"setting\":\"queries\",\"value\":\"both\"}]}",
+  "usage": {
+    "input_tokens": 2641,
+    "output_tokens": 2090,
+    "reasoning_tokens": 1793
+  }
+}

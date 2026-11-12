@@ -819,6 +819,7 @@ dependencies = [
  "clap",
  "serde_json",
  "sota-core",
+ "sota-extract",
  "sota-ingest",
  "tempfile",
 ]
@@ -828,8 +829,23 @@ name = "sota-core"
 version = "0.1.0"
 dependencies = [
  "serde",
+ "serde_json",
  "thiserror",
  "toml",
+]
+
+[[package]]
+name = "sota-extract"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
+ "sota-core",
+ "sota-ingest",
+ "tempfile",
+ "thiserror",
+ "ureq",
 ]
 
 [[package]]

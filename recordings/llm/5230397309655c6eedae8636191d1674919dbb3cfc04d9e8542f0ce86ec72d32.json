@@ -1,0 +1,10 @@
+{
+  "key": "5230397309655c6eedae8636191d1674919dbb3cfc04d9e8542f0ce86ec72d32",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"unknown\",\"method\":\"Single Model\",\"metric\":\"mrr\",\"role\":\"baseline\",\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"unknown\",\"method\":\"6 Model Ensemble\",\"metric\":\"mrr\",\"role\":\"baseline\",\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"datasets_in_rows\",\"review\":[{\"col\":null,\"reason\":\"row label is a metric rather than a dataset or method\",\"row\":1}],\"rows\":[],\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 2704,
+    "output_tokens": 3108,
+    "reasoning_tokens": 2922
+  }
+}

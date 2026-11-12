@@ -5,6 +5,8 @@
 mod arxiv;
 mod document;
 mod error;
+mod eval;
+mod extract;
 mod gold;
 mod ident;
 mod normalize;
@@ -15,9 +17,14 @@ mod value;
 pub use arxiv::{ArxivId, ArxivIdError};
 pub use document::{Cell, Channel, Document, Paragraph, Section, Table};
 pub use error::ConfigError;
+pub use eval::{Score, score_extraction};
+pub use extract::{
+    ColumnClaim, ReviewBy, ReviewClaim, ReviewItem, RowClaim, SettingClaim, TableMapping,
+    TableOutcome, mentions_value, method_slug, verify_mapping,
+};
 pub use gold::{
     CellScale, DatasetIn, Expansion, GoldColumn, GoldFile, GoldResult, GoldRow, GoldTable,
-    Orientation, ReviewCell, Role,
+    Orientation, Problem, ReviewCell, Role, Scope,
 };
 pub use normalize::Normalizer;
 pub use ontology::{NodeType, Ontology, Property, PropertyType, RelationshipType};

@@ -1,0 +1,10 @@
+{
+  "key": "ca384348fada17f75150322d2451f4084ba2f03f6cd6636ae419922b3e4b3d6a",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"No\",\"role\":\"variant\",\"row\":2},{\"dataset\":null,\"method\":\"Yes\",\"role\":\"variant\",\"row\":3}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px1.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"},{\"evidence\":\"A4.p1\",\"setting\":\"queries\",\"value\":\"both\"}]}",
+  "usage": {
+    "input_tokens": 4248,
+    "output_tokens": 2031,
+    "reasoning_tokens": 1753
+  }
+}

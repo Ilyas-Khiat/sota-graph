@@ -101,7 +101,8 @@ values = [
 
 # Most papers rank both the head and the tail of each test triple. Path-finding
 # methods trained with RL (MINERVA, Multi-Hop, CURL) are scored on tails only,
-# which gives higher numbers: A*Net (2206.04798v5) reports them in a separate table.
+# which gives higher numbers: A*Net (2206.04798v5) reports them in a separate
+# table. Breakdowns report heads and tails apart (RotatE, 1902.10197v1, Table 9).
 [[setting]]
 id = "queries"
 name = "Query direction"
@@ -109,7 +110,24 @@ applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
 default = "both"
 values = [
   { id = "both", aliases = ["head and tail", "head+tail", "bidirectional"] },
-  { id = "tail", aliases = ["tail only", "tail prediction", "tail-only"] },
+  { id = "head", aliases = ["head only", "head prediction", "head-only", "prediction head"] },
+  { id = "tail", aliases = ["tail only", "tail prediction", "tail-only", "prediction tail"] },
+]
+
+# Results on the whole test set, or on the test triples of one relation
+# category only (a breakdown, as in RotatE's Table 9). A category result is
+# never comparable with a whole-test-set result.
+[[setting]]
+id = "relation_category"
+name = "Relation category of the test triples"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+default = "all"
+values = [
+  { id = "all", aliases = ["all relations", "overall"] },
+  { id = "1-to-1", aliases = ["one-to-one"] },
+  { id = "1-to-n", aliases = ["one-to-many"] },
+  { id = "n-to-1", aliases = ["many-to-one"] },
+  { id = "n-to-n", aliases = ["many-to-many"] },
 ]
 
 # Trained on the target graph (supervised), applied without training on it
