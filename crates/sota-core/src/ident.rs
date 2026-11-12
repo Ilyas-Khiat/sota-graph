@@ -9,7 +9,7 @@ fn shaped(s: &str, first: impl Fn(char) -> bool, rest: impl Fn(char) -> bool) ->
     chars.next().is_some_and(first) && chars.all(rest)
 }
 
-/// `Paper`, `ProductFamily`: PascalCase ASCII.
+/// `Paper`, `Dataset`: PascalCase ASCII.
 pub(crate) fn is_label(s: &str) -> bool {
     shaped(s, |c| c.is_ascii_uppercase(), |c| c.is_ascii_alphanumeric())
 }
