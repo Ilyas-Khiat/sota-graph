@@ -262,17 +262,66 @@ pub fn verify_mapping(
         });
     }
 
+    // Where each label sits in the label column, below the header.
+    let grid = table.grid();
+    let mut label_rows: BTreeMap<&str, Vec<usize>> = BTreeMap::new();
+    for (r, cells) in grid.iter().enumerate().skip(header_rows) {
+        if let Some(cell) = cells.get(m.label_col).copied().flatten()
+            && cell.row == r
+        {
+            label_rows.entry(cell.text.as_str()).or_default().push(r);
+        }
+    }
+    let label_at = |r: usize| {
+        grid.get(r)
+            .and_then(|cells| cells.get(m.label_col).copied().flatten())
+            .map(|c| c.text.as_str())
+    };
+    // Rows already held by a claim whose index matches its label.
+    let claimed: HashSet<usize> = m
+        .rows
+        .iter()
+        .filter(|r| r.method.is_some() && label_at(r.row) == r.method.as_deref())
+        .map(|r| r.row)
+        .collect();
+
     let mut rows = Vec::new();
     let mut seen = HashSet::new();
     for r in &m.rows {
-        if !seen.insert(r.row) || r.row < header_rows {
+        // A label copied exactly but given at the wrong index (row numbers
+        // shifted after a row-spanning group label) is found by its text,
+        // but only when the label is unique and its row is not claimed.
+        let mut row = r.row;
+        if methods_in_rows
+            && let Some(method) = &r.method
+            && label_at(row) != Some(method.as_str())
+            && let Some([only]) = label_rows.get(method.as_str()).map(Vec::as_slice)
+            && !claimed.contains(only)
+        {
+            row = *only;
+        }
+        if row < header_rows {
+            continue;
+        }
+        if !seen.insert(row) {
+            // Never drop a claim silently: two claims on one row means the
+            // mapping is confused there (a label printed more than once).
+            out.review.push(item(
+                Some(row),
+                None,
+                format!(
+                    "two rows of the mapping claim row {row}; {:?} could not be placed",
+                    r.method.clone().or(r.dataset.clone()).unwrap_or_default()
+                ),
+                ReviewBy::Check,
+            ));
             continue;
         }
         if methods_in_rows {
             let method = r.method.clone().unwrap_or_default();
             if method.trim().is_empty() || r.role.is_none() {
                 out.review.push(item(
-                    Some(r.row),
+                    Some(row),
                     None,
                     "the model gave no method or role for this row".to_owned(),
                     ReviewBy::Check,
@@ -280,7 +329,7 @@ pub fn verify_mapping(
                 continue;
             }
             rows.push(GoldRow {
-                row: r.row,
+                row,
                 method_id: method_slug(&method),
                 method,
                 role: r.role,

@@ -293,7 +293,7 @@ fn a_table_that_is_not_a_results_table_yields_nothing() {
 fn indices_out_of_range_go_to_review() {
     let o = run(&GOOD.replace(
         r#""row": 4, "method": "HypER""#,
-        r#""row": 9, "method": "HypER""#,
+        r#""row": 9, "method": "Nobody""#, // found nowhere: the index stands
     ));
     assert!(
         reasons(&o).iter().any(|r| r.contains("row 9")),
@@ -384,16 +384,16 @@ fn an_out_of_range_row_does_not_disable_the_other_checks() {
     let m = GOOD
         .replace(
             r#"{ "row": 3, "method": "Ours (large)""#,
-            r#"{ "row": 3, "method": "HypER""#,
+            r#"{ "row": 3, "method": "Ours""#, // inexact: cannot be located by text
         )
         .replace(
             r#"{ "row": 4, "method": "HypER""#,
-            r#"{ "row": 9, "method": "Ours (large)""#,
+            r#"{ "row": 9, "method": "Nobody""#, // found nowhere
         );
     let o = run(&m);
     assert!(
         !o.results.iter().any(|r| r.row == 3),
-        "row 3 reads \"Ours (large)\", not HypER: {:?}",
+        "row 3 reads \"Ours (large)\", not \"Ours\": {:?}",
         o.results
             .iter()
             .filter(|r| r.row == 3)
@@ -408,12 +408,88 @@ fn an_out_of_range_row_does_not_disable_the_other_checks() {
     assert!(
         reasons(&o)
             .iter()
-            .any(|r| r.starts_with("Some(3)/None") && r.contains("HypER")),
+            .any(|r| r.starts_with("Some(3)/None") && r.contains("Ours (large)")),
         "{:?}",
         reasons(&o)
     );
     assert!(
         o.results.iter().any(|r| r.row == 2),
         "the correct row still counts"
+    );
+}
+
+/// The AdaProp error, by design: a row number off by one but a label
+/// copied exactly. The label, unique in the label column, decides the row.
+#[test]
+fn a_row_is_located_by_its_unique_label_when_the_index_is_off() {
+    let m = GOOD
+        .replace(
+            r#"{ "row": 2, "method": "TransE""#,
+            r#"{ "row": 3, "method": "TransE""#,
+        )
+        .replace(
+            r#"{ "row": 3, "method": "Ours (large)""#,
+            r#"{ "row": 4, "method": "Ours (large)""#,
+        )
+        .replace(
+            r#"{ "row": 4, "method": "HypER""#,
+            r#"{ "row": 5, "method": "HypER""#,
+        )
+        .replace(
+            r#"[{ "row": 4, "col": 2, "reason": "958 is a typo for .958" }]"#,
+            "[]",
+        );
+    let o = run(&m);
+    let transe = o
+        .results
+        .iter()
+        .find(|r| r.method == "TransE" && r.metric == "mrr")
+        .unwrap();
+    assert_eq!((transe.row, transe.value), (2, 0.294));
+    let ours = o
+        .results
+        .iter()
+        .find(|r| r.method == "Ours (large)" && r.metric == "mrr")
+        .unwrap();
+    assert_eq!(ours.row, 3);
+    // HypER's MRR cell (958) still fails its own check, at its real row.
+    assert!(
+        o.review
+            .iter()
+            .any(|r| (r.row, r.col) == (Some(4), Some(2))),
+        "{:?}",
+        reasons(&o)
+    );
+}
+
+/// A label printed twice (RotatE's Table 9 lists TransE twice) cannot decide
+/// a row on its own: the given index must already be right.
+#[test]
+fn a_repeated_label_never_moves_a_row() {
+    let mut d = doc();
+    for c in d.tables[0].cells.iter_mut() {
+        if c.text == "HypER" {
+            c.text = "TransE".into();
+        }
+    }
+    let m = GOOD
+        .replace(
+            r#"{ "row": 4, "method": "HypER""#,
+            r#"{ "row": 3, "method": "TransE""#,
+        )
+        .replace(
+            r#"{ "row": 3, "method": "Ours (large)""#,
+            r#"{ "row": 4, "method": "Ours (large)""#,
+        );
+    let o = verify_mapping(&mapping(&m), &d, &d.tables[0], &registry());
+    assert!(
+        !o.results.iter().any(|r| r.method == "TransE" && r.row == 3),
+        "{:?}",
+        o.results
+    );
+    assert!(
+        reasons(&o).iter().any(|r| r.starts_with("Some(3)/None")),
+        "{:?}",
+        reasons(&o)
     );
 }

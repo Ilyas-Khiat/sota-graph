@@ -1,0 +1,17 @@
+[package]
+name = "sota-store"
+description = "Knowledge graph store for sota-graph: Neo4j over its HTTP query API, schema from the ontology."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde_json = "1.0.154"
+sota-core = { version = "0.1.0", path = "../sota-core" }
+thiserror = "2.0.21"
+ureq = "3.5.2"
+
+[lints]
+workspace = true

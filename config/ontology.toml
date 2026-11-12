@@ -26,6 +26,7 @@ properties = [
   { name = "id", type = "string", required = true },
   { name = "name", type = "string", required = true },
   { name = "aliases", type = "string_list" },
+  { name = "known", type = "boolean", description = "false: the label matches no entry in config/methods (identity unconfirmed)." },
 ]
 
 [[node]]
@@ -57,7 +58,7 @@ properties = [
   { name = "raw_text", type = "string", required = true, description = "Verbatim cell text." },
   { name = "split", type = "string", required = true },
   { name = "settings", type = "string_list", required = true, description = "e.g. protocol=filtered" },
-  { name = "role", type = "string", required = true, description = "proposed | baseline" },
+  { name = "role", type = "string", required = true, description = "proposed | baseline | variant" },
   { name = "channel", type = "string", required = true, description = "arxiv_html | pdf" },
   { name = "locator", type = "string", required = true, description = "e.g. 2401.01234v2#table-3/r4/c2" },
 ]

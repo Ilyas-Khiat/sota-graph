@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result, bail};
 use serde_json::json;
-use sota_core::{ArxivId, Registry, Score, score_extraction};
+use sota_core::{ArxivId, GoldResult, MethodRegistry, Registry, Score, score_extraction};
 use sota_extract::llm::{AzureOpenAi, LlmClient, Recorded, Usage};
 use sota_extract::pipeline::{PaperExtraction, extract_paper};
 use sota_extract::prompt::request_for;
@@ -30,7 +30,7 @@ pub struct ExtractArgs {
 }
 
 /// `KEY=VALUE` lines of `./.env` (this directory only, never its parents).
-fn dotenv() -> HashMap<String, String> {
+pub fn dotenv() -> HashMap<String, String> {
     fs::read_to_string(".env")
         .map(|text| parse_dotenv(&text))
         .unwrap_or_default()
@@ -57,7 +57,7 @@ fn parse_dotenv(text: &str) -> HashMap<String, String> {
 }
 
 /// The process environment first, then `./.env`.
-fn lookup(file: &HashMap<String, String>, name: &str) -> Option<String> {
+pub fn lookup(file: &HashMap<String, String>, name: &str) -> Option<String> {
     std::env::var(name).ok().or_else(|| file.get(name).cloned())
 }
 
@@ -206,8 +206,9 @@ fn dry_run(
     Ok(true)
 }
 
-pub fn eval_extract(dir: &Path, out: &Path, _registry: &Registry) -> Result<bool> {
+pub fn eval_extract(dir: &Path, out: &Path, methods: &MethodRegistry) -> Result<bool> {
     let mut total = Score::default();
+    let mut identity = Identity::default();
     let mut per_paper = serde_json::Map::new();
     let mut scored = 0;
     for spec in gold::discover(dir)? {
@@ -224,6 +225,7 @@ pub fn eval_extract(dir: &Path, out: &Path, _registry: &Registry) -> Result<bool
         let x: PaperExtraction =
             serde_json::from_str(&text).with_context(|| format!("reading {}", path.display()))?;
         let s = score_extraction(g, &snapshot, &x.results, &x.review);
+        identity.add(methods, &snapshot, &x.results);
         println!("{:<14} {}", g.paper, line(&s));
         per_paper.insert(g.paper.clone(), serde_json::to_value(&s)?);
         total.add(&s);
@@ -240,12 +242,71 @@ pub fn eval_extract(dir: &Path, out: &Path, _registry: &Registry) -> Result<bool
             println!("  {m}");
         }
     }
-    let report = json!({ "total": total, "papers": per_paper });
+    println!(
+        "
+method identity: {}/{} gold cells resolve to the gold method id",
+        identity.agree, identity.total
+    );
+    for m in identity.wrong.iter().take(10) {
+        println!("  {m}");
+    }
+    let mut unconfirmed: Vec<&String> = identity.unconfirmed.iter().collect();
+    unconfirmed.sort();
+    println!(
+        "{} extracted label(s) match no known method (new, or need an alias): {}",
+        unconfirmed.len(),
+        unconfirmed
+            .iter()
+            .take(12)
+            .map(|s| format!("{s:?}"))
+            .collect::<Vec<_>>()
+            .join(", ")
+    );
+    let report = json!({
+        "total": total,
+        "papers": per_paper,
+        "method_identity": { "agree": identity.agree, "total": identity.total, "unconfirmed": unconfirmed },
+    });
     let path = out.join("eval.json");
     fs::write(&path, serde_json::to_string_pretty(&report)? + "\n")
         .with_context(|| format!("writing {}", path.display()))?;
     println!("\nreport: {}", path.display());
     Ok(true)
+}
+
+/// Whether extracted labels resolve to the methods the gold set names.
+#[derive(Default)]
+struct Identity {
+    agree: usize,
+    total: usize,
+    wrong: Vec<String>,
+    unconfirmed: std::collections::BTreeSet<String>,
+}
+
+impl Identity {
+    fn add(&mut self, methods: &MethodRegistry, gold: &[GoldResult], extracted: &[GoldResult]) {
+        let gold: HashMap<(&str, usize, usize), &GoldResult> = gold
+            .iter()
+            .map(|g| ((g.table.as_str(), g.row, g.col), g))
+            .collect();
+        for e in extracted {
+            let resolved = methods.resolve(&e.method);
+            if !resolved.known {
+                self.unconfirmed.insert(e.method.clone());
+            }
+            if let Some(g) = gold.get(&(e.table.as_str(), e.row, e.col)) {
+                self.total += 1;
+                if resolved.id == g.method_id {
+                    self.agree += 1;
+                } else {
+                    self.wrong.push(format!(
+                        "{}: {:?} resolves to {}, gold {}",
+                        e.locator, e.method, resolved.id, g.method_id
+                    ));
+                }
+            }
+        }
+    }
 }
 
 fn line(s: &Score) -> String {

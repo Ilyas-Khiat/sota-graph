@@ -1,16 +1,18 @@
 //! Reads the config directory from disk and hands the text to `sota-core`.
 //!
-//! Layout: `ontology.toml`, `normalization.toml`, `registry/*.toml` (one per topic).
+//! Layout: `ontology.toml`, `normalization.toml`, `registry/*.toml` and
+//! `methods/*.toml` (one per topic).
 
 use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result, bail};
-use sota_core::{Normalizer, Ontology, Registry};
+use sota_core::{MethodRegistry, Normalizer, Ontology, Registry};
 
 pub struct Config {
     pub ontology: Ontology,
     pub registry: Registry,
+    pub methods: MethodRegistry,
 }
 
 pub fn load(dir: &Path) -> Result<Config> {
@@ -24,18 +26,28 @@ pub fn load(dir: &Path) -> Result<Config> {
     let path = dir.join("normalization.toml");
     let normalizer = Normalizer::from_toml_str(&name(&path), &read(&path)?)?;
 
-    let registry_files = registry_files(&dir.join("registry"))?;
-    let texts = registry_files
-        .iter()
-        .map(|p| Ok((name(p), read(p)?)))
-        .collect::<Result<Vec<_>>>()?;
-    let sources: Vec<(&str, &str)> = texts
+    let texts = read_all(&registry_files(&dir.join("registry"))?)?;
+    let registry = Registry::build(normalizer.clone(), &sources(&texts))?;
+
+    let texts = read_all(&registry_files(&dir.join("methods"))?)?;
+    let methods = MethodRegistry::build(normalizer, &sources(&texts))?;
+
+    Ok(Config {
+        ontology,
+        registry,
+        methods,
+    })
+}
+
+fn read_all(paths: &[PathBuf]) -> Result<Vec<(String, String)>> {
+    paths.iter().map(|p| Ok((name(p), read(p)?))).collect()
+}
+
+fn sources(texts: &[(String, String)]) -> Vec<(&str, &str)> {
+    texts
         .iter()
         .map(|(n, t)| (n.as_str(), t.as_str()))
-        .collect();
-    let registry = Registry::build(normalizer, &sources)?;
-
-    Ok(Config { ontology, registry })
+        .collect()
 }
 
 fn registry_files(dir: &Path) -> Result<Vec<PathBuf>> {
