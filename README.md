@@ -17,6 +17,8 @@ and nothing is compared unless it was measured the same way.
 > computed by code. GraphRAG querying and the PDF channel come next (see the
 > [roadmap](#roadmap)).
 
+![sota leaderboard WN18RR Hits@1: methods ranked by code, each value linked to the arXiv table it was read from, other papers' reports alongside, and HAKE flagged because two papers disagree](docs/img/leaderboard.png)
+
 ## Why
 
 Leaderboards built by copying numbers between papers fail quietly. Ten
@@ -147,29 +149,10 @@ every slice is read back and compared with the files). Method identity comes
 from [`config/methods`](config/methods), never from the model; a label that
 matches no known method is listed but not ranked. Results are grouped by their
 full comparability key, ranked by the metric's direction, and a method reported
-with different values by different papers is flagged, with every source:
-
-```console
-$ sota leaderboard WN18RR Hits@1 --top 6
-## WN18RR · Hits@1 (higher is better)
-split test | protocol=filtered, queries=both, regime=supervised, relation_category=all
-
-| # | method | value | source | other reports | conflict |
-| 1 | AdaProp | 0.499 | 2205.15319v2 S4.T2 |  |  |
-| 2 | NBFNet | 0.497 | 2106.06935v4 S4.T3 | 0.497 (2205.15319v2), 0.497 (2206.04798v5) |  |
-| 3 | A*Net | 0.495 | 2206.04798v5 S4.SS2.tab1.t1 |  |  |
-| 4 | RED-GNN | 0.485 | 2108.06040v2 S5.T2 | 0.485 (2205.15319v2), 0.485 (2206.04798v5) |  |
-| 5 | ConE | 0.453 | 2206.04798v5 S4.SS2.tab1.t1 |  |  |
-| 6 | HAKE | 0.452 | 2106.06935v4 S4.T3 | 0.451 (2206.04798v5) | yes |
-
-## WN18RR · Hits@1 (higher is better)
-split test | protocol=filtered, queries=tail, regime=supervised, relation_category=all
-| 1 | A*Net | 0.504 | 2206.04798v5 S4.SS2.tab1.t2 |  |  |
-...
-```
-
-Tail-only results get a board of their own instead of being mixed in. Sources
-are links to the table on arxiv.org (shortened here).
+with different values by different papers is flagged, with every source. The
+screenshot at the top is `sota leaderboard WN18RR Hits@1 --top 6`; the command
+prints Markdown, shown there rendered. Tail-only results get a board of their
+own instead of being mixed in, and every source links to the table on arxiv.org.
 
 **Known limitation.** Tables outside the gold set are not measured, and some
 are wrong in a way the checks cannot see: in ablation tables whose rows are
@@ -177,6 +160,31 @@ named after other methods (NBFNet's message functions "TransE", "DistMult",
 "RotatE"), the model maps the rows to those methods, which puts NBFNet
 variants on the leaderboard under baseline names. Extending the gold set to
 ablation tables and teaching the extraction to tell them apart is next.
+
+### The graph in Neo4j
+
+The schema is generated from [`config/ontology.toml`](config/ontology.toml):
+one uniqueness constraint per node key, and a writer that may only create the
+labels and relationships the ontology declares.
+
+<p align="center"><img src="docs/img/neo4j-schema.png" width="560" alt="Neo4j schema: Paper PROPOSES Method; Paper REPORTS Result; Result FOR_METHOD Method, ON_DATASET Dataset, MEASURED_BY Metric"></p>
+
+Every number is a `Result` node holding the cell text verbatim, linked to the
+paper that printed it and the method it measures. Six methods on FB15k-237 MRR,
+in the Neo4j Browser: ConvE's `.325` is reported by six papers, and HAKE is
+`0.346` in NBFNet's paper but `0.341` in A*Net's, which the leaderboard flags.
+
+![Neo4j Browser: Paper, Result and Method nodes for six methods on FB15k-237 MRR; results captioned with their printed values](docs/img/neo4j-provenance.png)
+
+```cypher
+MATCH (p:Paper)-[:REPORTS]->(r:Result)-[:FOR_METHOD]->(m:Method)
+WHERE m.id IN ['adaprop', 'astarnet', 'nbfnet', 'compgcn', 'hake', 'conve']
+  AND (r)-[:ON_DATASET]->(:Dataset {id: 'fb15k-237'})
+  AND (r)-[:MEASURED_BY]->(:Metric {id: 'mrr'})
+  AND r.split = 'test'
+  AND r.settings = ['protocol=filtered', 'queries=both', 'regime=supervised', 'relation_category=all']
+RETURN p, r, m
+```
 
 ## Architecture
 
