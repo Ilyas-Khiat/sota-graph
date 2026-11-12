@@ -1,0 +1,105 @@
+# PairRE: Knowledge Graph Embeddings via Paired Relation Vectors (Chao et al., 2021)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "2011.03798v3"
+title = "PairRE: Knowledge Graph Embeddings via Paired Relation Vectors"
+# No comparable results: S2.T1 score functions and capabilities, S5.T2
+# dataset statistics, S5.T5 rules; S5.T3 (ogbl-wikikg2, ogbl-biokg), S5.T6
+# (Sports) and S5.T7 (DB100k) hold results only on datasets outside the
+# registry.
+negative_tables = ["S2.T1", "S5.T2", "S5.T5", "S5.T3", "S5.T6", "S5.T7"]
+
+[[table]]
+id = "S5.T4"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S5.SS1.p3: rankings are computed after removing all the other observed triples (train, valid, test), over head and tail substitutions."
+notes = """The paper describes the filtered protocol without naming it. PairRE's row 13 holds the \
+standard deviations of row 12 (not results). TransE from Nickel et al. (2016), DistMult from \
+Kadlec et al. (2017), the rest from their papers; GC-OTE is OTE with graph context."""
+columns = [
+  { col = 1, dataset = "fb15k", metric = "mr" },
+  { col = 2, dataset = "fb15k", metric = "mrr" },
+  { col = 3, dataset = "fb15k", metric = "hits@10" },
+  { col = 4, dataset = "fb15k", metric = "hits@3" },
+  { col = 5, dataset = "fb15k", metric = "hits@1" },
+  { col = 6, dataset = "fb15k-237", metric = "mr" },
+  { col = 7, dataset = "fb15k-237", metric = "mrr" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 10, dataset = "fb15k-237", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "TransE{\\dagger}", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult\\Diamond", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "HolE", method_id = "hole", role = "baseline" },
+  { row = 5, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 6, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 7, method = "SimplE", method_id = "simple", role = "baseline" },
+  { row = 8, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 9, method = "SeeK", method_id = "seek", role = "baseline" },
+  { row = 10, method = "OTE", method_id = "ote", role = "baseline" },
+  { row = 11, method = "GC-OTE", method_id = "gc-ote", role = "baseline" },
+  { row = 12, method = "PairRE", method_id = "pairre", role = "proposed" },
+]
+review_cells = [
+  { row = 2, col = 1, reason = "not reported (-)" },
+  { row = 2, col = 9, reason = "not reported (-)" },
+  { row = 2, col = 10, reason = "not reported (-)" },
+  { row = 3, col = 4, reason = "not reported (-)" },
+  { row = 3, col = 5, reason = "not reported (-)" },
+  { row = 4, col = 1, reason = "not reported (-)" },
+  { row = 4, col = 6, reason = "not reported (-)" },
+  { row = 4, col = 7, reason = "not reported (-)" },
+  { row = 4, col = 8, reason = "not reported (-)" },
+  { row = 4, col = 9, reason = "not reported (-)" },
+  { row = 4, col = 10, reason = "not reported (-)" },
+  { row = 6, col = 1, reason = "not reported (-)" },
+  { row = 7, col = 1, reason = "not reported (-)" },
+  { row = 7, col = 6, reason = "not reported (-)" },
+  { row = 7, col = 7, reason = "not reported (-)" },
+  { row = 7, col = 8, reason = "not reported (-)" },
+  { row = 7, col = 9, reason = "not reported (-)" },
+  { row = 7, col = 10, reason = "not reported (-)" },
+  { row = 9, col = 1, reason = "not reported (-)" },
+  { row = 9, col = 6, reason = "not reported (-)" },
+  { row = 9, col = 7, reason = "not reported (-)" },
+  { row = 9, col = 8, reason = "not reported (-)" },
+  { row = 9, col = 9, reason = "not reported (-)" },
+  { row = 9, col = 10, reason = "not reported (-)" },
+  { row = 10, col = 1, reason = "not reported (-)" },
+  { row = 10, col = 2, reason = "not reported (-)" },
+  { row = 10, col = 3, reason = "not reported (-)" },
+  { row = 10, col = 4, reason = "not reported (-)" },
+  { row = 10, col = 5, reason = "not reported (-)" },
+  { row = 10, col = 6, reason = "not reported (-)" },
+  { row = 11, col = 1, reason = "not reported (-)" },
+  { row = 11, col = 2, reason = "not reported (-)" },
+  { row = 11, col = 3, reason = "not reported (-)" },
+  { row = 11, col = 4, reason = "not reported (-)" },
+  { row = 11, col = 5, reason = "not reported (-)" },
+  { row = 11, col = 6, reason = "not reported (-)" },
+]
+
+[[table]]
+id = "S5.T8"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "Caption: FB15k results are taken from RotatE (Sun et al., 2019), filtered; S5.SS1.p3 for PairRE."
+notes = """FB15k Hits@10 by relation category, over head and tail queries: the baselines are \
+the means of RotatE's head and tail numbers (ComplEx 1-to-N: (.969 + .823) / 2 = .896). \
+The ogbl-wikikg2 columns are outside the registry. KGE2E_KL is KG2E (KL), misspelled."""
+columns = [
+  { col = 1, dataset = "fb15k", metric = "hits@10", settings = { relation_category = "1-to-1" } },
+  { col = 2, dataset = "fb15k", metric = "hits@10", settings = { relation_category = "1-to-n" } },
+  { col = 3, dataset = "fb15k", metric = "hits@10", settings = { relation_category = "n-to-1" } },
+  { col = 4, dataset = "fb15k", metric = "hits@10", settings = { relation_category = "n-to-n" } },
+]
+rows = [
+  { row = 2, method = "KGE2E_KL", method_id = "kg2e", role = "baseline" },
+  { row = 3, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 6, method = "PairRE", method_id = "pairre", role = "proposed" },
+]

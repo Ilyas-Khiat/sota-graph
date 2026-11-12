@@ -1,0 +1,10 @@
+{
+  "key": "7d74295efb8c3a8ffa06752670b556b1eece454195e12b330a8c432bafb39281",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":2,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":6,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"TransE\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"PairRE\",\"role\":\"proposed\",\"row\":6},{\"dataset\":null,\"method\":\"TransE\",\"role\":\"baseline\",\"row\":7},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":8},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":9},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":10},{\"dataset\":null,\"method\":\"PairRE\",\"role\":\"proposed\",\"row\":11}],\"settings\":[]}",
+  "usage": {
+    "input_tokens": 4678,
+    "output_tokens": 1646,
+    "reasoning_tokens": 1294
+  }
+}

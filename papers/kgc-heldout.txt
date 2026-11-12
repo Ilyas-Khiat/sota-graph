@@ -1,0 +1,13 @@
+# Knowledge-graph completion: held-out papers, pinned to an arXiv version.
+# Chosen before they were opened, and never used while the extraction was
+# developed: methods that the development papers cite as baselines, across
+# families. Scored with the extraction frozen at tag `heldout-v1`.
+
+1911.09419v3   # HAKE (Zhang et al., 2020)
+1904.10281v3   # QuatE (Zhang et al., 2019)
+2005.00545v1   # AttH / RotH (Chami et al., 2020)
+2011.03798v3   # PairRE (Chao et al., 2021)
+1911.00219v3   # InteractE (Vashishth et al., 2020)
+2203.02167v1   # SimKGC (Wang et al., 2022)
+1911.03903v3   # A Re-evaluation of KGC Methods (Sun et al., 2020)
+2402.02389v2   # KICGPT (Wei et al., 2023)

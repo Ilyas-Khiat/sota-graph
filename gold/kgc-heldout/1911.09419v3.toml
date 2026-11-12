@@ -1,0 +1,51 @@
+# Learning Hierarchy-Aware Knowledge Graph Embeddings for Link Prediction (HAKE, Zhang et al., 2020)
+# Held-out: drafted before any extraction of this paper was run. Check it
+# against the linked tables, then tick it in gold/kgc-heldout/REVIEW.md.
+
+paper = "1911.09419v3"
+title = "Learning Hierarchy-Aware Knowledge Graph Embeddings for Link Prediction"
+# No comparable results: S2.T1 score functions, S4.T2 dataset statistics,
+# S4.T4 ablation whose rows are unnamed component combinations (check marks).
+negative_tables = ["S2.T1", "S4.T2", "S4.T4"]
+# Not scored: S4.T5 prints metrics in rows and methods in columns, a shape the
+# gold format cannot express (HAKE FB15k H@10 .884 vs TKRL versions).
+
+[[table]]
+id = "S4.T3"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SSx1.p3: we use the 'Filtered' setting; each test triple's head or tail is replaced."
+notes = "TransE and RotatE are copied from their papers, the others from Dettmers et al. (2018). ModE is a variant introduced here (modulus part only)."
+columns = [
+  { col = 1, dataset = "wn18rr", metric = "mrr" },
+  { col = 2, dataset = "wn18rr", metric = "hits@1" },
+  { col = 3, dataset = "wn18rr", metric = "hits@3" },
+  { col = 4, dataset = "wn18rr", metric = "hits@10" },
+  { col = 5, dataset = "fb15k-237", metric = "mrr" },
+  { col = 6, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 7, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 9, dataset = "yago3-10", metric = "mrr" },
+  { col = 10, dataset = "yago3-10", metric = "hits@1" },
+  { col = 11, dataset = "yago3-10", metric = "hits@3" },
+  { col = 12, dataset = "yago3-10", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 5, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 6, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 7, method = "ModE", method_id = "mode", role = "variant" },
+  { row = 8, method = "HAKE", method_id = "hake", role = "proposed" },
+]
+review_cells = [
+  { row = 2, col = 2, reason = "not reported (-)" },
+  { row = 2, col = 3, reason = "not reported (-)" },
+  { row = 2, col = 6, reason = "not reported (-)" },
+  { row = 2, col = 7, reason = "not reported (-)" },
+  { row = 2, col = 9, reason = "not reported (-)" },
+  { row = 2, col = 10, reason = "not reported (-)" },
+  { row = 2, col = 11, reason = "not reported (-)" },
+  { row = 2, col = 12, reason = "not reported (-)" },
+]
