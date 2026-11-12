@@ -1,0 +1,43 @@
+# NBFNet: Neural Bellman-Ford Networks (Zhu et al., 2021)
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
+
+paper = "2106.06935v4"
+title = "Neural Bellman-Ford Networks: A General Graph Neural Network Framework for Link Prediction"
+
+[[table]]
+id = "S4.T3"
+header_rows = 2
+label_col = 1
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.p3: follows the filtered ranking protocol for knowledge graph completion."
+notes = """RotatE FB15k-237 H@10 is printed 0.553 here but .533 in RotatE's own paper \
+(1902.10197v1, S4.T5): a cross-paper conflict, kept as printed. NeuralLP and DRUM \
+are copied from [46]; RotatE, HAKE and LowFER from their papers."""
+columns = [
+  { col = 2, dataset = "fb15k-237", metric = "mr" },
+  { col = 3, dataset = "fb15k-237", metric = "mrr" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 5, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 6, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 7, dataset = "wn18rr", metric = "mr" },
+  { col = 8, dataset = "wn18rr", metric = "mrr" },
+  { col = 9, dataset = "wn18rr", metric = "hits@1" },
+  { col = 10, dataset = "wn18rr", metric = "hits@3" },
+  { col = 11, dataset = "wn18rr", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "Path Ranking", method_id = "path-ranking", role = "baseline" },
+  { row = 3, method = "NeuralLP", method_id = "neural-lp", role = "baseline" },
+  { row = 4, method = "DRUM", method_id = "drum", role = "baseline" },
+  { row = 5, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 6, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 7, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 8, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 9, method = "HAKE", method_id = "hake", role = "baseline" },
+  { row = 10, method = "LowFER", method_id = "lowfer", role = "baseline" },
+  { row = 11, method = "RGCN", method_id = "r-gcn", role = "baseline" },
+  { row = 13, method = "NBFNet", method_id = "nbfnet", role = "proposed" },
+]
+review_cells = [
+  { row = 12, reason = "GraIL is evaluated with 50 (FB15k-237) and 100 (WN18RR) negative triplets and an estimated MR (caption): not comparable with full ranking." },
+]

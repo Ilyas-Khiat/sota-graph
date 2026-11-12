@@ -1,0 +1,99 @@
+# sota-graph ontology: the node and relationship types the graph may hold.
+#
+# Labels, relationship types and property names are validated as plain
+# identifiers, because they are pasted into Cypher, where they cannot be
+# query parameters. Property types: string, float, integer, boolean, date,
+# string_list.
+
+version = 1
+
+[[node]]
+label = "Paper"
+description = "A source document. Identified by its arXiv id without version."
+key = "arxiv_id"
+properties = [
+  { name = "arxiv_id", type = "string", required = true },
+  { name = "title", type = "string", required = true },
+  { name = "published", type = "date" },
+  { name = "versions_seen", type = "string_list" },
+]
+
+[[node]]
+label = "Method"
+description = "A model or approach. Its id is assigned by code, never by the LLM."
+key = "id"
+properties = [
+  { name = "id", type = "string", required = true },
+  { name = "name", type = "string", required = true },
+  { name = "aliases", type = "string_list" },
+]
+
+[[node]]
+label = "Dataset"
+description = "A benchmark dataset from the registry."
+key = "id"
+properties = [
+  { name = "id", type = "string", required = true },
+  { name = "name", type = "string", required = true },
+]
+
+[[node]]
+label = "Metric"
+description = "An evaluation metric from the registry."
+key = "id"
+properties = [
+  { name = "id", type = "string", required = true },
+  { name = "name", type = "string", required = true },
+  { name = "direction", type = "string", required = true },
+]
+
+[[node]]
+label = "Result"
+description = "One number as printed in one paper: method x dataset x metric under a setting."
+key = "id"
+properties = [
+  { name = "id", type = "string", required = true },
+  { name = "value", type = "float", required = true, description = "On the metric's canonical scale." },
+  { name = "raw_text", type = "string", required = true, description = "Verbatim cell text." },
+  { name = "split", type = "string", required = true },
+  { name = "settings", type = "string_list", required = true, description = "e.g. protocol=filtered" },
+  { name = "role", type = "string", required = true, description = "proposed | baseline" },
+  { name = "channel", type = "string", required = true, description = "arxiv_html | pdf" },
+  { name = "locator", type = "string", required = true, description = "e.g. 2401.01234v2#table-3/r4/c2" },
+]
+
+[[relationship]]
+type = "PROPOSES"
+description = "The paper introduces the method."
+from = ["Paper"]
+to = ["Method"]
+
+[[relationship]]
+type = "REPORTS"
+description = "The paper prints the result."
+from = ["Paper"]
+to = ["Result"]
+
+[[relationship]]
+type = "FOR_METHOD"
+from = ["Result"]
+to = ["Method"]
+
+[[relationship]]
+type = "ON_DATASET"
+from = ["Result"]
+to = ["Dataset"]
+
+[[relationship]]
+type = "MEASURED_BY"
+from = ["Result"]
+to = ["Metric"]
+
+[[relationship]]
+type = "BUILDS_ON"
+description = "Method lineage, stated by the paper."
+from = ["Method"]
+to = ["Method"]
+properties = [
+  { name = "locator", type = "string", required = true, description = "Where the paper says so." },
+]

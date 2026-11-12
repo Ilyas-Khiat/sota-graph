@@ -1,0 +1,11 @@
+# How a mention (from a paper) and an alias (from the registry) become a
+# matching key. Matching is EXACT on the key: there is no fuzzy step, so these
+# rules are the only way two spellings meet. Anything else goes to review.
+
+lowercase = true
+remove_whitespace = true # includes no-break spaces (U+00A0, U+202F)
+
+# Hyphen-minus, underscore, and the dash look-alikes that PDF text layers emit:
+# U+2010 hyphen, U+2011 non-breaking hyphen, U+2012 figure dash, U+2013 en dash,
+# U+2014 em dash, U+2015 horizontal bar, U+2212 minus sign.
+remove_chars = "-_‐‑‒–—―−"

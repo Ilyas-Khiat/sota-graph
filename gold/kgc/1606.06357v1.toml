@@ -1,0 +1,31 @@
+# ComplEx: Complex Embeddings for Simple Link Prediction (Trouillon et al., 2016)
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
+
+paper = "1606.06357v1"
+title = "Complex Embeddings for Simple Link Prediction"
+
+[[table]]
+id = "S4.T2"
+header_rows = 3
+settings = { protocol = "filtered" }
+evidence = "S4.SS2.p5: reports both filtered and raw MRR, and filtered Hits at 1, 3 and 10; the caption says Hits@m are filtered."
+notes = "Raw MRR columns are mapped with protocol = raw. HolE* results are copied from Nickel et al. (2016b)."
+columns = [
+  { col = 1, dataset = "wn18", metric = "mrr" },
+  { col = 2, dataset = "wn18", metric = "mrr", settings = { protocol = "raw" } },
+  { col = 3, dataset = "wn18", metric = "hits@1" },
+  { col = 4, dataset = "wn18", metric = "hits@3" },
+  { col = 5, dataset = "wn18", metric = "hits@10" },
+  { col = 6, dataset = "fb15k", metric = "mrr" },
+  { col = 7, dataset = "fb15k", metric = "mrr", settings = { protocol = "raw" } },
+  { col = 8, dataset = "fb15k", metric = "hits@1" },
+  { col = 9, dataset = "fb15k", metric = "hits@3" },
+  { col = 10, dataset = "fb15k", metric = "hits@10" },
+]
+rows = [
+  { row = 3, method = "CP", method_id = "cp", role = "baseline" },
+  { row = 4, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 5, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 6, method = "HolE*", method_id = "hole", role = "baseline" },
+  { row = 7, method = "ComplEx", method_id = "complex", role = "proposed" },
+]

@@ -1,0 +1,70 @@
+# TuckER: Tensor Factorization for Knowledge Graph Completion (Balazevic et al., 2019)
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
+
+paper = "1901.09590v2"
+title = "TuckER: Tensor Factorization for Knowledge Graph Completion"
+
+[[table]]
+id = "S6.T3"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S6.SS2.p3: uses the filtered setting (Bordes et al., 2013)."
+notes = """The caption says the RotatE row is RotatE WITHOUT its self-adversarial negative \
+sampling, so it differs from RotatE's own numbers (0.297 vs 0.338 MRR on FB15k-237). \
+MINERVA is an RL path-finding method that A*Net (2206.04798v5) says can only be scored \
+on tail prediction; this paper does not say so. The Linear column is not a result."""
+columns = [
+  { col = 2, dataset = "wn18rr", metric = "mrr" },
+  { col = 3, dataset = "wn18rr", metric = "hits@10" },
+  { col = 4, dataset = "wn18rr", metric = "hits@3" },
+  { col = 5, dataset = "wn18rr", metric = "hits@1" },
+  { col = 7, dataset = "fb15k-237", metric = "mrr" },
+  { col = 8, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 9, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 10, dataset = "fb15k-237", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 3, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 4, method = "Neural LP", method_id = "neural-lp", role = "baseline" },
+  { row = 5, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 6, method = "MINERVA", method_id = "minerva", role = "baseline" },
+  { row = 7, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 8, method = "HypER", method_id = "hyper", role = "baseline" },
+  { row = 9, method = "M-Walk", method_id = "m-walk", role = "baseline" },
+  { row = 10, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 11, method = "TuckER (ours)", method_id = "tucker", role = "proposed" },
+]
+
+[[table]]
+id = "S6.T4"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S6.SS2.p3: uses the filtered setting (Bordes et al., 2013)."
+notes = "The Linear column is not a result."
+columns = [
+  { col = 2, dataset = "wn18", metric = "mrr" },
+  { col = 3, dataset = "wn18", metric = "hits@10" },
+  { col = 4, dataset = "wn18", metric = "hits@3" },
+  { col = 5, dataset = "wn18", metric = "hits@1" },
+  { col = 7, dataset = "fb15k", metric = "mrr" },
+  { col = 8, dataset = "fb15k", metric = "hits@10" },
+  { col = 9, dataset = "fb15k", metric = "hits@3" },
+  { col = 10, dataset = "fb15k", metric = "hits@1" },
+]
+rows = [
+  { row = 2, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "ANALOGY", method_id = "analogy", role = "baseline" },
+  { row = 6, method = "Neural LP", method_id = "neural-lp", role = "baseline" },
+  { row = 7, method = "R-GCN", method_id = "r-gcn", role = "baseline" },
+  { row = 8, method = "TorusE", method_id = "toruse", role = "baseline" },
+  { row = 9, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 10, method = "HypER", method_id = "hyper", role = "baseline" },
+  { row = 11, method = "SimplE", method_id = "simple", role = "baseline" },
+  { row = 12, method = "TuckER (ours)", method_id = "tucker", role = "proposed" },
+]
+review_cells = [
+  { row = 10, col = 3, reason = "HypER WN18 Hits@10 is printed 958, a typo (the cell next to it reads .955); not a valid fraction." },
+]

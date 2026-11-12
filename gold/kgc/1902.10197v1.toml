@@ -1,0 +1,80 @@
+# RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space (Sun et al., 2019)
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
+
+paper = "1902.10197v1"
+title = "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space"
+
+[[table]]
+id = "S4.T4"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.SSS0.Px2.p1: link prediction is evaluated in the filtered setting."
+notes = "TransE is copied from Nickel et al. (2016), DistMult from Kadlec et al. (2017), the rest from the original papers. pRotatE is a variant introduced here."
+columns = [
+  { col = 1, dataset = "fb15k", metric = "mr" },
+  { col = 2, dataset = "fb15k", metric = "mrr" },
+  { col = 3, dataset = "fb15k", metric = "hits@1" },
+  { col = 4, dataset = "fb15k", metric = "hits@3" },
+  { col = 5, dataset = "fb15k", metric = "hits@10" },
+  { col = 6, dataset = "wn18", metric = "mr" },
+  { col = 7, dataset = "wn18", metric = "mrr" },
+  { col = 8, dataset = "wn18", metric = "hits@1" },
+  { col = 9, dataset = "wn18", metric = "hits@3" },
+  { col = 10, dataset = "wn18", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "TransE [\\varheart]", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult [\\vardiamond]", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "HolE", method_id = "hole", role = "baseline" },
+  { row = 5, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 6, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 7, method = "pRotatE", method_id = "protate", role = "variant" },
+  { row = 8, method = "RotatE", method_id = "rotate", role = "proposed" },
+]
+
+[[table]]
+id = "S4.T5"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.SSS0.Px2.p1: link prediction is evaluated in the filtered setting."
+notes = "TransE is copied from Nguyen et al. (2017), the other baselines from Dettmers et al. (2017)."
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mr" },
+  { col = 2, dataset = "fb15k-237", metric = "mrr" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 5, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 6, dataset = "wn18rr", metric = "mr" },
+  { col = 7, dataset = "wn18rr", metric = "mrr" },
+  { col = 8, dataset = "wn18rr", metric = "hits@1" },
+  { col = 9, dataset = "wn18rr", metric = "hits@3" },
+  { col = 10, dataset = "wn18rr", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "TransE [\\varheart]", method_id = "transe", role = "baseline" },
+  { row = 3, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 4, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 5, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 6, method = "pRotatE", method_id = "protate", role = "variant" },
+  { row = 7, method = "RotatE", method_id = "rotate", role = "proposed" },
+]
+
+[[table]]
+id = "A6.T11"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.SSS0.Px2.p1: link prediction is evaluated in the filtered setting."
+notes = "Baselines are copied from Dettmers et al. (2017)."
+columns = [
+  { col = 1, dataset = "yago3-10", metric = "mr" },
+  { col = 2, dataset = "yago3-10", metric = "mrr" },
+  { col = 3, dataset = "yago3-10", metric = "hits@1" },
+  { col = 4, dataset = "yago3-10", metric = "hits@3" },
+  { col = 5, dataset = "yago3-10", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "DistMult", method_id = "distmult", role = "baseline" },
+  { row = 3, method = "ComplEx", method_id = "complex", role = "baseline" },
+  { row = 4, method = "ConvE", method_id = "conve", role = "baseline" },
+  { row = 5, method = "RotatE", method_id = "rotate", role = "proposed" },
+]

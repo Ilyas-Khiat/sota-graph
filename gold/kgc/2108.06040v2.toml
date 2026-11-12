@@ -1,0 +1,36 @@
+# RED-GNN: Knowledge Graph Reasoning with Relational Digraph (Zhang & Yao, 2022)
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
+
+paper = "2108.06040v2"
+title = "Knowledge Graph Reasoning with Relational Digraph"
+
+[[table]]
+id = "S5.T2"
+header_rows = 2
+label_col = 1
+settings = { protocol = "filtered" }
+evidence = "S5.SS2.p2: same filtered ranking metrics and tie policy as Section 5.1."
+notes = """MRR is printed as a fraction, Hit@1 and Hit@10 in percent. Rows marked * are \
+copied from the original papers. Family, UMLS and NELL-995 are not in the registry. \
+MINERVA: see the note in 1901.09590v2 (tail-only in its own paper)."""
+columns = [
+  { col = 8, dataset = "wn18rr", metric = "mrr" },
+  { col = 9, dataset = "wn18rr", metric = "hits@1", scale = "percent" },
+  { col = 10, dataset = "wn18rr", metric = "hits@10", scale = "percent" },
+  { col = 11, dataset = "fb15k-237", metric = "mrr" },
+  { col = 12, dataset = "fb15k-237", metric = "hits@1", scale = "percent" },
+  { col = 13, dataset = "fb15k-237", metric = "hits@10", scale = "percent" },
+]
+rows = [
+  { row = 2, method = "ConvE*", method_id = "conve", role = "baseline" },
+  { row = 3, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 4, method = "QuatE", method_id = "quate", role = "baseline" },
+  { row = 5, method = "MINERVA", method_id = "minerva", role = "baseline" },
+  { row = 6, method = "Neural LP", method_id = "neural-lp", role = "baseline" },
+  { row = 7, method = "DRUM", method_id = "drum", role = "baseline" },
+  { row = 8, method = "RNNLogic*", method_id = "rnnlogic", role = "baseline" },
+  { row = 9, method = "pLogicNet*", method_id = "plogicnet", role = "baseline" },
+  { row = 10, method = "CompGCN", method_id = "compgcn", role = "baseline" },
+  { row = 11, method = "DPMPN", method_id = "dpmpn", role = "baseline" },
+  { row = 12, method = "RED-GNN", method_id = "red-gnn", role = "proposed" },
+]

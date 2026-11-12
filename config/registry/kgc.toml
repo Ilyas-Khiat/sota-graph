@@ -1,0 +1,127 @@
+# Registry for knowledge-graph completion (link prediction).
+#
+# Every dataset, metric and setting value a result may refer to. A mention that
+# resolves to nothing here is never created on the fly: it goes to review.
+# The id, the name and every alias are matched after normalization
+# (see ../normalization.toml), so case and dash variants need no alias.
+
+topic = "kg-completion"
+
+[[dataset]]
+id = "fb15k-237"
+name = "FB15k-237"
+aliases = ["FB237"]
+splits = ["valid", "test"]
+
+[[dataset]]
+id = "wn18rr"
+name = "WN18RR"
+splits = ["valid", "test"]
+
+[[dataset]]
+id = "yago3-10"
+name = "YAGO3-10"
+splits = ["valid", "test"]
+
+# The two originals are kept so that they resolve to themselves and are never
+# mistaken for their corrected versions. Both leak test triples through
+# inverse relations, which is why FB15k-237 and WN18RR were built.
+[[dataset]]
+id = "fb15k"
+name = "FB15k"
+splits = ["valid", "test"]
+notes = "Superseded by FB15k-237 (inverse-relation test leakage)."
+
+[[dataset]]
+id = "wn18"
+name = "WN18"
+splits = ["valid", "test"]
+notes = "Superseded by WN18RR (inverse-relation test leakage)."
+
+[[metric]]
+id = "mrr"
+name = "MRR"
+aliases = ["Mean Reciprocal Rank"]
+direction = "higher_is_better"
+canonical_scale = "fraction"
+accepted_scales = ["fraction", "percent"]
+min = 0.0
+max = 1.0
+
+[[metric]]
+id = "mr"
+name = "MR"
+aliases = ["Mean Rank"]
+direction = "lower_is_better"
+canonical_scale = "raw"
+accepted_scales = ["raw"]
+min = 1.0
+
+[[metric]]
+id = "hits@1"
+name = "Hits@1"
+aliases = ["H@1", "Hit@1", "Hits at 1"]
+direction = "higher_is_better"
+canonical_scale = "fraction"
+accepted_scales = ["fraction", "percent"]
+min = 0.0
+max = 1.0
+
+[[metric]]
+id = "hits@3"
+name = "Hits@3"
+aliases = ["H@3", "Hit@3", "Hits at 3"]
+direction = "higher_is_better"
+canonical_scale = "fraction"
+accepted_scales = ["fraction", "percent"]
+min = 0.0
+max = 1.0
+
+[[metric]]
+id = "hits@10"
+name = "Hits@10"
+aliases = ["H@10", "Hit@10", "Hits at 10"]
+direction = "higher_is_better"
+canonical_scale = "fraction"
+accepted_scales = ["fraction", "percent"]
+min = 0.0
+max = 1.0
+
+# Filtered ranking removes other true triples before ranking; raw does not.
+# The two are not comparable, so every result must say which one it is.
+[[setting]]
+id = "protocol"
+name = "Evaluation protocol"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+required = true
+values = [
+  { id = "filtered", aliases = ["filter", "filt", "filt."] },
+  { id = "raw" },
+]
+
+# Most papers rank both the head and the tail of each test triple. Path-finding
+# methods trained with RL (MINERVA, Multi-Hop, CURL) are scored on tails only,
+# which gives higher numbers: A*Net (2206.04798v5) reports them in a separate table.
+[[setting]]
+id = "queries"
+name = "Query direction"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+default = "both"
+values = [
+  { id = "both", aliases = ["head and tail", "head+tail", "bidirectional"] },
+  { id = "tail", aliases = ["tail only", "tail prediction", "tail-only"] },
+]
+
+# Trained on the target graph (supervised), applied without training on it
+# (zero-shot, e.g. a foundation model), or pre-trained elsewhere and then
+# trained on it (fine-tuned). ULTRA (2310.04562v2) reports all three side by side.
+[[setting]]
+id = "regime"
+name = "Training regime on the target graph"
+applies_to = ["mrr", "mr", "hits@1", "hits@3", "hits@10"]
+default = "supervised"
+values = [
+  { id = "supervised", aliases = ["trained from scratch"] },
+  { id = "zero-shot", aliases = ["0-shot", "zero shot", "zeroshot"] },
+  { id = "fine-tuned", aliases = ["finetuned", "fine tuned", "fine-tuning"] },
+]

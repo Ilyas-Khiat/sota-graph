@@ -1,0 +1,64 @@
+# A*Net: A Scalable Path-based Reasoning Approach for Knowledge Graphs (Zhu et al., 2023)
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
+
+paper = "2206.04798v5"
+title = "A*Net: A Scalable Path-based Reasoning Approach for Knowledge Graphs"
+
+# Table 1: the usual protocol, head and tail queries.
+[[table]]
+id = "S4.SS2.tab1.t1"
+header_rows = 2
+settings = { protocol = "filtered" }
+evidence = "S4.SS1.SSS0.Px1.p1: the standard filtered ranking protocol."
+notes = "Embedding baselines are copied from [3]; GNN and path-based baselines from NBFNet [58]."
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mrr" },
+  { col = 2, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 5, dataset = "wn18rr", metric = "mrr" },
+  { col = 6, dataset = "wn18rr", metric = "hits@1" },
+  { col = 7, dataset = "wn18rr", metric = "hits@3" },
+  { col = 8, dataset = "wn18rr", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "TransE", method_id = "transe", role = "baseline" },
+  { row = 3, method = "RotatE", method_id = "rotate", role = "baseline" },
+  { row = 4, method = "HAKE", method_id = "hake", role = "baseline" },
+  { row = 5, method = "RotH", method_id = "roth", role = "baseline" },
+  { row = 6, method = "ComplEx+RP", method_id = "complex-rp", role = "baseline" },
+  { row = 7, method = "ConE", method_id = "cone", role = "baseline" },
+  { row = 8, method = "RGCN", method_id = "r-gcn", role = "baseline" },
+  { row = 9, method = "CompGCN", method_id = "compgcn", role = "baseline" },
+  { row = 10, method = "NeuralLP", method_id = "neural-lp", role = "baseline" },
+  { row = 11, method = "DRUM", method_id = "drum", role = "baseline" },
+  { row = 12, method = "NBFNet", method_id = "nbfnet", role = "baseline" },
+  { row = 13, method = "RED-GNN", method_id = "red-gnn", role = "baseline" },
+  { row = 14, method = "A*Net", method_id = "astarnet", role = "proposed" },
+]
+
+# Table 2: tail prediction only, so the numbers are higher (NBFNet 0.509 vs 0.415
+# MRR on FB15k-237) and must never be compared with Table 1.
+[[table]]
+id = "S4.SS2.tab1.t2"
+header_rows = 2
+settings = { protocol = "filtered", queries = "tail" }
+evidence = "Caption: 'Tail prediction performance'; S4.SS1.SSS0.Px3.p1: RL path-finding methods can only be evaluated on tail prediction."
+notes = "MINERVA, Multi-Hop and CURL are copied from their papers [14, 29, 52]."
+columns = [
+  { col = 1, dataset = "fb15k-237", metric = "mrr" },
+  { col = 2, dataset = "fb15k-237", metric = "hits@1" },
+  { col = 3, dataset = "fb15k-237", metric = "hits@3" },
+  { col = 4, dataset = "fb15k-237", metric = "hits@10" },
+  { col = 5, dataset = "wn18rr", metric = "mrr" },
+  { col = 6, dataset = "wn18rr", metric = "hits@1" },
+  { col = 7, dataset = "wn18rr", metric = "hits@3" },
+  { col = 8, dataset = "wn18rr", metric = "hits@10" },
+]
+rows = [
+  { row = 2, method = "MINERVA", method_id = "minerva", role = "baseline" },
+  { row = 3, method = "Multi-Hop", method_id = "multi-hop", role = "baseline" },
+  { row = 4, method = "CURL", method_id = "curl", role = "baseline" },
+  { row = 5, method = "NBFNet", method_id = "nbfnet", role = "baseline" },
+  { row = 6, method = "A*Net", method_id = "astarnet", role = "proposed" },
+]

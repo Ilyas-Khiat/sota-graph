@@ -1,0 +1,2 @@
+# Same line endings on every OS: tests embed TOML and compare text.
+* text=auto eol=lf
