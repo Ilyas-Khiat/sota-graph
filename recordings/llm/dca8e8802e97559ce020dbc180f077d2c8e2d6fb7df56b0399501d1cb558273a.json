@@ -1,0 +1,10 @@
+{
+  "key": "dca8e8802e97559ce020dbc180f077d2c8e2d6fb7df56b0399501d1cb558273a",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":6,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":7,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":8,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[{\"col\":3,\"reason\":\"not reported in the table cell (dash)\",\"row\":3},{\"col\":7,\"reason\":\"not reported in the table cell (dash)\",\"row\":3}],\"rows\":[{\"dataset\":null,\"method\":\"MINERVA\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"Multi-Hop\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"CURL\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":6}],\"settings\":[{\"evidence\":\"caption\",\"setting\":\"queries\",\"value\":\"tail\"},{\"evidence\":\"S4.SS1.SSS0.Px1.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4130,
+    "output_tokens": 1662,
+    "reasoning_tokens": 1172
+  }
+}

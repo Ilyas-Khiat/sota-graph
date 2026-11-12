@@ -3,6 +3,9 @@
 
 paper = "2108.06040v2"
 title = "Knowledge Graph Reasoning with Relational Digraph"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["S5.T3"]
 
 [[table]]
 id = "S5.T2"

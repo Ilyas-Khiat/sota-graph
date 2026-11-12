@@ -1,0 +1,10 @@
+{
+  "key": "7fa0837a0631dd00b0e64458557891966613b0b918e055814e13f1c42b9a135a",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":2,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":3,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":1,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"TransE\",\"role\":\"baseline\",\"row\":1},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"AutoSF\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"PairRE\",\"role\":\"baseline\",\"row\":6},{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"proposed\",\"row\":7}],\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3130,
+    "output_tokens": 806,
+    "reasoning_tokens": 512
+  }
+}

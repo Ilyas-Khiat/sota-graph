@@ -1,0 +1,10 @@
+{
+  "key": "b8f3e22ce70a02299ac9d8aa8639c93fd806ba54e0f06e3aff60008c80b806e5",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":2,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"percent\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"percent\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":5,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":6,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"percent\",\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"Attn-w.o.-r_{q}\",\"role\":\"variant\",\"row\":2},{\"dataset\":null,\"method\":\"RED-Simp\",\"role\":\"variant\",\"row\":3},{\"dataset\":null,\"method\":\"RED-GNN\",\"role\":\"proposed\",\"row\":4}],\"settings\":[{\"evidence\":\"S5.SS2.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3113,
+    "output_tokens": 1474,
+    "reasoning_tokens": 1024
+  }
+}

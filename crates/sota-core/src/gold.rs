@@ -30,7 +30,7 @@ pub enum Role {
 }
 
 /// Which axis holds the methods.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Orientation {
     /// Rows are methods; columns are (dataset, metric). The usual layout.
@@ -41,7 +41,7 @@ pub enum Orientation {
 }
 
 /// Where the dataset of each column is named (methods-in-rows tables).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DatasetIn {
     #[default]
@@ -56,6 +56,10 @@ pub struct GoldFile {
     pub paper: String,
     #[serde(default)]
     pub title: String,
+    /// Tables that hold no results (statistics, hyperparameters): anything
+    /// extracted from them is a false positive.
+    #[serde(default)]
+    pub negative_tables: Vec<String>,
     #[serde(rename = "table")]
     pub tables: Vec<GoldTable>,
 }
@@ -183,6 +187,22 @@ pub struct Expansion {
     pub review: usize,
 }
 
+/// Which part of a table a problem concerns, so a caller can set aside just
+/// that part (extraction sends it to review) instead of the whole table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Scope {
+    Table,
+    Row(usize),
+    Col(usize),
+    Cell(usize, usize),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Problem {
+    pub scope: Scope,
+    pub message: String,
+}
+
 /// What one cell means, from its row and column.
 struct Meaning<'a> {
     method: &'a str,
@@ -216,6 +236,11 @@ impl GoldFile {
         }
         if self.tables.is_empty() {
             problems.push("no [[table]]".to_owned());
+        }
+        for id in &self.negative_tables {
+            if self.tables.iter().any(|t| &t.id == id) {
+                problems.push(format!("table {id} is both mapped and listed as negative"));
+            }
         }
         let mut ids = HashSet::new();
         for table in &self.tables {
@@ -329,11 +354,12 @@ impl GoldFile {
                 ));
                 continue;
             };
-            let before = problems.len();
-            spec.check_against(table, registry, &mut problems);
-            if problems.len() == before {
-                spec.read_cells(doc, table, registry, &mut expansion, &mut problems);
+            let mut scoped = Vec::new();
+            spec.check_against(table, registry, &mut scoped);
+            if scoped.is_empty() {
+                spec.read_cells(doc, table, registry, &mut expansion, &mut scoped);
             }
+            problems.extend(scoped.into_iter().map(|p| p.message));
         }
         if problems.is_empty() {
             Ok(expansion)
@@ -541,17 +567,38 @@ impl GoldTable {
     }
 
     /// Ranges, row labels and column headers against the parsed table.
-    fn check_against(&self, table: &Table, registry: &Registry, problems: &mut Vec<String>) {
-        let at = |m: String| format!("table {}: {m}", self.id);
+    pub(crate) fn check_against(
+        &self,
+        table: &Table,
+        registry: &Registry,
+        problems: &mut Vec<Problem>,
+    ) {
+        let at = |scope: Scope, m: String| Problem {
+            scope,
+            message: format!("table {}: {m}", self.id),
+        };
         let (n_rows, n_cols) = (table.n_rows(), table.n_cols());
         let mut out_of_range = false;
         for r in self.rows.iter().filter(|r| r.row >= n_rows) {
-            problems.push(at(format!("row {} is out of range ({n_rows} rows)", r.row)));
+            problems.push(at(
+                Scope::Row(r.row),
+                format!("row {} is out of range ({n_rows} rows)", r.row),
+            ));
             out_of_range = true;
         }
-        let cols = self.columns.iter().map(|c| c.col).chain([self.label_col]);
-        for col in cols.filter(|&c| c >= n_cols) {
-            problems.push(at(format!("col {col} is out of range ({n_cols} cols)")));
+        for col in self.columns.iter().map(|c| c.col).filter(|&c| c >= n_cols) {
+            problems.push(at(
+                Scope::Col(col),
+                format!("col {col} is out of range ({n_cols} cols)"),
+            ));
+            out_of_range = true;
+        }
+        if self.label_col >= n_cols {
+            let col = self.label_col;
+            problems.push(at(
+                Scope::Table,
+                format!("col {col} is out of range ({n_cols} cols)"),
+            ));
             out_of_range = true;
         }
         if out_of_range {
@@ -565,10 +612,13 @@ impl GoldTable {
             match self.orientation {
                 Orientation::MethodsInRows => {
                     if label != r.method {
-                        problems.push(at(format!(
-                            "row {}: label cell reads {label:?}, the spec says {:?}",
-                            r.row, r.method
-                        )));
+                        problems.push(at(
+                            Scope::Row(r.row),
+                            format!(
+                                "row {}: label cell reads {label:?}, the spec says {:?}",
+                                r.row, r.method
+                            ),
+                        ));
                     }
                 }
                 Orientation::DatasetsInRows => {
@@ -578,7 +628,7 @@ impl GoldTable {
                             .is_some_and(|d| d.id == r.dataset)
                     });
                     if !names {
-                        problems.push(at(format!(
+                        problems.push(at(Scope::Row(r.row), format!(
                             "row {}: label cell reads {label:?}, which does not name dataset {}",
                             r.row, r.dataset
                         )));
@@ -609,7 +659,7 @@ impl GoldTable {
                         .map(|v| v.id.clone())
                 });
                 if let Some(other) = contradicting {
-                    problems.push(at(format!(
+                    problems.push(at(Scope::Col(c.col), format!(
                         "col {}: header {headers:?} says {setting} = {other}, the spec says {value}",
                         c.col
                     )));
@@ -620,10 +670,13 @@ impl GoldTable {
                 .iter()
                 .any(|w| registry.resolve_metric(w).is_some_and(|m| m.id == c.metric));
             if !names_metric {
-                problems.push(at(format!(
-                    "col {}: header {headers:?} does not name metric {}",
-                    c.col, c.metric
-                )));
+                problems.push(at(
+                    Scope::Col(c.col),
+                    format!(
+                        "col {}: header {headers:?} does not name metric {}",
+                        c.col, c.metric
+                    ),
+                ));
             }
 
             match self.orientation {
@@ -638,36 +691,75 @@ impl GoldTable {
                             .is_some_and(|d| d.id == c.dataset)
                     });
                     if !names_dataset {
-                        problems.push(at(format!(
-                            "col {}: {} {headers:?} does not name dataset {}",
-                            c.col,
-                            match self.dataset_in {
-                                DatasetIn::Header => "header",
-                                DatasetIn::Caption => "caption (not header)",
-                            },
-                            c.dataset
-                        )));
+                        problems.push(at(
+                            Scope::Col(c.col),
+                            format!(
+                                "col {}: {} {headers:?} does not name dataset {}",
+                                c.col,
+                                match self.dataset_in {
+                                    DatasetIn::Header => "header",
+                                    DatasetIn::Caption => "caption (not header)",
+                                },
+                                c.dataset
+                            ),
+                        ));
                     }
                 }
                 Orientation::DatasetsInRows => {
                     if !headers.iter().any(|h| h.contains(&c.method)) {
-                        problems.push(at(format!(
-                            "col {}: header {headers:?} does not name method {:?}",
-                            c.col, c.method
-                        )));
+                        problems.push(at(
+                            Scope::Col(c.col),
+                            format!(
+                                "col {}: header {headers:?} does not name method {:?}",
+                                c.col, c.method
+                            ),
+                        ));
                     }
                 }
             }
         }
+
+        // Inner headers: an unmapped row inside the data region (a block heading
+        // such as "Prediction Head (MRR)") can switch the metric for the rows
+        // below it. A mapped row under one that names another metric for a
+        // mapped column must not be read under the top header's metric.
+        let mapped: HashSet<usize> = self.rows.iter().map(|r| r.row).collect();
+        for r in &self.rows {
+            let inner = (self.header_rows..r.row)
+                .filter(|rr| !mapped.contains(rr))
+                .find_map(|rr| {
+                    self.columns.iter().find_map(|c| {
+                        let t = text(rr, c.col);
+                        if t.is_empty() {
+                            return None;
+                        }
+                        words(&[t.to_owned()]).iter().find_map(|w| {
+                            registry
+                                .resolve_metric(w)
+                                .filter(|m| m.id != c.metric)
+                                .map(|m| (rr, c.col, m.id.clone(), c.metric.clone()))
+                        })
+                    })
+                });
+            if let Some((rr, col, other, declared)) = inner {
+                problems.push(at(
+                    Scope::Row(r.row),
+                    format!(
+                        "row {}: sits under an inner header (row {rr}) naming metric {other} in col {col}, the spec says {declared}",
+                        r.row
+                    ),
+                ));
+            }
+        }
     }
 
-    fn read_cells(
+    pub(crate) fn read_cells(
         &self,
         doc: &Document,
         table: &Table,
         registry: &Registry,
         expansion: &mut Expansion,
-        problems: &mut Vec<String>,
+        problems: &mut Vec<Problem>,
     ) {
         let grid = table.grid();
         // Review rows need not be mapped; count what they would have yielded.
@@ -689,15 +781,19 @@ impl GoldTable {
                     expansion.review += 1;
                     continue;
                 }
+                let at = |message: String| Problem {
+                    scope: Scope::Cell(r.row, c.col),
+                    message,
+                };
                 let Some(cell) = grid[r.row][c.col] else {
-                    problems.push(format!("{locator}: no cell"));
+                    problems.push(at(format!("{locator}: no cell")));
                     continue;
                 };
                 if (cell.row, cell.col) != (r.row, c.col) {
-                    problems.push(format!(
+                    problems.push(at(format!(
                         "{locator}: covered by a span from r{}/c{}",
                         cell.row, cell.col
-                    ));
+                    )));
                     continue;
                 }
                 if is_missing(&cell.text) {
@@ -715,7 +811,7 @@ impl GoldTable {
                     to_canonical(&v, scale, metric).map(|canonical| (canonical, v.std))
                 });
                 match value {
-                    Err(e) => problems.push(format!("{locator}: {e}")),
+                    Err(e) => problems.push(at(format!("{locator}: {e}"))),
                     Ok((value, std)) => expansion.results.push(GoldResult {
                         paper: doc.versioned_id(),
                         table: table.id.clone(),

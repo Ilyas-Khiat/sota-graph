@@ -1,0 +1,10 @@
+{
+  "key": "20460703903abb1928735def6792981b301cb65d0fb3686d5fa3bc715e9e56d9",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[],\"dataset_in\":\"header\",\"header_rows\":1,\"is_results_table\":false,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[],\"settings\":[]}",
+  "usage": {
+    "input_tokens": 3970,
+    "output_tokens": 565,
+    "reasoning_tokens": 512
+  }
+}

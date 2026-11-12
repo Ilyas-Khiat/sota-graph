@@ -111,6 +111,15 @@ fn setting_value_spellings() {
         ("regime", "fine-tuned", Some("fine-tuned")),
         ("regime", "finetuned", Some("fine-tuned")),
         ("regime", "pre-trained", None),
+        ("queries", "Head", Some("head")), // RotatE, Table 9: "Prediction Head (Hits@10)"
+        ("queries", "Tail", Some("tail")),
+        ("queries", "head prediction", Some("head")),
+        ("relation_category", "1-to-1", Some("1-to-1")), // RotatE, Table 9
+        ("relation_category", "1-to-N", Some("1-to-n")),
+        ("relation_category", "N-to-1", Some("n-to-1")),
+        ("relation_category", "N-to-N", Some("n-to-n")),
+        ("relation_category", "many-to-one", Some("n-to-1")),
+        ("relation_category", "1-to-2", None),
     ];
     for &(setting, mention, expected) in table {
         let got = r
@@ -133,5 +142,9 @@ fn comparability_settings_and_their_defaults() {
     assert_eq!(
         r.setting("regime").unwrap().default.as_deref(),
         Some("supervised")
+    );
+    assert_eq!(
+        r.setting("relation_category").unwrap().default.as_deref(),
+        Some("all")
     );
 }

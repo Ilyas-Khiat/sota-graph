@@ -5,6 +5,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use sota_ingest::cache::Cache;
 
 mod config;
+mod extract;
 mod gold;
 mod papers;
 
@@ -48,6 +49,40 @@ enum Command {
         #[arg(long)]
         table: Option<String>,
     },
+    /// Map tables with a language model, verify every cell, queue the rest for review.
+    /// Replays recorded answers unless --live is given.
+    Extract {
+        /// One pinned arXiv id
+        #[arg(long)]
+        paper: Option<String>,
+        /// Or every id in a list file, e.g. papers/kgc.txt
+        #[arg(long)]
+        list: Option<PathBuf>,
+        /// Only this table
+        #[arg(long)]
+        table: Option<String>,
+        /// Call the model (Azure OpenAI, credentials from the environment or ./.env)
+        /// for answers not recorded yet. Costs money.
+        #[arg(long)]
+        live: bool,
+        /// Only estimate what a run would send; call nothing, write nothing
+        #[arg(long, conflicts_with = "live")]
+        dry_run: bool,
+        /// Model name for replay (default: AZURE_OPENAI_DEPLOYMENT/SOTA_REASONING_EFFORT)
+        #[arg(long)]
+        model: Option<String>,
+        /// Recorded answers, committed so runs replay offline
+        #[arg(long, default_value = "recordings/llm")]
+        recordings: PathBuf,
+        /// Where to write each paper's extraction
+        #[arg(long, default_value = "out/extract")]
+        out: PathBuf,
+    },
+    /// Measure quality
+    Eval {
+        #[command(subcommand)]
+        command: EvalCommand,
+    },
     /// Gold set: hand-checked meaning of results tables
     Gold {
         /// Directory of gold specs (<topic>/<paper>.toml), searched recursively
@@ -55,6 +90,19 @@ enum Command {
         dir: PathBuf,
         #[command(subcommand)]
         command: GoldCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum EvalCommand {
+    /// Score extractions (out/extract) against the gold set, cell by cell
+    Extract {
+        /// Directory of gold specs
+        #[arg(long, default_value = "gold")]
+        dir: PathBuf,
+        /// Directory of extraction outputs; the report is written there too
+        #[arg(long, default_value = "out/extract")]
+        out: PathBuf,
     },
 }
 
@@ -131,6 +179,35 @@ fn run(cli: Cli) -> anyhow::Result<bool> {
         }
         Command::Fetch { list } => return papers::fetch(&list, &cache),
         Command::Tables { id, table } => papers::tables(&id, table.as_deref(), &cache)?,
+        Command::Extract {
+            paper,
+            list,
+            table,
+            live,
+            dry_run,
+            model,
+            recordings,
+            out,
+        } => {
+            let registry = config::load(&cli.config)?.registry;
+            let args = extract::ExtractArgs {
+                paper,
+                list,
+                table,
+                live,
+                dry_run,
+                model,
+                recordings,
+                out,
+            };
+            return extract::extract(args, &cache, &registry);
+        }
+        Command::Eval {
+            command: EvalCommand::Extract { dir, out },
+        } => {
+            let registry = config::load(&cli.config)?.registry;
+            return extract::eval_extract(&dir, &out, &registry);
+        }
         Command::Gold { dir, command } => {
             let registry = config::load(&cli.config)?.registry;
             return match command {

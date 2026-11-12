@@ -9,6 +9,9 @@
 
 paper = "2310.04562v2"
 title = "Towards Foundation Models for Knowledge Graph Reasoning"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["A2.T4"]
 
 [[table]]
 id = "A6.T10"

@@ -3,6 +3,9 @@
 
 paper = "1901.09590v2"
 title = "TuckER: Tensor Factorization for Knowledge Graph Completion"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["S6.T2", "A1.T5"]
 
 [[table]]
 id = "S6.T3"

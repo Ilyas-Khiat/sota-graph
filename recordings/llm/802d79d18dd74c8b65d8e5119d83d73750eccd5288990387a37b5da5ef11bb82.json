@@ -1,0 +1,10 @@
+{
+  "key": "802d79d18dd74c8b65d8e5119d83d73750eccd5288990387a37b5da5ef11bb82",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"percent\",\"settings\":[]},{\"col\":2,\"dataset\":\"unknown\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"percent\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"Feat∗\",\"role\":\"baseline\",\"row\":1},{\"dataset\":null,\"method\":\"WL∗\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"RDF2Vec∗\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"R-GCN∗\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"SynGCN\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"WGCN\",\"role\":\"baseline\",\"row\":6},{\"dataset\":null,\"method\":\"CompGCN\",\"role\":\"proposed\",\"row\":7}],\"settings\":[]}",
+  "usage": {
+    "input_tokens": 2635,
+    "output_tokens": 705,
+    "reasoning_tokens": 464
+  }
+}

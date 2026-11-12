@@ -3,6 +3,9 @@
 
 paper = "2106.06935v4"
 title = "Neural Bellman-Ford Networks: A General Graph Neural Network Framework for Link Prediction"
+# Tables that hold no results (statistics, hyperparameters): anything
+# extracted from them is a false positive.
+negative_tables = ["A5.T10.t1", "A5.T10.t2", "A6.T12"]
 
 [[table]]
 id = "S4.T3"

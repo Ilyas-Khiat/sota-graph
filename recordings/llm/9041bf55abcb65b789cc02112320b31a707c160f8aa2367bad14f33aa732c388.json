@@ -1,0 +1,10 @@
+{
+  "key": "9041bf55abcb65b789cc02112320b31a707c160f8aa2367bad14f33aa732c388",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":4,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":5,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":6,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"unknown\",\"role\":null,\"scale\":\"raw\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"NBFNet\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":3}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px1.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3923,
+    "output_tokens": 1256,
+    "reasoning_tokens": 951
+  }
+}

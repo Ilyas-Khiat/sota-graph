@@ -1,0 +1,10 @@
+{
+  "key": "7fb9eaa0b5a70ba2d6be995300a4ec981a6e6330f9e1a326884f9627437b5942",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":5,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]},{\"col\":6,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}],\"dataset_in\":\"caption\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"proposed\",\"row\":5},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"proposed\",\"row\":6},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"proposed\",\"row\":7},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"proposed\",\"row\":8},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"proposed\",\"row\":9}],\"settings\":[{\"evidence\":\"Sx6.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3006,
+    "output_tokens": 1968,
+    "reasoning_tokens": 1536
+  }
+}

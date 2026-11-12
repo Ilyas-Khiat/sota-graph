@@ -1,0 +1,10 @@
+{
+  "key": "a18518b007508f6608134f270063d51ff6f3ace4573a5051494fd70f50f4c776",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"wn18\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"wn18rr\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"MRR\",\"role\":\"baseline\",\"row\":1}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px2.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3629,
+    "output_tokens": 4272,
+    "reasoning_tokens": 4011
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "key": "9590a6753001312e3a6a805e4231b3bd1294bc514f3b2095de64ffba3ec0a8c6",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"TransE\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":4}],\"settings\":[{\"evidence\":\"caption\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3335,
+    "output_tokens": 690,
+    "reasoning_tokens": 441
+  }
+}

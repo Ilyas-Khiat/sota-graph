@@ -1,0 +1,10 @@
+{
+  "key": "8902c6db706444f111742f55ebc787abc96c4a9ecc46e9636d63960cc8ef2384",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mr\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":2,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"fb15k-237\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"2\",\"role\":null,\"row\":1},{\"dataset\":null,\"method\":\"4\",\"role\":null,\"row\":2},{\"dataset\":null,\"method\":\"6\",\"role\":null,\"row\":3},{\"dataset\":null,\"method\":\"8\",\"role\":null,\"row\":4}],\"settings\":[{\"evidence\":\"S4.SS1.p3\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3086,
+    "output_tokens": 1578,
+    "reasoning_tokens": 1265
+  }
+}

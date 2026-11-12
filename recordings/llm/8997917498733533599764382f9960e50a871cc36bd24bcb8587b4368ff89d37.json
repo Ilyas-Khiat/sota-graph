@@ -1,0 +1,10 @@
+{
+  "key": "8997917498733533599764382f9960e50a871cc36bd24bcb8587b4368ff89d37",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"mr\",\"role\":null,\"scale\":\"raw\",\"settings\":[]},{\"col\":2,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":5,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"ConvE\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"proposed\",\"row\":5}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px2.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3717,
+    "output_tokens": 577,
+    "reasoning_tokens": 264
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "key": "ae7c4e4687b0715299e5ddae74fcaa6a38ccb154e30d4e64092d6a48b896820b",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"mrr\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@1\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":3,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@3\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]},{\"col\":4,\"dataset\":\"yago3-10\",\"method\":null,\"metric\":\"hits@10\",\"role\":null,\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"header\",\"header_rows\":2,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"methods_in_rows\",\"review\":[],\"rows\":[{\"dataset\":null,\"method\":\"DistMult\",\"role\":\"baseline\",\"row\":2},{\"dataset\":null,\"method\":\"ComplEx\",\"role\":\"baseline\",\"row\":3},{\"dataset\":null,\"method\":\"RotatE\",\"role\":\"baseline\",\"row\":4},{\"dataset\":null,\"method\":\"NFBNet\",\"role\":\"baseline\",\"row\":5},{\"dataset\":null,\"method\":\"A*Net\",\"role\":\"proposed\",\"row\":6}],\"settings\":[{\"evidence\":\"S4.SS1.SSS0.Px1.p1\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 4018,
+    "output_tokens": 777,
+    "reasoning_tokens": 476
+  }
+}

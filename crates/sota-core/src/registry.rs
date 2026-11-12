@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{ConfigError, Normalizer, ident};
 
@@ -13,7 +13,7 @@ pub enum Direction {
 
 /// How a metric's numbers are written. Values are stored on the metric's
 /// canonical scale; `Percent` converts only to and from `Fraction`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Scale {
     Fraction,
