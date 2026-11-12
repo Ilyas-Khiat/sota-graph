@@ -11,16 +11,16 @@ negative tables look right.
 
 | ok | paper | mapped tables | results | held back | look at |
 |---|---|---|---|---|---|
-| [ ] | 1911.09419v3 HAKE | S4.T3 | 76 | 8 | ModE as a variant (10); ablation S4.T4 negative (9) |
-| [ ] | 1904.10281v3 QuatE | S5.T3, T4 | 220 | 30 | three QuatE versions as one method (1); a-RotatE (2) |
-| [ ] | 2005.00545v1 AttH/RotH | S5.T2, T5, A1.T6 | 170 | 130 | d = 32 table held back (3); "Quaternion" (4); typos (11) |
-| [ ] | 2011.03798v3 PairRE | S5.T4, T8 | 94 | 36 | "filtered" never named (5); T8 over both directions (6) |
-| [ ] | 1911.00219v3 InteractE | S7.T2 | 83 | 37 | - |
-| [ ] | 2203.02167v1 SimKGC | S4.T3 | 85 | 3 | four SimKGC versions as one method (1); analyses negative (9) |
-| [ ] | 1911.03903v3 Re-evaluation | S4.T2, A1.T3 | 49 | 95 | which columns count (7) |
-| [ ] | 2402.02389v2 KICGPT | S4.T1, T4 | 125 | 43 | ChatGPT rows held back (8); KICGPT_tsa (1) |
+| [x] | 1911.09419v3 HAKE | S4.T3 | 76 | 8 | ModE as a variant (10); ablation S4.T4 negative (9) |
+| [x] | 1904.10281v3 QuatE | S5.T3, T4 | 220 | 30 | three QuatE versions as one method (1); a-RotatE (2) |
+| [x] | 2005.00545v1 AttH/RotH | S5.T2, T5, A1.T6 | 170 | 130 | d = 32 table held back (3); "Quaternion" (4); typos (11) |
+| [x] | 2011.03798v3 PairRE | S5.T4, T8 | 94 | 36 | "filtered" never named (5); T8 over both directions (6) |
+| [x] | 1911.00219v3 InteractE | S7.T2 | 83 | 37 | - |
+| [x] | 2203.02167v1 SimKGC | S4.T3 | 85 | 3 | four SimKGC versions as one method (1); analyses negative (9) |
+| [x] | 1911.03903v3 Re-evaluation | S4.T2, A1.T3 | 49 | 95 | which columns count (7) |
+| [x] | 2402.02389v2 KICGPT | S4.T1, T4 | 125 | 43 | ChatGPT rows held back (8); KICGPT_tsa (1) |
 
-## Decisions to confirm or overrule
+## Decisions (all 12 confirmed on review)
 
 1. **Versions of one method are one method.** QuatE^1/^2/^3 (type constraints,
    N3 + reciprocal), SimKGC_IB/IB+PB/IB+SN/IB+PB+SN, KICGPT and KICGPT_tsa,
