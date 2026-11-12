@@ -101,6 +101,22 @@ fn evidence_paragraphs_are_those_naming_the_table_or_a_non_default_setting() {
     assert!(p.contains("[S1.p1]"), "{p}");
 }
 
+/// A paragraph that names a setting value only inside typographic quotes is
+/// still offered to the model as evidence.
+#[test]
+fn evidence_in_typographic_quotes_is_offered() {
+    let mut d = doc();
+    d.sections[0].paragraphs.push(sota_core::Paragraph {
+        id: "S9.p9".into(),
+        text: "We rank under the \u{201C}Filtered\u{201D} setting as in prior work.".into(),
+    });
+    let ids: Vec<String> = evidence_paragraphs(&d, d.table("S4.T1").unwrap(), &registry())
+        .iter()
+        .map(|p| p.id.clone())
+        .collect();
+    assert!(ids.contains(&"S9.p9".to_owned()), "{ids:?}");
+}
+
 #[test]
 fn the_request_carries_the_schema_and_no_numbers_are_asked_for() {
     let d = doc();

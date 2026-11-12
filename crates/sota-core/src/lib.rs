@@ -30,7 +30,7 @@ pub use gold::{
     Orientation, Problem, ReviewCell, Role, Scope,
 };
 pub use methods::{MethodEntry, MethodRef, MethodRegistry};
-pub use normalize::Normalizer;
+pub use normalize::{Normalizer, clean_word};
 pub use ontology::{NodeType, Ontology, Property, PropertyType, RelationshipType};
 pub use registry::{Dataset, Direction, Metric, Registry, Scale, Setting, SettingValue};
 pub use value::{ParsedValue, ValueError, is_missing, parse_number, to_canonical};

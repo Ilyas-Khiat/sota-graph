@@ -136,11 +136,29 @@ and sends anything that does not hold to a review queue: a whole table, or just
 one row, column or cell. Answers are recorded, so every run replays offline and
 for free.
 
-```console
-$ sota eval extract                      # every extracted cell scored against the gold set
-total   tp 985 fp 0 fn 0 | precision 1.000 recall 1.000 | held back 39/47 caught, 0 leaked | ...
-method identity: 985/985 gold cells resolve to the gold method id
-```
+### Measured on papers it never saw
+
+The development papers were used to build the extraction, so its perfect
+score there measures fit. Eight more papers were then chosen, never opened
+during development, and scored with the extraction frozen at git tag
+`heldout-v1`, against a gold set drafted before the run and covering every
+table ([protocol](gold/kgc-heldout/PROTOCOL.md)):
+
+| | development (10 papers) | held-out, frozen | held-out, + quote fix |
+|---|---|---|---|
+| gold results | 985 | 902 | 902 |
+| precision (leaks of held-back cells count as errors) | 1.000 | **0.773** | **0.780** |
+| recall | 1.000 | **0.574** | **0.645** |
+| method identity | 985/985 | 396/584 | 472/660 |
+
+Every error is traced to a cause in [the results](gold/kgc-heldout/RESULTS.md).
+The first fix reads setting names inside any kind of quote or bracket. The
+largest remaining loss is how evidence is chosen: a cap of 15 paragraphs in
+document order hides one paper's evaluation section. The main weakness is
+analysis tables read as results, which the method-identity gate keeps off the
+leaderboards. The worst error is a number obtained under a flawed evaluation
+protocol (ConvKB, Top tie-breaking) ranking first, flagged as a conflict.
+Each fix is scored as a new run, next to the frozen one.
 
 ### Leaderboards computed by code, from the graph
 
@@ -154,12 +172,10 @@ screenshot at the top is `sota leaderboard WN18RR Hits@1 --top 6`; the command
 prints Markdown, shown there rendered. Tail-only results get a board of their
 own instead of being mixed in, and every source links to the table on arxiv.org.
 
-**Known limitation.** Tables outside the gold set are not measured, and some
-are wrong in a way the checks cannot see: in ablation tables whose rows are
-named after other methods (NBFNet's message functions "TransE", "DistMult",
-"RotatE"), the model maps the rows to those methods, which puts NBFNet
-variants on the leaderboard under baseline names. Extending the gold set to
-ablation tables and teaching the extraction to tell them apart is next.
+**Known limitation.** The extraction cannot yet tell an analysis or ablation
+table from a results table: rows named after other methods (NBFNet's message
+functions "TransE", "DistMult", "RotatE") or configurations can become
+results. The held-out run measures how often, and what reaches a leaderboard.
 
 ### The graph in Neo4j
 

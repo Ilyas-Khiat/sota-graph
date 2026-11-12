@@ -506,7 +506,7 @@ fn check_claim(
 pub fn mentions_value(text: &str, setting: &str, value: &str, registry: &Registry) -> bool {
     let words: Vec<&str> = text
         .split_whitespace()
-        .map(|w| w.trim_matches(|c: char| ",.;:()[]{}'\"".contains(c)))
+        .map(crate::normalize::clean_word)
         .filter(|w| !w.is_empty())
         .collect();
     (1..=3).any(|n| {

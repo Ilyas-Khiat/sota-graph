@@ -1,0 +1,10 @@
+{
+  "key": "d8612dbb1e546c12c1d0df3453e3ea6d2a22e0b3ec1cfb969bd4ca22d71047f5",
+  "model": "gpt-5.4-mini/medium",
+  "content": "{\"columns\":[{\"col\":1,\"dataset\":\"wn18rr\",\"method\":\"RotatE\",\"metric\":\"mrr\",\"role\":\"baseline\",\"scale\":\"fraction\",\"settings\":[]},{\"col\":2,\"dataset\":\"wn18rr\",\"method\":\"QuatE^{3}\",\"metric\":\"mrr\",\"role\":\"proposed\",\"scale\":\"fraction\",\"settings\":[]}],\"dataset_in\":\"caption\",\"header_rows\":1,\"is_results_table\":true,\"label_col\":0,\"orientation\":\"datasets_in_rows\",\"review\":[{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":1},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":2},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":3},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":4},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":5},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":6},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":7},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":8},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":9},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":10},{\"col\":null,\"reason\":\"row labels are relation names, not supported row labels in this schema\",\"row\":11}],\"rows\":[],\"settings\":[{\"evidence\":\"S5.SS1.p2\",\"setting\":\"protocol\",\"value\":\"filtered\"}]}",
+  "usage": {
+    "input_tokens": 3917,
+    "output_tokens": 3995,
+    "reasoning_tokens": 3552
+  }
+}
