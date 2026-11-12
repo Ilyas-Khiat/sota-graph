@@ -1,7 +1,8 @@
 # Held-out evaluation: results
 
 8 papers, 59 tables, scored against the gold drafted before the first run
-([PROTOCOL.md](PROTOCOL.md)). Model answers are in `recordings/llm`, so every
+([PROTOCOL.md](PROTOCOL.md)) and then checked by hand: all 12 judgment calls
+in [REVIEW.md](REVIEW.md) were confirmed, so no score below changed. Model answers are in `recordings/llm`, so every
 run replays offline and for free:
 
 ```bash
@@ -93,8 +94,9 @@ What reaches a leaderboard is narrower than the precision suggests:
   on documents where everyday words would fill the cap. Each changed only the
   prompts it had to (1, then 31 of 168).
 - Recall lost to how evidence is read and chosen is recovered (+201
-  results). What remains is the strict evidence rule (94), a gold judgment
-  to settle (decision 1, 68), and one dataset mapping the checks caught (23).
+  results). What remains is the strict evidence rule (94), roles the model
+  reads differently from the confirmed gold (decision 1, 68), and one dataset
+  mapping the checks caught (23).
 - The extraction's main weakness is now the largest source of errors: it
   cannot tell an analysis table from a results table (76 results). The
   method-identity gate keeps all of them off the leaderboards.
