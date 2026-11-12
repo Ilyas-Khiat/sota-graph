@@ -1,5 +1,5 @@
 # AdaProp: Learning Adaptive Propagation for GNN-based Knowledge Graph Reasoning (Zhang et al., 2023)
-# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 
 paper = "2205.15319v2"
 title = "AdaProp: Learning Adaptive Propagation for Graph Neural Network based Knowledge Graph Reasoning"

@@ -1,5 +1,5 @@
 # RED-GNN: Knowledge Graph Reasoning with Relational Digraph (Zhang & Yao, 2022)
-# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 
 paper = "2108.06040v2"
 title = "Knowledge Graph Reasoning with Relational Digraph"

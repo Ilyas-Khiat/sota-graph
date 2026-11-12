@@ -1,5 +1,5 @@
 # RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space (Sun et al., 2019)
-# Drafted by Claude; check against the linked tables, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
 
 paper = "1902.10197v1"
 title = "RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space"

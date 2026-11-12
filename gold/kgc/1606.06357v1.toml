@@ -1,6 +1,5 @@
 # ComplEx: Complex Embeddings for Simple Link Prediction (Trouillon et al., 2016)
-# Drafted by Claude; check against the linked table, then set `reviewed`
-# in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 
 paper = "1606.06357v1"
 title = "Complex Embeddings for Simple Link Prediction"

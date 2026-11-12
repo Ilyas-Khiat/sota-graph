@@ -1,5 +1,5 @@
 # CompGCN: Composition-based Multi-Relational Graph Convolutional Networks (Vashishth et al., 2020)
-# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 
 paper = "1911.03082v2"
 title = "Composition-based Multi-Relational Graph Convolutional Networks"

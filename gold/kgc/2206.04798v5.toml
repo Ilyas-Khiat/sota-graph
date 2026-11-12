@@ -1,5 +1,5 @@
 # A*Net: A Scalable Path-based Reasoning Approach for Knowledge Graphs (Zhu et al., 2023)
-# Drafted by Claude; check against the linked tables, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
 
 paper = "2206.04798v5"
 title = "A*Net: A Scalable Path-based Reasoning Approach for Knowledge Graphs"

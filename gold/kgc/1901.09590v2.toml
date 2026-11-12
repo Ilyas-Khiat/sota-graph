@@ -1,5 +1,5 @@
 # TuckER: Tensor Factorization for Knowledge Graph Completion (Balazevic et al., 2019)
-# Drafted by Claude; check against the linked tables, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
 
 paper = "1901.09590v2"
 title = "TuckER: Tensor Factorization for Knowledge Graph Completion"

@@ -1,5 +1,5 @@
 # ConvE: Convolutional 2D Knowledge Graph Embeddings (Dettmers et al., 2018)
-# Drafted by Claude; check against the linked tables, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked tables, then tick it in gold/kgc/REVIEW.md.
 
 paper = "1707.01476v6"
 title = "Convolutional 2D Knowledge Graph Embeddings"

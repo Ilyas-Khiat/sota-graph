@@ -1,6 +1,6 @@
 # KG completion gold set: review checklist
 
-Drafted by Claude on 2026-11-12. 10 papers, 16 tables, **937 results**,
+Drafted on 2026-11-12. 10 papers, 16 tables, **937 results**,
 23 cells marked for review. Labels, headers, values and scales are already
 machine-checked against each paper (see [../README.md](../README.md)); what is
 left is judgment.

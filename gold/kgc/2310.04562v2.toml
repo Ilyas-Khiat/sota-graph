@@ -1,5 +1,5 @@
 # ULTRA: Towards Foundation Models for Knowledge Graph Reasoning (Galkin et al., 2024)
-# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 #
 # Every mapped cell is marked for review: the paper says it ranks against the
 # full entity set, for heads and tails (S5.SS1), but never says filtered or

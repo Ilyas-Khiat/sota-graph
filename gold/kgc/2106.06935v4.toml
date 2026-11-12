@@ -1,5 +1,5 @@
 # NBFNet: Neural Bellman-Ford Networks (Zhu et al., 2021)
-# Drafted by Claude; check against the linked table, then mark it in gold/kgc/REVIEW.md.
+# Draft mapping: check it against the linked table, then tick it in gold/kgc/REVIEW.md.
 
 paper = "2106.06935v4"
 title = "Neural Bellman-Ford Networks: A General Graph Neural Network Framework for Link Prediction"
