@@ -131,7 +131,14 @@ pub fn user_prompt(doc: &Document, table: &Table, registry: &Registry) -> String
 }
 
 /// Paragraphs that cite the table, or name a setting value that needs
-/// evidence (every value of a required setting, non-default values of others).
+/// evidence (every value of a required setting, non-default values of others),
+/// at most `MAX_PARAGRAPHS`, in document order.
+///
+/// When there are more, they are chosen by what the checks need, not by
+/// position: first those citing the table, then those naming a value of a
+/// required setting (without one, the whole table goes to review), then the
+/// rest. Optional values that are also everyday words ("head entity", "raw
+/// text") can then no longer crowd out the evaluation section.
 pub fn evidence_paragraphs<'a>(
     doc: &'a Document,
     table: &Table,
@@ -151,20 +158,41 @@ pub fn evidence_paragraphs<'a>(
                 })
             })
     };
-    let names_setting = |text: &str| {
-        registry.settings().iter().any(|s| {
-            s.values
-                .iter()
-                .filter(|v| s.default.as_deref() != Some(v.id.as_str()))
-                .any(|v| mentions_value(text, &s.id, &v.id, registry))
-        })
+    let names_setting = |text: &str, required: bool| {
+        registry
+            .settings()
+            .iter()
+            .filter(|s| s.required == required)
+            .any(|s| {
+                s.values
+                    .iter()
+                    .filter(|v| s.default.as_deref() != Some(v.id.as_str()))
+                    .any(|v| mentions_value(text, &s.id, &v.id, registry))
+            })
     };
-    doc.sections
+    let tier = |text: &str| {
+        if cites_table(text) {
+            Some(0)
+        } else if names_setting(text, true) {
+            Some(1)
+        } else if names_setting(text, false) {
+            Some(2)
+        } else {
+            None
+        }
+    };
+    // (tier, position): sorted by tier to choose, then by position to show.
+    let mut chosen: Vec<(u8, usize, &Paragraph)> = doc
+        .sections
         .iter()
         .flat_map(|s| &s.paragraphs)
-        .filter(|p| cites_table(&p.text) || names_setting(&p.text))
-        .take(MAX_PARAGRAPHS)
-        .collect()
+        .enumerate()
+        .filter_map(|(i, p)| tier(&p.text).map(|t| (t, i, p)))
+        .collect();
+    chosen.sort_by_key(|&(t, i, _)| (t, i));
+    chosen.truncate(MAX_PARAGRAPHS);
+    chosen.sort_by_key(|&(_, i, _)| i);
+    chosen.into_iter().map(|(_, _, p)| p).collect()
 }
 
 /// Strict JSON schema of `sota_core::TableMapping`, with ids closed over the

@@ -144,21 +144,22 @@ during development, and scored with the extraction frozen at git tag
 `heldout-v1`, against a gold set drafted before the run and covering every
 table ([protocol](gold/kgc-heldout/PROTOCOL.md)):
 
-| | development (10 papers) | held-out, frozen | held-out, + quote fix |
-|---|---|---|---|
-| gold results | 985 | 902 | 902 |
-| precision (leaks of held-back cells count as errors) | 1.000 | **0.773** | **0.780** |
-| recall | 1.000 | **0.574** | **0.645** |
-| method identity | 985/985 | 396/584 | 472/660 |
+| | development (10 papers) | held-out, frozen | + quote fix | + evidence choice |
+|---|---|---|---|---|
+| gold results | 985 | 902 | 902 | 902 |
+| precision (leaks of held-back cells count as errors) | 1.000 | **0.773** | 0.780 | 0.771 |
+| recall | 1.000 | **0.574** | 0.645 | 0.775 |
+| method identity | 985/985 | 396/584 | 472/660 | 528/785 |
 
 Every error is traced to a cause in [the results](gold/kgc-heldout/RESULTS.md).
-The first fix reads setting names inside any kind of quote or bracket. The
-largest remaining loss is how evidence is chosen: a cap of 15 paragraphs in
-document order hides one paper's evaluation section. The main weakness is
-analysis tables read as results, which the method-identity gate keeps off the
-leaderboards. The worst error is a number obtained under a flawed evaluation
-protocol (ConvKB, Top tie-breaking) ranking first, flagged as a conflict.
-Each fix is scored as a new run, next to the frozen one.
+Two general fixes followed, each scored as a new run: setting names are read
+inside any kind of quote or bracket, and evidence paragraphs are chosen by
+what the checks need instead of by position. They recover 201 results. The
+frozen run stays the generalization number, since the fixes were found on
+these papers. The largest remaining weakness is analysis tables read as
+results, which the method-identity gate keeps off the leaderboards. The worst
+error is a number obtained under a flawed evaluation protocol (ConvKB, Top
+tie-breaking) ranking first, flagged as a conflict.
 
 ### Leaderboards computed by code, from the graph
 
