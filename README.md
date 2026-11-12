@@ -14,8 +14,10 @@ and nothing is compared unless it was measured the same way.
 > **Status: work in progress.** Built and tested: config-driven ontology and
 > registry, arXiv ingestion and table parsing, a self-checking gold set, LLM
 > table extraction verified cell by cell, a Neo4j graph and leaderboards
-> computed by code. GraphRAG querying and the PDF channel come next (see the
-> [roadmap](#roadmap)).
+> computed by code. On 8 papers it never saw, scored against a hand-checked
+> gold set, the frozen extraction reaches **0.773 precision and 0.574 recall**
+> ([details](#measured-on-papers-it-never-saw)). GraphRAG querying and the PDF
+> channel come next (see the [roadmap](#roadmap)).
 
 ![sota leaderboard WN18RR Hits@1: methods ranked by code, each value linked to the arXiv table it was read from, other papers' reports alongside, and HAKE flagged because two papers disagree](docs/img/leaderboard.png)
 
@@ -121,6 +123,13 @@ split test | protocol=filtered, queries=tail | evidence: Caption: 'Tail predicti
 | A*Net | astarnet (proposed) | 0.505 | 0.410 | ...
 ```
 
+A second gold set, [`gold/kgc-heldout`](gold/kgc-heldout), covers every table
+of 8 papers kept away from development: **902 results**, 382 cells held back,
+41 tables with no comparable results. It was drafted before the extraction
+first saw those papers, and its judgment calls (which column counts, which
+role a method plays) are listed in a [checklist](gold/kgc-heldout/REVIEW.md)
+and were checked by hand.
+
 Committed snapshots let CI verify the gold set without the papers; locally,
 `sota gold check` re-reads every number from the cached pages. See
 [gold/README.md](gold/README.md) for the format.
@@ -141,8 +150,8 @@ for free.
 The development papers were used to build the extraction, so its perfect
 score there measures fit. Eight more papers were then chosen, never opened
 during development, and scored with the extraction frozen at git tag
-`heldout-v1`, against a gold set drafted before the run and covering every
-table ([protocol](gold/kgc-heldout/PROTOCOL.md)):
+`heldout-v1`, against a gold set drafted before the run, checked by hand and
+covering every table ([protocol](gold/kgc-heldout/PROTOCOL.md)):
 
 | | development (10 papers) | held-out, frozen | + quote fix | + evidence choice |
 |---|---|---|---|---|
@@ -176,7 +185,10 @@ own instead of being mixed in, and every source links to the table on arxiv.org.
 **Known limitation.** The extraction cannot yet tell an analysis or ablation
 table from a results table: rows named after other methods (NBFNet's message
 functions "TransE", "DistMult", "RotatE") or configurations can become
-results. The held-out run measures how often, and what reaches a leaderboard.
+results. On the held-out papers this accounts for 76 errors (56 wrong
+results, 20 held-back cells extracted) from 4 analysis tables: loss names,
+margins, formulas, ablated components. None of their labels names a known
+method, so none of them is ranked.
 
 ### The graph in Neo4j
 
@@ -256,6 +268,10 @@ cargo run -p sota-cli -- gold check                # re-read all 985 gold result
 cargo run -p sota-cli -- extract --list papers/kgc.txt   # replays the recorded model answers
 cargo run -p sota-cli -- eval extract              # score the extraction on the gold set
 
+# Held-out papers (fetch them first with --list papers/kgc-heldout.txt)
+cargo run -p sota-cli -- extract --list papers/kgc-heldout.txt --out out/heldout
+cargo run -p sota-cli -- eval extract --dir gold/kgc-heldout --out out/heldout
+
 docker compose up -d                               # local Neo4j on 127.0.0.1:7474
 cargo run -p sota-cli -- graph init                # constraints from config/ontology.toml
 cargo run -p sota-cli -- graph load                # merge results, read them back, compare
@@ -268,7 +284,8 @@ cargo test --all -- --include-ignored              # also the tests that need th
 ```
 config/          ontology.toml, normalization.toml, registry/<topic>.toml, methods/<topic>.toml
 papers/          pinned arXiv ids per topic
-gold/            gold specs (<topic>/<paper>.toml) and their result snapshots
+gold/            gold specs (<topic>/<paper>.toml) and their result snapshots;
+                 kgc-heldout/ adds the protocol, review checklist and results
 recordings/llm/  recorded model answers, so extraction replays offline
 crates/
   sota-core/     ontology, registry, document model, values, gold, methods, comparison (no I/O)
@@ -286,6 +303,7 @@ crates/
 - [x] Gold set for KG completion with self-checking specs
 - [x] LLM extraction with cell citations, verification and a review queue
 - [x] Neo4j writer, comparison engine, `sota leaderboard`
+- [x] Held-out evaluation on 8 unseen papers, gold checked by hand
 - [ ] `sota eval`: extraction quality on the gold set, tracked over time (scoring done; history next)
 - [ ] PDF channel, measured against the HTML channel
 - [ ] Hybrid retrieval + GraphRAG `sota ask`, with a retrieval ablation
